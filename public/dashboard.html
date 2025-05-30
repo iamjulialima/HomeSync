@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar (oculta em mobile) -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>Smart Home</h2>
+                <p>Controle total da sua casa</p>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Temperatura</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Iluminação</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-door-open"></i>
+                        <span>Portões</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-radiation"></i>
+                        <span>Detecção de Gás</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user-profile">
+                <div class="profile">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="profile-img">
+                    <div class="profile-info">
+                        <h4>Maria Silva</h4>
+                        <p>Administrador</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                    <p>Bem-vindo ao painel de controle da sua casa inteligente</p>
+                </div>
+
+                <div class="search-notification">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Pesquisar...">
+                    </div>
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="profile-img" style="width: 40px; height: 40px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Temperatura</h3>
+                        <div class="card-icon temperature">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                    </div>
+                    <h2 class="card-value">23.5°C</h2>
+                    <p class="card-description">Sala de estar</p>
+                    <span class="card-status status-on">Normal</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Luzes</h3>
+                        <div class="card-icon light">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                    </div>
+                    <h2 class="card-value">3/8</h2>
+                    <p class="card-description">Luzes acesas</p>
+                    <span class="card-status status-on">Ativo</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Portão</h3>
+                        <div class="card-icon gate">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                    </div>
+                    <h2 class="card-value">Fechado</h2>
+                    <p class="card-description">Portão principal</p>
+                    <span class="card-status status-off">Inativo</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Detecção de Gás</h3>
+                        <div class="card-icon gas">
+                            <i class="fas fa-radiation"></i>
+                        </div>
+                    </div>
+                    <h2 class="card-value">0%</h2>
+                    <p class="card-description">Nível de gás</p>
+                    <span class="card-status status-on">Seguro</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls-section">
+                <h3 class="section-title">Controles</h3>
+                <div class="controls-grid">
+                    <div class="control-card">
+                        <div class="control-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h4 class="control-title">Luz da Sala</h4>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-icon">
+                            <i class="fas fa-door-closed"></i>
+                        </div>
+                        <h4 class="control-title">Portão</h4>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-icon">
+                            <i class="fas fa-fan"></i>
+                        </div>
+                        <h4 class="control-title">Ventilação</h4>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 class="control-title">Sistema de Segurança</h4>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs -->
+            <div class="logs-section">
+                <h3 class="section-title">Atividades Recentes</h3>
+                <div class="logs-container">
+                    <div class="log-item">
+                        <div class="log-icon" style="background-color: #5F27CD;">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                        <div class="log-info">
+                            <h4>Portão principal foi aberto</h4>
+                            <p>Portão aberto por Maria às 14:30</p>
+                        </div>
+                        <span class="log-time">10 min atrás</span>
+                    </div>
+
+                    <div class="log-item">
+                        <div class="log-icon" style="background-color: #FECA57;">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="log-info">
+                            <h4>Luz da cozinha desligada</h4>
+                            <p>Desligada automaticamente por inatividade</p>
+                        </div>
+                        <span class="log-time">45 min atrás</span>
+                    </div>
+
+                    <div class="log-item">
+                        <div class="log-icon" style="background-color: #2E86DE;">
+                            <i class="fas fa-temperature-low"></i>
+                        </div>
+                        <div class="log-info">
+                            <h4>Temperatura ajustada</h4>
+                            <p>Ar-condicionado definido para 23°C</p>
+                        </div>
+                        <span class="log-time">2 horas atrás</span>
+                    </div>
+
+                    <div class="log-item">
+                        <div class="log-icon" style="background-color: #05C46B;">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="log-info">
+                            <h4>Sistema de segurança ativado</h4>
+                            <p>Ativado por Maria ao sair de casa</p>
+                        </div>
+                        <span class="log-time">3 horas atrás</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <ul class="mobile-nav-menu">
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-thermometer-half"></i>
+                    <span>Temp</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Luzes</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-door-open"></i>
+                    <span>Portão</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-radiation"></i>
+                    <span>Gás</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+</body>
+</html>
