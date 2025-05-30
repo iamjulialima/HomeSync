@@ -1,0 +1,27 @@
+{
+  "name": "homesync",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamjulialima/HomeSync.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamjulialima/HomeSync/issues"
+  },
+  "homepage": "https://github.com/iamjulialima/HomeSync#readme",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.3",
+    "sqlite3": "^5.1.7"
+  }
+}
