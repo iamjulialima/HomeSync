@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLight Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/luzes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
+    
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <div class="dashboard">
+        <!-- Sidebar (oculta em mobile) -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>Smart Home</h2>
+                <p>Controle total da sua casa</p>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Temperatura</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Iluminação</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-door-open"></i>
+                        <span>Portões</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-radiation"></i>
+                        <span>Detecção de Gás</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user-profile">
+                <div class="profile">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                            <i class="fas fa-user text-gray-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">
+                <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+                SmartLight
+            </h1>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <div class="flex overflow-x-auto mb-8 border-b border-gray-200">
+            <button class="tab-btn px-6 py-3 font-medium text-sm rounded-t-lg active" data-tab="lights">
+                <i class="fas fa-lightbulb mr-2"></i> Luzes
+            </button>
+            <button class="tab-btn px-6 py-3 font-medium text-sm rounded-t-lg" data-tab="schedule">
+                <i class="fas fa-clock mr-2"></i> Programação
+            </button>
+            <button class="tab-btn px-6 py-3 font-medium text-sm rounded-t-lg" data-tab="modes">
+                <i class="fas fa-magic mr-2"></i> Modos
+            </button>
+        </div>
+
+        <!-- Lights Tab     aquiiiiii    -->
+        <div id="lights" class="tab-content active">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Light 1 -->
+                <div class="light-card bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-lg text-gray-800">Sala de Estar</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex justify-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-yellow-200 flex items-center justify-center shadow-inner" id="light-bulb-1">
+                            <i class="fas fa-lightbulb text-yellow-400 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
+                      
+                    </div>
+                    <div class="flex justify-between intensity-slider w-full" id="intensity-1">
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium" id="intensity-value-1">Leve</button>
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
+                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Forte</button>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
+                            <i class="fas fa-edit mr-1"></i> Editar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Light 2 -->
+                <div class="light-card bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-lg text-gray-800">Quarto</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex justify-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center shadow-inner" id="light-bulb-2">
+                            <i class="fas fa-lightbulb text-gray-400 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="range" min="0" max="100" value="30" class="intensity-slider w-full" id="intensity-2">
+                            <span class="text-sm font-medium text-gray-600 w-10" id="intensity-value-2">30%</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Leve</button>
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Forte</button>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
+                            <i class="fas fa-edit mr-1"></i> Editar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Light 3 -->
+                <div class="light-card bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-lg text-gray-800">Cozinha</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex justify-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-yellow-100 flex items-center justify-center shadow-inner" id="light-bulb-3">
+                            <i class="fas fa-lightbulb text-yellow-300 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="range" min="0" max="100" value="50" class="intensity-slider w-full" id="intensity-3">
+                            <span class="text-sm font-medium text-gray-600 w-10" id="intensity-value-3">50%</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Leve</button>
+                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Média</button>
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Forte</button>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
+                            <i class="fas fa-edit mr-1"></i> Editar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Light 4 -->
+                <div class="light-card bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-lg text-gray-800">Banheiro</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex justify-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center shadow-inner" id="light-bulb-4">
+                            <i class="fas fa-lightbulb text-gray-400 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="range" min="0" max="100" value="0" class="intensity-slider w-full" id="intensity-4">
+                            <span class="text-sm font-medium text-gray-600 w-10" id="intensity-value-4">0%</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Leve</button>
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Forte</button>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
+                            <i class="fas fa-edit mr-1"></i> Editar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Light 5 -->
+                <div class="light-card bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-lg text-gray-800">Varanda</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex justify-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-yellow-50 flex items-center justify-center shadow-inner" id="light-bulb-5">
+                            <i class="fas fa-lightbulb text-yellow-200 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="range" min="0" max="100" value="20" class="intensity-slider w-full" id="intensity-5">
+                            <span class="text-sm font-medium text-gray-600 w-10" id="intensity-value-5">20%</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Leve</button>
+                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
+                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Forte</button>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
+                            <i class="fas fa-edit mr-1"></i> Editar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add New Light -->
+                <div class="light-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-blue-400 cursor-pointer" id="add-light">
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-plus text-gray-400 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-700">Adicionar Luz</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Tab ESSEEEEE S-->
+        <div id="schedule" class="tab-content">
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Novo Agendamento</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ação</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-action">
+                            <option>Ligar luzes</option>
+                            <option>Desligar luzes</option>
+                            <option>Ligar e desligar</option>
+                            <option>Ajustar intensidade</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Luzes</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-lights">
+                            <option>Todas as luzes</option>
+                            <option>Sala de Estar</option>
+                            <option>Quarto</option>
+                            <option>Cozinha</option>
+                            <option>Banheiro</option>
+                            <option>Varanda</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-date">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Hora</label>
+                        <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-time">
+                    </div>
+                    <div id="intensity-container" class="hidden md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Intensidade</label>
+                        <div class="flex items-center space-x-4">
+                            <input type="range" min="0" max="100" value="50" class="intensity-slider w-full" id="schedule-intensity">
+                            <span class="text-sm font-medium text-gray-600 w-10" id="schedule-intensity-value">50%</span>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Repetir</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="repeat-option px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Nunca</button>
+                            <button class="repeat-option px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Diariamente</button>
+                            <button class="repeat-option px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Semanalmente</button>
+                            <button class="repeat-option px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Mensalmente</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition" id="save-schedule">Agendar</button>
+                </div>
+            </div>
+
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Agendamentos Ativos</h2>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Luzes</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Repetição</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="schedules-list">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ligar</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sala de Estar</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">18:00 (Diariamente)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Diariamente</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ativo</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="edit-schedule text-blue-600 hover:text-blue-900 mr-3">Editar</a>
+                                    <a href="#" class="delete-schedule text-red-600 hover:text-red-900">Remover</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Desligar</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Todas</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">23:30 (Diariamente)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Diariamente</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ativo</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="edit-schedule text-blue-600 hover:text-blue-900 mr-3">Editar</a>
+                                    <a href="#" class="delete-schedule text-red-600 hover:text-red-900">Remover</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ligar</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Quarto</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">06:30 (Seg-Sex)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Semanalmente</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ativo</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="edit-schedule text-blue-600 hover:text-blue-900 mr-3">Editar</a>
+                                    <a href="#" class="delete-schedule text-red-600 hover:text-red-900">Remover</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modes Tab -->
+        <div id="modes" class="tab-content">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Add New Mode -->
+                <div class="mode-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer transition hover:shadow-lg flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-blue-400" id="add-mode">
+                    <div class="h-40 w-full bg-gray-100 flex items-center justify-center">
+                        <i class="fas fa-plus text-gray-400 text-5xl"></i>
+                    </div>
+                    <div class="p-6 w-full">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Criar Novo Modo</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Light Modal -->
+    <div class="modal" id="light-modal">
+        <div class="modal-content w-full max-w-md">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800" id="light-modal-title">Adicionar Nova Luz</h3>
+                    <button class="close-modal text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                        <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="light-name" placeholder="Ex: Sala de Estar">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Localização</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="light-location">
+                            <option>Sala de Estar</option>
+                            <option>Quarto</option>
+                            <option>Cozinha</option>
+                            <option>Banheiro</option>
+                            <option>Varanda</option>
+                            <option>Escritório</option>
+                            <option>Garagem</option>
+                            <option>Jardim</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Luz</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="light-type">
+                            <option>LED</option>
+                            <option>Incandescente</option>
+                            <option>Fluorescente</option>
+                            <option>Halógena</option>
+                            <option>Smart Bulb</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cor</label>
+                        <div class="flex space-x-2">
+                            <div class="color-preview bg-white border border-gray-300" data-color="white"></div>
+                            <div class="color-preview bg-yellow-200" data-color="yellow"></div>
+                            <div class="color-preview bg-blue-200" data-color="blue"></div>
+                            <div class="color-preview bg-red-200" data-color="red"></div>
+                            <div class="color-preview bg-green-200" data-color="green"></div>
+                            <div class="color-preview bg-purple-200" data-color="purple"></div>
+                            <input type="hidden" id="light-color" value="white">
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition close-modal">Cancelar</button>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition" id="save-light">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Mode Modal -->
+    <div class="modal" id="mode-modal">
+        <div class="modal-content w-full max-w-2xl">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800" id="mode-modal-title">Criar Novo Modo</h3>
+                    <button class="close-modal text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Modo</label>
+                        <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="mode-name" placeholder="Ex: Modo Cinema">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                        <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="mode-description" rows="2" placeholder="Descreva o que este modo faz"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cor de Destaque</label>
+                        <div class="flex space-x-2">
+                            <div class="color-preview bg-gradient-to-r from-purple-800 to-indigo-700" data-color="purple-indigo"></div>
+                            <div class="color-preview bg-gradient-to-r from-blue-400 to-blue-600" data-color="blue"></div>
+                            <div class="color-preview bg-gradient-to-r from-amber-500 to-amber-600" data-color="amber"></div>
+                            <div class="color-preview bg-gradient-to-r from-pink-500 to-red-500" data-color="pink-red"></div>
+                            <div class="color-preview bg-gradient-to-r from-yellow-500 to-orange-500" data-color="yellow-orange"></div>
+                            <div class="color-preview bg-gradient-to-r from-green-500 to-teal-500" data-color="green-teal"></div>
+                            <input type="hidden" id="mode-color" value="purple-indigo">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Luzes Incluídas</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="rounded text-blue-600" checked>
+                                <span>Sala de Estar</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="rounded text-blue-600">
+                                <span>Quarto</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="rounded text-blue-600" checked>
+                                <span>Cozinha</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="rounded text-blue-600">
+                                <span>Banheiro</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="rounded text-blue-600">
+                                <span>Varanda</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Configurações das Luzes</label>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Intensidade</label>
+                                <div class="flex items-center space-x-4">
+                                    <input type="range" min="0" max="100" value="30" class="intensity-slider w-full" id="mode-intensity">
+                                    <span class="text-sm font-medium text-gray-600 w-10" id="mode-intensity-value">30%</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Temperatura de Cor</label>
+                                <div class="flex items-center space-x-4">
+                                    <input type="range" min="0" max="100" value="50" class="intensity-slider w-full" id="mode-temperature">
+                                    <span class="text-sm font-medium text-gray-600 w-10" id="mode-temperature-value">50%</span>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>Quente</span>
+                                    <span>Neutra</span>
+                                    <span>Fria</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition close-modal">Cancelar</button>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition" id="save-mode">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Schedule Modal -->
+    <div class="modal" id="schedule-modal">
+        <div class="modal-content w-full max-w-md">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Editar Agendamento</h3>
+                    <button class="close-modal text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ação</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            <option>Ligar luzes</option>
+                            <option>Desligar luzes</option>
+                            <option>Ligar e desligar</option>
+                            <option>Ajustar intensidade</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Luzes</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            <option>Todas as luzes</option>
+                            <option selected>Sala de Estar</option>
+                            <option>Quarto</option>
+                            <option>Cozinha</option>
+                            <option>Banheiro</option>
+                            <option>Varanda</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" value="2023-06-15">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Hora</label>
+                        <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" value="18:00">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Repetir</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Nunca</button>
+                            <button class="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Diariamente</button>
+                            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Semanalmente</button>
+                            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Mensalmente</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition close-modal">Cancelar</button>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <ul class="mobile-nav-menu">
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-thermometer-half"></i>
+                    <span>Temp</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Luzes</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-door-open"></i>
+                    <span>Portão</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-radiation"></i>
+                    <span>Gás</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="js/luzes.js"></script>
+</body>
+</html>
