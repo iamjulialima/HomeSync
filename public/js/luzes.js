@@ -141,14 +141,11 @@
         const editLightButtons = document.querySelectorAll('.edit-light');
         const saveLightButton = document.getElementById('save-light');
         const lightModalTitle = document.getElementById('light-modal-title');
-        const colorPreviews = document.querySelectorAll('.color-preview');
 
         addLightButton.addEventListener('click', () => {
             lightModalTitle.textContent = 'Adicionar Nova Luz';
             document.getElementById('light-name').value = '';
             document.getElementById('light-location').value = 'Sala de Estar';
-            document.getElementById('light-type').value = 'LED';
-            document.getElementById('light-color').value = 'white';
             openModal('light-modal');
         });
 
@@ -163,16 +160,7 @@
             });
         });
 
-        colorPreviews.forEach(preview => {
-            preview.addEventListener('click', () => {
-                const color = preview.getAttribute('data-color');
-                document.getElementById('light-color').value = color;
-                
-                // Update active state
-                colorPreviews.forEach(p => p.classList.remove('ring-2', 'ring-blue-500'));
-                preview.classList.add('ring-2', 'ring-blue-500');
-            });
-        });
+        
 
         saveLightButton.addEventListener('click', () => {
             // Here you would save the light data to your backend
@@ -185,8 +173,10 @@
         const editModeButtons = document.querySelectorAll('.edit-mode');
         const saveModeButton = document.getElementById('save-mode');
         const modeModalTitle = document.getElementById('mode-modal-title');
-        const modeColorPreviews = document.querySelectorAll('#mode-modal .color-preview');
+        const modeColorPreviews = document.querySelectorAll('#mode-modal .color-preview'); //essa linha ferra tudo
 
+
+        // Cria modal de criar modos
         addModeButton.addEventListener('click', () => {
             modeModalTitle.textContent = 'Criar Novo Modo';
             document.getElementById('mode-name').value = '';
@@ -327,6 +317,8 @@
                 });
             });
             
+
+            //botao remover do programação
             document.querySelectorAll('.delete-schedule').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();

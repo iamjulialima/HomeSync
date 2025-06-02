@@ -117,22 +117,7 @@ logo {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .intensity-slider {
-            -webkit-appearance: none;
-            height: 8px;
-            border-radius: 4px;
-            background: #e2e8f0;
-            outline: none;
-        }
-        .intensity-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            background: #3b82f6;
-        }
+       
         .tab-content {
             display: none;
         }
@@ -172,6 +157,7 @@ logo {
             cursor: pointer;
             border: 2px solid #e2e8f0;
         }
+        
 /* Mobile Navigation */
 .mobile-nav {
     display: none;
