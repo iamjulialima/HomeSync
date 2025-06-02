@@ -168,77 +168,7 @@
             closeAllModals();
         });
 
-        // Add/Edit Mode functionality
-        const addModeButton = document.getElementById('add-mode');
-        const editModeButtons = document.querySelectorAll('.edit-mode');
-        const saveModeButton = document.getElementById('save-mode');
-        const modeModalTitle = document.getElementById('mode-modal-title');
-        const modeColorPreviews = document.querySelectorAll('#mode-modal .color-preview'); //essa linha ferra tudo
-
-
-        // Cria modal de criar modos
-        addModeButton.addEventListener('click', () => {
-            modeModalTitle.textContent = 'Criar Novo Modo';
-            document.getElementById('mode-name').value = '';
-            document.getElementById('mode-description').value = '';
-            document.getElementById('mode-color').value = 'purple-indigo';
-            document.getElementById('mode-intensity').value = '30';
-            document.getElementById('mode-intensity-value').textContent = '30%';
-            document.getElementById('mode-temperature').value = '50';
-            document.getElementById('mode-temperature-value').textContent = '50%';
-            
-            // Reset color selection
-            modeColorPreviews.forEach(p => p.classList.remove('ring-2', 'ring-blue-500'));
-            modeColorPreviews[0].classList.add('ring-2', 'ring-blue-500');
-            
-            openModal('mode-modal');
-        });
-
-        editModeButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const card = e.target.closest('.mode-card');
-                const title = card.querySelector('h3').textContent;
-                const description = card.querySelector('p').textContent;
-                
-                modeModalTitle.textContent = `Editar ${title}`;
-                document.getElementById('mode-name').value = title;
-                document.getElementById('mode-description').value = description;
-                openModal('mode-modal');
-            });
-        });
-
-        modeColorPreviews.forEach(preview => {
-            preview.addEventListener('click', () => {
-                const color = preview.getAttribute('data-color');
-                document.getElementById('mode-color').value = color;
-                
-                // Update active state
-                modeColorPreviews.forEach(p => p.classList.remove('ring-2', 'ring-blue-500'));
-                preview.classList.add('ring-2', 'ring-blue-500');
-            });
-        });
-
-        // Mode intensity slider
-        const modeIntensitySlider = document.getElementById('mode-intensity');
-        const modeIntensityValue = document.getElementById('mode-intensity-value');
-        
-        modeIntensitySlider.addEventListener('input', () => {
-            modeIntensityValue.textContent = `${modeIntensitySlider.value}%`;
-        });
-
-        // Mode temperature slider
-        const modeTemperatureSlider = document.getElementById('mode-temperature');
-        const modeTemperatureValue = document.getElementById('mode-temperature-value');
-        
-        modeTemperatureSlider.addEventListener('input', () => {
-            modeTemperatureValue.textContent = `${modeTemperatureSlider.value}%`;
-        });
-
-        saveModeButton.addEventListener('click', () => {
-            // Here you would save the mode data to your backend
-            alert('Modo salvo com sucesso!');
-            closeAllModals();
-        });
+    
 
         // Schedule functionality
         const scheduleAction = document.getElementById('schedule-action');
@@ -345,14 +275,6 @@
             });
         });
 
-        // Activate mode buttons
-        const activateModeButtons = document.querySelectorAll('.activate-mode');
-        activateModeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const modeName = button.closest('.mode-card').querySelector('h3').textContent;
-                alert(`Modo ${modeName} ativado com sucesso!`);
-            });
-        });
 
         // Responsive adjustments
         function handleResize() {

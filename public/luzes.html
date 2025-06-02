@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartLight Dashboard</title>
+    <title>HomeSync - SmartLight</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/luzes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/luzes.css">
     <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
     
 </head>
@@ -71,15 +71,16 @@
         </div>
 
     <div class="container mx-auto px-4 py-8 max-w-6xl">
+
         <!-- Header -->
         <header class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800">
                 <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
-                SmartLight
+                Iluminação
             </h1>
         </header>
 
-        <!-- Tabs Navigation -->
+        <!-- Tabs de Navegação -->
         <div class="flex overflow-x-auto mb-8 border-b border-gray-200">
             <button class="tab-btn px-6 py-3 font-medium text-sm rounded-t-lg active" data-tab="lights">
                 <i class="fas fa-lightbulb mr-2"></i> Luzes
@@ -87,15 +88,13 @@
             <button class="tab-btn px-6 py-3 font-medium text-sm rounded-t-lg" data-tab="schedule">
                 <i class="fas fa-clock mr-2"></i> Programação
             </button>
-            <button class="tab-btn px-6 py-3 font-medium text-sm rounded-t-lg" data-tab="modes">
-                <i class="fas fa-magic mr-2"></i> Modos
-            </button>
         </div>
 
-        <!-- Lights Tab     aquiiiiii    -->
+        <!-- Tab das Luzes (dashboard de Ligar/Desligar) -->
         <div id="lights" class="tab-content active">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Light 1 -->
+                
+                <!-- LUZ - Sala de Estar (yellow) -->
                 <div class="light-card bg-white rounded-xl shadow-md p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-lg text-gray-800">Sala de Estar</h3>
@@ -125,7 +124,7 @@
                     </div>
                 </div>
 
-                <!-- Light 2 -->
+                <!-- LUZ - Quarto (Blue) -->
                 <div class="light-card bg-white rounded-xl shadow-md p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-lg text-gray-800">Quarto</h3>
@@ -155,7 +154,7 @@
                     </div>
                 </div>
 
-                <!-- Light 3 -->
+                <!-- LUZ - Cozinha (Red) -->
                 <div class="light-card bg-white rounded-xl shadow-md p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-lg text-gray-800">Cozinha</h3>
@@ -185,10 +184,10 @@
                     </div>
                 </div>
 
-                <!-- Light 4 -->
+                <!-- LUZ - Sacada Inferior -->
                 <div class="light-card bg-white rounded-xl shadow-md p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold text-lg text-gray-800">Banheiro</h3>
+                        <h3 class="font-semibold text-lg text-gray-800">Sacada Inferior</h3>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" class="sr-only peer">
                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
@@ -215,10 +214,10 @@
                     </div>
                 </div>
 
-                <!-- Light 5 -->
+                <!-- LUZ - Sacada Superior -->
                 <div class="light-card bg-white rounded-xl shadow-md p-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold text-lg text-gray-800">Varanda</h3>
+                        <h3 class="font-semibold text-lg text-gray-800">Sacada Superior</h3>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" class="sr-only peer" checked>
                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
@@ -245,7 +244,7 @@
                     </div>
                 </div>
 
-                <!-- Add New Light -->
+                <!-- Add LUZ -->
                 <div class="light-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-blue-400 cursor-pointer" id="add-light">
                     <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
                         <i class="fas fa-plus text-gray-400 text-2xl"></i>
@@ -255,8 +254,11 @@
             </div>
         </div>
 
-        <!-- Schedule Tab -->
+
+        <!-- Tab da Programação -->
         <div id="schedule" class="tab-content">
+
+            <!-- Programação: Novo agendamento -->
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">Novo Agendamento</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -310,6 +312,8 @@
                 </div>
             </div>
 
+
+            <!-- Programação: agendamentos ativos -->
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Agendamentos Ativos</h2>
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <div class="overflow-x-auto">
@@ -328,7 +332,7 @@
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ligar</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sala de Estar</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">18:00 (Diariamente)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">156:00 (Diariamente)</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Diariamente</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ativo</span>
@@ -372,40 +376,16 @@
 
 
 
-
-
-
-
-        <!-- Modes Tab  PEQUETITO-->
-        <div id="modes" class="tab-content">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Add New Mode -->
-                <div class="mode-card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer transition hover:shadow-lg flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-blue-400" id="add-mode">
-                    <div class="h-40 w-full bg-gray-100 flex items-center justify-center">
-                        <i class="fas fa-plus text-gray-400 text-5xl"></i>
-                    </div>
-                    <div class="p-6 w-full">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">Criar Novo Modo</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
+    <!-- MODAIS COMEÇAM AQUI -->
 
-
-
-
-
-
-
-
-    <!-- Add/Edit Light Modal -->
+    <!-- Modal add/ editar Tab luzes -->
     <div class="modal" id="light-modal">
         <div class="modal-content w-full max-w-md">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800" id="light-modal-title">Adicionar Nova Luz</h3>
+                    <h3 class="text-xl font-semibold text-gray-800" id="light-modal-title">Adicio Nova Luz</h3>
                     <button class="close-modal text-gray-400 hover:text-gray-500">
                         <i class="fas fa-times"></i>
                     </button>
@@ -439,114 +419,7 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-    <!-- Add/Edit Mode Modal -->
-    <div class="modal" id="mode-modal">
-        <div class="modal-content w-full max-w-2xl">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800" id="mode-modal-title">Criar Novo Modo</h3>
-                    <button class="close-modal text-gray-400 hover:text-gray-500">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Modo</label>
-                        <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="mode-name" placeholder="Ex: Modo Cinema">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                        <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="mode-description" rows="2" placeholder="Descreva o que este modo faz"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Cor de Destaque</label>
-                        <div class="flex space-x-2">
-                            <div class="color-preview bg-gradient-to-r from-purple-800 to-indigo-700" data-color="purple-indigo"></div>
-                            <div class="color-preview bg-gradient-to-r from-blue-400 to-blue-600" data-color="blue"></div>
-                            <div class="color-preview bg-gradient-to-r from-amber-500 to-amber-600" data-color="amber"></div>
-                            <div class="color-preview bg-gradient-to-r from-pink-500 to-red-500" data-color="pink-red"></div>
-                            <div class="color-preview bg-gradient-to-r from-yellow-500 to-orange-500" data-color="yellow-orange"></div>
-                            <div class="color-preview bg-gradient-to-r from-green-500 to-teal-500" data-color="green-teal"></div>
-                            <input type="hidden" id="mode-color" value="purple-indigo">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Luzes Incluídas</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" class="rounded text-blue-600" checked>
-                                <span>Sala de Estar</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" class="rounded text-blue-600">
-                                <span>Quarto</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" class="rounded text-blue-600" checked>
-                                <span>Cozinha</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" class="rounded text-blue-600">
-                                <span>Banheiro</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" class="rounded text-blue-600">
-                                <span>Varanda</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Configurações das Luzes</label>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Intensidade</label>
-                                <div class="flex items-center space-x-4">
-                                    <input type="range" min="0" max="100" value="30" class="intensity-slider w-full" id="mode-intensity">
-                                    <span class="text-sm font-medium text-gray-600 w-10" id="mode-intensity-value">30%</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Temperatura de Cor</label>
-                                <div class="flex items-center space-x-4">
-                                    <input type="range" min="0" max="100" value="50" class="intensity-slider w-full" id="mode-temperature">
-                                    <span class="text-sm font-medium text-gray-600 w-10" id="mode-temperature-value">50%</span>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500 mt-1">
-                                    <span>Quente</span>
-                                    <span>Neutra</span>
-                                    <span>Fria</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex justify-end space-x-3 pt-4">
-                        <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition close-modal">Cancelar</button>
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition" id="save-mode">Salvar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-    <!-- Edit Schedule Modal -->
+    <!-- Modal editar agendamentos de luzes -->
     <div class="modal" id="schedule-modal">
         <div class="modal-content w-full max-w-md">
             <div class="p-6">
@@ -602,17 +475,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- Mobile Navigation -->
