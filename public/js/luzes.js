@@ -16,6 +16,14 @@
             });
         });
 
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.replace('border-blue-500', 'border-transparent'));
+            tab.classList.replace('border-transparent', 'border-blue-500');
+            });
+        });
+
         // Light toggle functionality
         const lightToggles = document.querySelectorAll('input[type="checkbox"]');
         lightToggles.forEach((toggle, index) => {
