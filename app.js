@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const path = require('path');
 
+require('./database/createTables'); 
+
 const app = express();
 
 app.use(bodyParser.json());

@@ -18,9 +18,21 @@ const login = (req, res) => {
   const { email, senha } = req.body;
 
   usuarioModel.buscarUsuarioPorEmail(email, (err, usuario) => {
-    if (err || !usuario) return res.status(401).json({ erro: 'Usuário não encontrado' });
+    if (err) {
+      console.error('Erro na consulta:', err);
+      return res.status(500).json({ erro: 'Erro interno no servidor' });
+    }
+
+    if (!usuario) {
+      return res.status(401).json({ erro: 'Usuário não encontrado' });
+    }
 
     bcrypt.compare(senha, usuario.senha, (err, resultado) => {
+      if (err) {
+        console.error('Erro no bcrypt:', err);
+        return res.status(500).json({ erro: 'Erro interno no servidor' });
+      }
+
       if (resultado) {
         res.json({ mensagem: 'Login realizado com sucesso', usuario });
       } else {
