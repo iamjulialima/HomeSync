@@ -1,21 +1,23 @@
-// Tab switching functionality
-        const tabButtons = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
+        // Funcionalidade de trocar de tabs 
+        const tabButtons = document.querySelectorAll('.tab-btn'); // seleciona os botoes da tab
+        const tabContents = document.querySelectorAll('.tab-content'); // seleciona todo conteudo da aba
 
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const tabId = button.getAttribute('data-tab');
                 
-                // Remove active class from all buttons and contents
+                // Remove a classe 'active' de todos os botões e conteúdos
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
                 
-                // Add active class to clicked button and corresponding content
+                // Adiciona a classe 'active' ao botão e conteúdo clicado
                 button.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
             });
         });
 
+
+        //função para destaque de abas
         const tabs = document.querySelectorAll('.tab-btn');
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -24,7 +26,12 @@
             });
         });
 
-        // Light toggle functionality
+
+
+        //aqui se mexe com o ligar e desligar 
+
+
+        // Luzes toggle alternar entre ligado/ desligado
         const lightToggles = document.querySelectorAll('input[type="checkbox"]');
         lightToggles.forEach((toggle, index) => {
             toggle.addEventListener('change', () => {
@@ -43,19 +50,45 @@
             });
         });
 
-        // Intensity slider functionality
-        const intensitySliders = document.querySelectorAll('.intensity-slider');
-        intensitySliders.forEach((slider, index) => {
-            slider.addEventListener('input', () => {
-                const value = slider.value;
-                const valueDisplay = document.getElementById(`intensity-value-${index + 1}`);
-                const lightBulb = document.getElementById(`light-bulb-${index + 1}`);
-                
-                
-                // Update light bulb appearance based on intensity
+
+
+        // Intensity botões que alteram a cor da lampada
+        const intensityButtons = document.querySelectorAll('.intensity-preset');
+        intensityButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Remove classe ativa de todos os botões no mesmo cartão
+                const cardButtons = e.target.closest('.light-card').querySelectorAll('.intensity-preset');
+                cardButtons.forEach(btn => {
+                    btn.classList.remove('bg-blue-100', 'text-blue-700');
+                    btn.classList.add('bg-gray-100', 'text-gray-700');
+                });
+
+                // Adiciona classe ativa ao botão clicado
+                e.target.classList.remove('bg-gray-100', 'text-gray-700');
+                e.target.classList.add('bg-blue-100', 'text-blue-700');
+
+                // Descobre qual é o card (lâmpada) clicado
+                const card = e.target.closest('.light-card');
+                const cards = document.querySelectorAll('.light-card');
+                const cardIndex = Array.from(cards).indexOf(card);
+                const lightBulb = document.getElementById(`light-bulb-${cardIndex + 1}`);
+
+                // Define intensidade com base no texto do botão
+                let value = 0;
+                const text = e.target.textContent.trim();
+
+                if (text === 'Leve') {
+                    value = 30;
+                } else if (text === 'Média') {
+                    value = 60;
+                } else if (text === 'Forte') {
+                    value = 100;
+                }
+
+                // Aplica a lógica de visual da lâmpada diretamente
                 if (value > 0) {
                     lightBulb.querySelector('i').classList.remove('text-gray-400');
-                    
+
                     if (value <= 30) {
                         lightBulb.classList.remove('bg-yellow-200', 'bg-yellow-100');
                         lightBulb.classList.add('bg-yellow-50');
@@ -76,45 +109,7 @@
             });
         });
 
-        // Intensity preset buttons
-        const intensityButtons = document.querySelectorAll('.intensity-preset');
-        intensityButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                // Remove active class from all buttons in the same card
-                const cardButtons = e.target.closest('.light-card').querySelectorAll('.intensity-preset');
-                cardButtons.forEach(btn => {
-                    btn.classList.remove('bg-blue-100', 'text-blue-700');
-                    btn.classList.add('bg-gray-100', 'text-gray-700');
-                });
-                
-                // Add active class to clicked button
-                e.target.classList.remove('bg-gray-100', 'text-gray-700');
-                e.target.classList.add('bg-blue-100', 'text-blue-700');
-                
-                // Get the light card index
-                const card = e.target.closest('.light-card');
-                const cards = document.querySelectorAll('.light-card');
-                const cardIndex = Array.from(cards).indexOf(card);
-                
-                // Update slider based on button text
-                const slider = document.getElementById(`intensity-${cardIndex + 1}`);
-                const valueDisplay = document.getElementById(`intensity-value-${cardIndex + 1}`);
-                
-                if (e.target.textContent === 'Leve') {
-                    slider.value = 30;
-              
-                } else if (e.target.textContent === 'Média') {
-                    slider.value = 60;
-             
-                } else if (e.target.textContent === 'Forte') {
-                    slider.value = 100;
-          
-                }
-                
-                // Trigger input event to update light bulb
-                slider.dispatchEvent(new Event('input'));
-            });
-        });
+
 
         // Modal functionality
         const modals = document.querySelectorAll('.modal');
