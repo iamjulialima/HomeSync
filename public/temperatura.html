@@ -89,39 +89,33 @@
 
     <!-- Main content -->
     <main class="flex-1 p-6">
-             <!-- Control cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Card de Temperatura Atual -->
-            <div class="dashboard-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center transition duration-300 ease-in-out">
-                <div class="flex items-center mb-4">
-                    <i class="fas fa-temperature-high text-2xl text-red-500 mr-2"></i>
-                    <h2 class="text-xl font-semibold text-gray-700">Temperatura</h2>
-                </div>
-                <div class="gauge-container mb-4">
-                    <div class="gauge-body"></div>
-                    <div class="gauge-arrow" id="temp-arrow"></div>
-                    <div class="gauge-cover">
-                        <span id="temp-value" class="text-2xl font-bold transform -rotate-180">0°C</span>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="dashboard-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center transition duration-300 ease-in-out">
+                    <div class="flex items-center mb-8">
+                        <i class="fas fa-temperature-high text-2xl text-red-500 mr-2"></i>
+                        <h2 class="text-4xl font-semibold text-gray-700">Temperatura</h2>
+                    </div>
+                    <div class="gauge-container mb-4">
+                        <div class="gauge-body"></div>
+                        <div class="gauge-arrow" id="temp-arrow"></div>
+                        <div class="gauge-cover w-24 h-24 rounded-full border-4 border-blue-200 flex items-center justify-center">
+                            <span id="temp-value" class="text-4xl font-bold">0ºC</span>
+                        </div>
                     </div>
                 </div>
-                <div class="text-center">
-                    <p class="text-gray-600">Atual: <span id="current-temp" class="font-bold">0°C</span></p>
+
+                <div class="col-span-1 lg:col-span-2 bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chart-line text-2xl text-red-500 mr-2"></i>
+                        <h2 class="text-xl font-semibold text-gray-700">Gráfico de Temperatura</h2>
+                    </div>
+                   <canvas id="temperature-chart" class="w-full max-w-xl mx-auto"></canvas>
                 </div>
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <!-- Gráfico de Temperatura -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <div class="flex items-center mb-4">
-                    <i class="fas fa-chart-line text-2xl text-red-500 mr-2"></i>
-                    <h2 class="text-xl font-semibold text-gray-700">Histórico de Temperatura</h2>
-                </div>
-                <canvas id="temperature-chart" height="250"></canvas>
-            </div>
-
-                <!-- History -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <!-- Histórico abaixo dos dois -->
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Histórico de Temperaturas</h2>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -135,14 +129,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">29º</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12/06/2025 09:30</td>
                             </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Marcela Domiciano</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12/06/2025 09:35</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
     </main>
 
     <!-- Mobile Navigation -->
@@ -181,6 +172,7 @@
         </ul>
     </nav>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/temperatura.js"></script>
 </body>
 </html>

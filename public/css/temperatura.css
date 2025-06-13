@@ -165,8 +165,17 @@
     margin-bottom: 5px;
 }
 
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);
+}
+        
+.gate-animation {
+    transition: all 0.5s ease;
+}
+
 /* Responsive */
-@media (max-width: 992px) {
+@media (max-width: 1300px) {
     .dashboard {
         grid-template-columns: 80px 1fr;
     }
@@ -265,13 +274,4 @@
     .mobile-nav-link i {
         font-size: 18px;
     }
-}
-
-.dashboard-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);
-}
-        
-.gate-animation {
-    transition: all 0.5s ease;
 }
