@@ -4,6 +4,13 @@ function toggleSidebar() {
     sidebar.classList.toggle('-translate-x-full');
 }
 
+function ajustarFusoHorario(dataHoraUTC) {
+    const data = new Date(dataHoraUTC);
+    data.setHours(data.getHours() - 3); // Ajusta -3h
+    return data.toLocaleString('pt-BR'); // Exibe no formato brasileiro
+}
+
+
 const apiBase = "http://localhost:3000/api/portao";
 
 // Gate control functionality
@@ -86,7 +93,7 @@ async function carregarHistorico() {
 
       const tdDataHora = document.createElement('td');
       tdDataHora.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
-      tdDataHora.textContent = new Date(item.dataHora).toLocaleString('pt-BR');
+      tdDataHora.textContent = ajustarFusoHorario(item.dataHora); 
 
       const tdAcao = document.createElement('td');
       tdAcao.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
