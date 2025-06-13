@@ -24,6 +24,9 @@ app.use('/api', usuarioRoutes);
 const luzesRoutes = require('./routes/luzesRoutes');
 app.use('/api', luzesRoutes);
 
+// Rotas portão
+const portaoRoutes = require('./routes/portaoRoutes');
+app.use('/api/portao', portaoRoutes);
 
 // Inicia o servidor
 app.listen(3000, () => {

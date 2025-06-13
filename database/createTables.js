@@ -45,3 +45,18 @@ db.run(`CREATE TABLE IF NOT EXISTS agendamentoLuzes(
     console.log('Tabela luzesStatus verificada/criada com sucesso.');
   }
 });
+
+// Criação tabela portao
+db.run(`CREATE TABLE IF NOT EXISTS portao (
+    cod_portao INTEGER PRIMARY KEY AUTOINCREMENT,
+    comando TEXT NOT NULL,
+    dataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP    
+  )`, (err) => {
+    if (err){
+      console.error('Erro ao criar tabela portao:', err.message);
+    } else {
+      console.log('Tabela portao verificada/criada com sucesso.');
+    }
+  });
+
+  

@@ -4,6 +4,8 @@ function toggleSidebar() {
     sidebar.classList.toggle('-translate-x-full');
 }
 
+const apiBase = "http://localhost:3000/api/portao";
+
 // Gate control functionality
 const openBtn = document.getElementById('open-btn');
 const closeBtn = document.getElementById('close-btn');
@@ -13,34 +15,33 @@ const gateVisual = document.getElementById('gate-visual');
 
 let isGateOpen = false;
 
-openBtn.addEventListener('click', () => {
-isGateOpen = true;
-gateIcon.classList.remove('fa-lock', 'text-red-500');
-gateIcon.classList.add('fa-lock-open', 'text-green-500');
-gateStatus.textContent = 'Aberto';
-gateVisual.classList.add('animate-pulse');
-            
+openBtn.addEventListener('click', async () => {
+    isGateOpen = true;
+    gateIcon.classList.remove('fa-lock', 'text-red-500');
+    gateIcon.classList.add('fa-lock-open', 'text-green-500');
+    gateStatus.textContent = 'Aberto';
+    gateVisual.classList.add('animate-pulse');
 
-                
-// Remove pulse animation after 2 seconds
+    await fetch(`${apiBase}/abrir`, { method: "POST" });
+    alert("Comando para abrir enviado!");
+
     setTimeout(() => {
         gateVisual.classList.remove('animate-pulse');
-            }, 2000);
-        }, 500);
+    }, 2000);
+});
     
 
-closeBtn.addEventListener('click', () => {
+closeBtn.addEventListener('click', async () => {
     isGateOpen = false;
     gateIcon.classList.remove('fa-lock-open', 'text-green-500');
     gateIcon.classList.add('fa-lock', 'text-red-500');
     gateStatus.textContent = 'Fechado';
     gateVisual.classList.add('animate-pulse');
-            
-// Create a log entry for the demo
-    setTimeout(() => { 
-        // Remove pulse animation after 2 seconds
-        setTimeout(() => {
-            gateVisual.classList.remove('animate-pulse');
-            }, 2000);
-        }, 500);
-    });
+
+    await fetch(`${apiBase}/fechar`, { method: "POST" });
+    alert("Comando para fechar enviado!");
+
+    setTimeout(() => {
+        gateVisual.classList.remove('animate-pulse');
+    }, 2000);
+});
