@@ -4,7 +4,7 @@ let ultimoComando = "nada";
 
 const Portao = {
   criar: (comando, cod_usuario) => {
-    if (comando === "abrir" || comando === "fechar") {
+    if (comando !== ultimoComando && (comando === "abrir" || comando === "fechar")) {
       ultimoComando = comando;
 
       const stmt = db.prepare('INSERT INTO portao (comando, cod_usuario) VALUES (?, ?)');
@@ -12,24 +12,24 @@ const Portao = {
       console.log("Salvando no banco:", comando, "por usuário:", cod_usuario);
 
       return info.lastInsertRowid;
+    } else {
+      console.log("Comando repetido, não salvou:", comando);
     }
   },
 
   ultimo: () => {
-    const comando = ultimoComando;
-    ultimoComando = "nada";
-    return comando;
+    return ultimoComando;
   },
 
   listarHistorico: (callback) => {
-  const query = `
-    SELECT p.comando, p.dataHora, u.nome AS usuario
-    FROM portao p
-    JOIN usuario u ON p.cod_usuario = u.cod_usuario
-    ORDER BY p.dataHora DESC
-  `;
+    const query = `
+      SELECT p.comando, p.dataHora, u.nome AS usuario
+      FROM portao p
+      JOIN usuario u ON p.cod_usuario = u.cod_usuario
+      ORDER BY p.dataHora DESC
+    `;
 
-  db.all(query, [], (err, rows) => {
+    db.all(query, [], (err, rows) => {
       if (err) {
         console.error("Erro ao listar histórico:", err.message);
         callback(err, null);
@@ -38,7 +38,6 @@ const Portao = {
       }
     });
   }
-
 };
 
 module.exports = Portao;
