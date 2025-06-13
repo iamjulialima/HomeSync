@@ -7,5 +7,7 @@ const portaoController = new PortaoController();
 router.get('/comando', (req, res) => portaoController.getComando(req, res));
 router.post('/abrir', (req, res) => portaoController.abrir(req, res));
 router.post('/fechar', (req, res) => portaoController.fechar(req, res));
+router.get('/historico', (req, res) => portaoController.historico(req, res));
+
 
 module.exports = router;

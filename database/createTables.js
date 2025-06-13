@@ -48,15 +48,15 @@ db.run(`CREATE TABLE IF NOT EXISTS agendamentoLuzes(
 
 // Criação tabela portao
 db.run(`CREATE TABLE IF NOT EXISTS portao (
-    cod_portao INTEGER PRIMARY KEY AUTOINCREMENT,
-    comando TEXT NOT NULL,
-    dataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP    
-  )`, (err) => {
-    if (err){
-      console.error('Erro ao criar tabela portao:', err.message);
-    } else {
-      console.log('Tabela portao verificada/criada com sucesso.');
-    }
-  });
-
-  
+  cod_portao INTEGER PRIMARY KEY AUTOINCREMENT,
+  cod_usuario INTEGER NOT NULL,
+  comando TEXT NOT NULL,
+  dataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario)
+)`, (err) => {
+  if (err){
+    console.error('Erro ao criar tabela portao:', err.message);
+  } else {
+    console.log('Tabela portao verificada/criada com sucesso.');
+  }
+});
