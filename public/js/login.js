@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resposta.ok) {
       // Aqui salva o cod_usuario no localStorage
       localStorage.setItem('cod_usuario', resultado.usuario.cod_usuario);
+      localStorage.setItem('nome_usuario', resultado.usuario.nome);
+      localStorage.setItem('email_usuario', resultado.usuario.email);
 
       alert('Login realizado!');
       window.location.href = 'dashboard.html';

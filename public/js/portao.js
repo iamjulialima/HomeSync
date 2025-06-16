@@ -50,6 +50,8 @@ openBtn.addEventListener('click', async () => {
     setTimeout(() => {
         gateVisual.classList.remove('animate-pulse');
     }, 2000);
+
+    localStorage.setItem('status_portao', 'Aberto');
 });
 
 closeBtn.addEventListener('click', async () => {
@@ -74,6 +76,8 @@ closeBtn.addEventListener('click', async () => {
     setTimeout(() => {
         gateVisual.classList.remove('animate-pulse');
     }, 2000);
+
+    localStorage.setItem('status_portao', 'Fechado');
 });
 
 async function carregarHistorico() {
@@ -112,3 +116,8 @@ async function carregarHistorico() {
 
 // Chama a função ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarHistorico);
+
+
+
+
+
