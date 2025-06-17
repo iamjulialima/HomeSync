@@ -21,7 +21,15 @@ const buscarUsuarioPorEmail = (email, callback) => {
   });
 };
 
+const atualizarSenha = (email, novaSenha, callback) => {
+  const query = 'UPDATE usuario SET senha = ? WHERE email = ?';
+  db.run(query, [novaSenha, email], function (err) {
+    callback(err);
+  });
+};
+
 module.exports = {
   criarUsuario,
   buscarUsuarioPorEmail,
+  atualizarSenha,
 };
