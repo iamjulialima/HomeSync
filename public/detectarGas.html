@@ -13,6 +13,11 @@
 <body class="bg-gray-50 font-sans">
 
     <div class="dashboard">
+                <!-- Perfil mobile no topo -->
+        <div class="mobile-profile">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="mobile-profile-img">
+        </div>
+
         <!-- Sidebar (oculta em mobile) -->
         <div class="sidebar">
             <div class="logo">
@@ -28,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="temperatura.html" class="nav-link">
                         <i class="fas fa-thermometer-half"></i>
                         <span>Temperatura</span>
                     </a>
@@ -40,7 +45,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="portao.html" class="nav-link">
                         <i class="fas fa-door-open"></i>
                         <span>Portões</span>
                     </a>
@@ -70,7 +75,10 @@
             </div>
         </div>
 
+   
+
     <div class="container mx-auto px-4 py-8 max-w-6xl">
+
 
         <!-- Header -->
         <header class="flex justify-between items-center mb-8">
@@ -80,6 +88,7 @@
             </h1>
         </header>
 
+        
         <!-- Tabs de Navegação -->
         <div class="flex overflow-x-auto mb-8 border-b border-gray-200">
             <button class="tab-btn px-6 py-3 text-sm font-medium" data-tab="lights">
@@ -87,6 +96,7 @@
             </button>
         </div>
 
+        
 
         <!-- Main Content -->
         <main class="flex-grow container mx-auto px-4">
@@ -214,7 +224,7 @@
                 </a>
             </li>
             <li class="mobile-nav-item">
-                <a href="#" class="mobile-nav-link">
+                <a href="temperatura.html" class="mobile-nav-link">
                     <i class="fas fa-thermometer-half"></i>
                     <span>Temp</span>
                 </a>
@@ -226,7 +236,7 @@
                 </a>
             </li>
             <li class="mobile-nav-item">
-                <a href="#" class="mobile-nav-link">
+                <a href="portao.html" class="mobile-nav-link">
                     <i class="fas fa-door-open"></i>
                     <span>Portão</span>
                 </a>
@@ -235,6 +245,12 @@
                 <a href="#" class="mobile-nav-link active">
                     <i class="fas fa-radiation"></i>
                     <span>Gás</span>
+                </a>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Config</span>
                 </a>
             </li>
         </ul>
