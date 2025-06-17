@@ -28,13 +28,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="temperatura.html" class="nav-link">
                         <i class="fas fa-thermometer-half"></i>
                         <span>Temperatura</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="luzes.html" class="nav-link">
                         <i class="fas fa-lightbulb"></i>
                         <span>Iluminação</span>
                     </a>
@@ -63,14 +63,15 @@
                 <div class="profile">
                     <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="profile-img">
                     <div class="profile-info">
-                        <h4>Maria Silva</h4>
+                        <h4 id="nome-usuario">Carregando...</h4>
                         <p>Administrador</p>
                     </div>
                 </div>
             </div>
         </div>
 
-    <div class="w-full px-4 py-8 max-w-screen-xl ml-2 sm:ml-4 overflow-x-hidden">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+
 
     <!-- Header -->
     <header class="flex justify-between items-center mb-8">
@@ -119,18 +120,20 @@
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Historico</h2>
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuário</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200" id="schedules-list">
-                            
-                        </tbody>
-                    </table>
+                    <div class="max-h-80 overflow-y-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuário</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="schedules-list">
+                                
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
     </main>
@@ -172,5 +175,6 @@
     </nav>
 
     <script src="js/portao.js"></script>
+     <script src="js/javascript.js"></script>
 </body>
 </html>
