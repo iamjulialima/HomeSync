@@ -1,73 +1,157 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const historyData = [];
+  // Função para buscar os dados da API
+  async function buscarDados() {
+    try {
+      const response = await fetch('/api/temperatura/ultimas?horas=2'); // Use URL relativa
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dados: ' + response.statusText);
+      }
+      const dados = await response.json();
+      return dados;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
 
-    function updateDateTime() {
-        const now = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').textContent = now.toLocaleDateString('pt-BR', options);
-        document.getElementById('current-time').textContent = now.toLocaleTimeString('pt-BR');
+  // Formata a hora para exibir no gráfico
+  function formatarData(dataStr) {
+    const data = new Date(dataStr);
+    data.setHours(data.getHours() - 3); // Ajuste UTC-3
+    return data.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // Função que monta o gráfico e atualiza a tabela de histórico
+  async function montarGrafico() {
+    const dados = await buscarDados();
+
+    // Atualiza a tabela de histórico
+    const tbody = document.getElementById('schedules-list');
+    tbody.innerHTML = ''; // Limpa tabela
+
+    const limiteLinhas = 10;
+    const dadosLimitados = dados.slice(-limiteLinhas).reverse(); // Pega os últimos 10 e inverte
+
+    dadosLimitados.forEach((item) => {
+      const tr = document.createElement('tr');
+
+      // Temperatura
+      const tdTemp = document.createElement('td');
+      tdTemp.textContent = `${item.temperatura}ºC`;
+      tdTemp.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
+
+      // Umidade
+      const tdUmi = document.createElement('td');
+      tdUmi.textContent = `${item.umidade}%`;
+      tdUmi.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
+
+      // Data/Hora (corrigida para UTC-3)
+      const tdData = document.createElement('td');
+      const data = new Date(item.data_hora);
+      data.setHours(data.getHours() - 3); // Corrige o fuso horário
+      tdData.textContent = data.toLocaleString('pt-BR', {
+        dateStyle: 'short',
+        timeStyle: 'short',
+      });
+      tdData.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
+
+      tr.appendChild(tdTemp);
+      tr.appendChild(tdUmi);
+      tr.appendChild(tdData);
+
+      tbody.appendChild(tr);
+    });
+
+    // Atualiza o valor do display da temperatura grande (no gauge)
+    const ultimo = dados[dados.length - 1];
+    if (ultimo) {
+      const tempValue = document.getElementById('temp-value');
+      tempValue.textContent = `${ultimo.temperatura}ºC`;
     }
 
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
+    // Monta o gráfico - destrói gráfico antigo se existir para não sobrepor
+    const ctx = document.getElementById('temperature-chart').getContext('2d');
+    if (window.graficoTemperatura) {
+      window.graficoTemperatura.destroy();
+    }
 
-    // Gráfico de temperatura
-    let tempChart;
-    function initChart() {
-        const tempCtx = document.getElementById('temperature-chart').getContext('2d');
-        tempChart = new Chart(tempCtx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Temperatura (°C)',
-                    data: [],
-                    borderColor: 'rgb(239, 68, 68)',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                    tension: 0.3,
-                    fill: true
-                }]
+    window.graficoTemperatura = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dados.map((item) => formatarData(item.data_hora)),
+        datasets: [
+          {
+            label: 'Temperatura (°C)',
+            data: dados.map((item) => item.temperatura),
+            borderColor: 'red',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1,
+            pointRadius: 1,
+            yAxisID: 'y1',
+          },
+          {
+            label: 'Umidade (%)',
+            data: dados.map((item) => item.umidade),
+            borderColor: 'blue',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1,
+            pointRadius: 1,
+            yAxisID: 'y2',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+          },
+          tooltip: {
+            enabled: true,
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Hora',
             },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        min: 10,
-                        max: 40
-                    }
-                }
-            }
-        });
-    }
+          },
+          y1: {
+            type: 'linear',
+            position: 'left',
+            title: {
+              display: true,
+              text: 'Temperatura (°C)',
+            },
+            min: 0,
+            max: 50,
+          },
+          y2: {
+            type: 'linear',
+            position: 'right',
+            title: {
+              display: true,
+              text: 'Umidade (%)',
+            },
+            min: 0,
+            max: 100,
+            grid: {
+              drawOnChartArea: false,
+            },
+          },
+        },
+      },
+    });
+  }
 
-    function generateData() {
-        const currentTemp = (Math.random() * 20 + 15).toFixed(1);
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  // Chama o gráfico quando a página carregar
+  window.onload = montarGrafico;
 
-        historyData.unshift({
-            time: timeStr,
-            temp: parseFloat(currentTemp)
-        });
-
-        if (historyData.length > 24) {
-            historyData.pop();
-        }
-
-        updateChart();
-    }
-
-    function updateChart() {
-        const labels = historyData.map(entry => entry.time).reverse();
-        const tempData = historyData.map(entry => entry.temp).reverse();
-
-        tempChart.data.labels = labels;
-        tempChart.data.datasets[0].data = tempData;
-        tempChart.update();
-    }
-
-    // Inicializar
-    initChart();
-    generateData(); // Primeira leitura
-    setInterval(generateData, 5000);
-});
+  // Atualiza a cada 5 minutos (300000ms)
+  setInterval(montarGrafico, 60000);

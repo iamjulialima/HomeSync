@@ -60,3 +60,17 @@ db.run(`CREATE TABLE IF NOT EXISTS portao (
     console.log('Tabela portao verificada/criada com sucesso.');
   }
 });
+
+// Criação tabela temperatura
+db.run(`CREATE TABLE IF NOT EXISTS temperatura (
+  cod_temperatura INTEGER PRIMARY KEY AUTOINCREMENT,
+  temperatura REAL NOT NULL,
+  umidade REAL NOT NULL,
+  data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`, (err) => {
+  if (err){
+    console.error('Erro ao criar tabela portao:', err.message);
+  } else {
+    console.log('Tabela portao verificada/criada com sucesso.');
+  }
+});

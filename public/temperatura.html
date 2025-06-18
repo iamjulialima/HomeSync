@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HomeSync - Temperatura</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/temperatura.css">
-    <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/temperatura.css" />
+    <link rel="icon" href="imagens/favicon.ico" type="image/x-icon" />
+    <!-- Importante: Chart.js para o gráfico -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-50 font-sans">
 
@@ -16,7 +17,7 @@
 
         <!-- Perfil mobile no topo -->
         <div class="mobile-profile">
-            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="mobile-profile-img">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="mobile-profile-img" />
         </div>
 
         <!-- Sidebar (oculta em mobile) -->
@@ -67,7 +68,7 @@
 
             <div class="user-profile">
                 <div class="profile">
-                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="profile-img">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="profile-img" />
                     <div class="profile-info">
                         <h4 id="nome-usuario">Carregando...</h4>
                         <p>Administrador</p>
@@ -76,115 +77,127 @@
             </div>
         </div>
 
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="container mx-auto px-4 py-8 max-w-6xl">
 
-    <!-- Header -->
-    <header class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">
-            <i class="fas fa-thermometer-half mr-2" style="color: blue;"></i>
-            Temperatura
-        </h1>
-    </header>
+            <!-- Header -->
+            <header class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-thermometer-half mr-2" style="color: blue;"></i>
+                    Temperatura
+                </h1>
+            </header>
 
-    <!-- Tabs de Navegação -->
-    <div class="flex overflow-x-auto mb-8 border-b border-gray-200">
-        <button class="tab-btn px-6 py-3 text-sm font-medium" data-tab="lights">
-            <i class="fas fa-thermometer-half mr-1"></i> Temperatura
-        </button>
-    </div>
+            <!-- Tabs de Navegação -->
+            <div class="flex overflow-x-auto mb-8 border-b border-gray-200">
+                <button class="tab-btn px-6 py-3 text-sm font-medium" data-tab="lights">
+                    <i class="fas fa-thermometer-half mr-1"></i> Temperatura
+                </button>
+            </div>
 
-    <!-- Main content -->
-    <main class="flex-1 p-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <div class="dashboard-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center transition duration-300 ease-in-out">
-                    <div class="flex items-center mb-8">
-                        <i class="fas fa-temperature-high text-2xl text-red-500 mr-2"></i>
-                        <h2 class="text-4xl font-semibold text-gray-700">Temperatura</h2>
-                    </div>
-                    <div class="gauge-container mb-4">
-                        <div class="gauge-body"></div>
-                        <div class="gauge-arrow" id="temp-arrow"></div>
-                        <div class="gauge-cover w-24 h-24 rounded-full border-4 border-blue-200 flex items-center justify-center">
-                            <span id="temp-value" class="text-4xl font-bold">0ºC</span>
+            <!-- Main content -->
+            <main class="flex-1 p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <div
+                        class="dashboard-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center transition duration-300 ease-in-out"
+                    >
+                        <div class="flex items-center mb-8">
+                            <i class="fas fa-temperature-high text-2xl text-red-500 mr-2"></i>
+                            <h2 class="text-4xl font-semibold text-gray-700">Temperatura</h2>
+                        </div>
+                        <div class="gauge-container mb-4">
+                            <div class="gauge-body"></div>
+                            <div class="gauge-arrow" id="temp-arrow"></div>
+                            <div class="gauge-cover w-40 h-40 rounded-full border-4 border-blue-200 flex items-center justify-center">
+                                <span id="temp-value" class="text-4xl font-bold">0ºC</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-span-1 lg:col-span-2 bg-white rounded-xl shadow-md p-6">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-chart-line text-2xl text-red-500 mr-2"></i>
-                        <h2 class="text-xl font-semibold text-gray-700">Gráfico de Temperatura</h2>
+                    <div class="col-span-1 lg:col-span-2 bg-white rounded-xl shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-chart-line text-2xl text-red-500 mr-2"></i>
+                            <h2 class="text-xl font-semibold text-gray-700">Gráfico de Temperatura</h2>
+                        </div>
+                        <div class="relative w-full h-[300px]">
+                        <canvas id="temperature-chart" class="absolute top-0 left-0 w-full h-full"></canvas>
+                        </div>
+
                     </div>
-                   <canvas id="temperature-chart" class="w-full max-w-xl mx-auto"></canvas>
                 </div>
-            </div>
 
-            <!-- Histórico abaixo dos dois -->
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Histórico de Temperaturas</h2>
-            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Temperatura</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200" id="schedules-list">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">29º</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12/06/2025 09:30</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Histórico abaixo dos dois -->
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Histórico de Temperaturas</h2>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 max-h-64 overflow-y-auto">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Temperatura
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Umidade
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Data/Hora
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="schedules-list">
+                                <tr>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </main>
 
-    </main>
+            <!-- Mobile Navigation -->
+            <nav class="mobile-nav">
+                <ul class="mobile-nav-menu">
+                    <li class="mobile-nav-item">
+                        <a href="dashboard.html" class="mobile-nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#" class="mobile-nav-link active">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span>Temp</span>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="luzes.html" class="mobile-nav-link">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Luzes</span>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="portao.html" class="mobile-nav-link">
+                            <i class="fas fa-door-open"></i>
+                            <span>Portão</span>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="detectarGas.html" class="mobile-nav-link">
+                            <i class="fas fa-radiation"></i>
+                            <span>Gás</span>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#" class="mobile-nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Config</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav">
-        <ul class="mobile-nav-menu">
-            <li class="mobile-nav-item">
-                <a href="dashboard.html" class="mobile-nav-link">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="#" class="mobile-nav-link active">
-                    <i class="fas fa-thermometer-half"></i>
-                    <span>Temp</span>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="luzes.html" class="mobile-nav-link">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Luzes</span>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="portao.html" class="mobile-nav-link">
-                    <i class="fas fa-door-open"></i>
-                    <span>Portão</span>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="detectarGas.html" class="mobile-nav-link">
-                    <i class="fas fa-radiation"></i>
-                    <span>Gás</span>
-                </a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="#" class="mobile-nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Config</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Seu script JS principal -->
     <script src="js/temperatura.js"></script>
     <script src="js/javascript.js"></script>
 </body>

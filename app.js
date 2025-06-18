@@ -28,6 +28,10 @@ app.use('/api', luzesRoutes);
 const portaoRoutes = require('./routes/portaoRoutes');
 app.use('/api/portao', portaoRoutes);
 
+// Rotas temperatura
+const temperaturaRoutes = require('./routes/temperaturaRoutes');
+app.use('/api/temperatura', temperaturaRoutes);
+
 // Inicia o servidor
 app.listen(3000, () => {
   console.log('Servidor rodando em http://localhost:3000');
