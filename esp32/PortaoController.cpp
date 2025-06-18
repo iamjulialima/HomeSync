@@ -1,7 +1,9 @@
 #include "PortaoController.h"
 
-PortaoController::PortaoController(const char* ssid, const char* password, const char* servidorApi, int pinoServo)
-  : _ssid(ssid), _password(password), _servidorApi(servidorApi), _pinoServo(pinoServo), _ultimoComando("nenhum") {}
+PortaoController::PortaoController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, int pinoServo)
+  : _ssid(ssid), _password(password), _pinoServo(pinoServo), _ultimoComando("nenhum") {
+  _servidorApi = String(servidorBase) + endpoint;
+}
 
 void PortaoController::begin() {
   Serial.begin(115200);
@@ -18,20 +20,21 @@ void PortaoController::conectaWiFi() {
     delay(500);
     Serial.print(".");
   }
-  Serial.println("Conectado!");
+  Serial.println(" Conectado!");
 }
 
 void PortaoController::abrePortao() {
-  for (int ang = 0; ang <= 90; ang++) {
+  for (int ang = 60; ang <= 130; ang++) {
     _servoPortao.write(ang);
-    delay(15); 
+    delay(10); // controla a velocidade: maior = mais lento
   }
 }
 
+
 void PortaoController::fechaPortao() {
-  for (int ang = 90; ang >= 0; ang--) {
+  for (int ang = 130; ang >= 60; ang--) {
     _servoPortao.write(ang);
-    delay(15);
+    delay(10); // mesma ideia
   }
 }
 

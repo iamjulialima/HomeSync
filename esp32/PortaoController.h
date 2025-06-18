@@ -7,20 +7,21 @@
 
 class PortaoController {
   public:
-    PortaoController(const char* ssid, const char* password, const char* servidorApi, int pinoServo);
+    PortaoController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, int pinoServo);
     void begin();
-    void atualizar();  // deve ser chamada no loop
+    void atualizar();
+
   private:
     const char* _ssid;
     const char* _password;
-    const char* _servidorApi;
+    String _servidorApi;
     Servo _servoPortao;
     int _pinoServo;
     String _ultimoComando;
 
+    void conectaWiFi();
     void abrePortao();
     void fechaPortao();
-    void conectaWiFi();
     void verificaComando();
 };
 
