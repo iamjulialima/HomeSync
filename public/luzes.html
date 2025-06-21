@@ -100,183 +100,19 @@
 
         <!-- Tab das Luzes (dashboard de Ligar/Desligar) -->
         <div id="lights" class="tab-content active">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- LUZ - Sala de Estar (yellow) -->
-                <div class="light-card bg-white rounded-xl shadow-md p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold text-lg text-gray-800">Sala de Estar</h3>
-                        <!-- botao de ligar/desligar -->
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                        </label>
-                    </div>
-                    <div class="flex justify-center mb-6">
-                        <div class="w-24 h-24 rounded-full bg-yellow-200 flex items-center justify-center shadow-inner" id="light-bulb-1">
-                            <i class="fas fa-lightbulb text-yellow-400 text-4xl"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
-                      
-                    </div>
-                    <div class="flex justify-between intensity-slider w-full" id="intensity-1">
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium" id="intensity-value-1">Leve</button>
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
-                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Forte</button>
-                    </div>
-                    <div class="mt-4 flex justify-end">
-                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
-                            <i class="fas fa-edit mr-1"></i> Editar
-                        </button>
-                        <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
-                            <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
-                        </button>
-                    </div>
-                </div>
+        <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards são inseridos aqui via JS -->
 
-                <!-- LUZ - Quarto (Blue) -->
-                <div class="light-card bg-white rounded-xl shadow-md p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold text-lg text-gray-800">Quarto</h3>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                        </label>
-                    </div>
-                    <div class="flex justify-center mb-6">
-                        <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center shadow-inner" id="light-bulb-2">
-                            <i class="fas fa-lightbulb text-gray-400 text-4xl"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
-                        
-                    </div>
-                    <div class="flex justify-between intensity-slider w-full" id="intensity-2">
-                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium" id="intensity-value-2">Leve</button>
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Forte</button>
-                    </div>
-                    <div class="mt-4 flex justify-end">
-                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
-                            <i class="fas fa-edit mr-1"></i> Editar
-                        </button>
-                        <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
-                            <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
-                        </button>
-                    </div>
-                </div>
-
-                <!-- LUZ - Cozinha (Red) -->
-                <div class="light-card bg-white rounded-xl shadow-md p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold text-lg text-gray-800">Cozinha</h3>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                        </label>
-                    </div>
-                    <div class="flex justify-center mb-6">
-                        <div class="w-24 h-24 rounded-full bg-yellow-100 flex items-center justify-center shadow-inner" id="light-bulb-3">
-                            <i class="fas fa-lightbulb text-yellow-300 text-4xl"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
-                       
-                    </div>
-                    <div class="flex justify-between intensity-slider w-full" id="intensity-3">
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium" id="intensity-value-3">Leve</button>
-                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Média</button>
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Forte</button>
-                    </div>
-                    <div class="mt-4 flex justify-end">
-                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
-                            <i class="fas fa-edit mr-1"></i> Editar
-                        </button>
-                        <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
-                            <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
-                        </button>
-                    </div>
-                </div>
-
-                <!-- LUZ - Sacada Inferior -->
-                <div class="light-card bg-white rounded-xl shadow-md p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold text-lg text-gray-800">Sacada Inferior</h3>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                        </label>
-                    </div>
-                    <div class="flex justify-center mb-6">
-                        <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center shadow-inner" id="light-bulb-4">
-                            <i class="fas fa-lightbulb text-gray-400 text-4xl"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
-                        
-                    </div>
-                    <div class="flex justify-between intensity-slider w-full" id="intensity-4">
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium" id="intensity-value-4">Leve</button>
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Forte</button>
-                    </div>
-                    <div class="mt-4 flex justify-end">
-                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
-                            <i class="fas fa-edit mr-1"></i> Editar
-                        </button>
-                        <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
-                            <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
-                        </button>
-                    </div>
-                </div>
-
-                <!-- LUZ - Sacada Superior -->
-                <div class="light-card bg-white rounded-xl shadow-md p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold text-lg text-gray-800">Sacada Superior</h3>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                        </label>
-                    </div>
-                    <div class="flex justify-center mb-6">
-                        <div class="w-24 h-24 rounded-full bg-yellow-50 flex items-center justify-center shadow-inner" id="light-bulb-5">
-                            <i class="fas fa-lightbulb text-yellow-200 text-4xl"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
-                        
-                    </div>
-                    <div class="flex justify-between intensity-slider w-full" id="intensity-5">
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium" id="intensity-value-5">Leve</button>
-                        <button class="intensity-preset px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Média</button>
-                        <button class="intensity-preset px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Forte</button>
-                    </div>
-                    <div class="mt-4 flex justify-end">
-                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
-                            <i class="fas fa-edit mr-1"></i> Editar
-                        </button>
-                        <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
-                            <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Add LUZ -->
-                <div class="light-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-blue-400 cursor-pointer" id="add-light">
-                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                        <i class="fas fa-plus text-gray-400 text-2xl"></i>
-                    </div>
-                    <h3 class="font-semibold text-lg text-gray-700">Adicionar Luz</h3>
-                </div>
+            <!-- Card fixo de adicionar nova luz -->
+            <div class="light-card bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-blue-400 cursor-pointer" id="add-light">
+            <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                <i class="fas fa-plus text-gray-400 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold text-lg text-gray-700">Adicionar Luz</h3>
             </div>
         </div>
+        </div>
+
 
 
         <!-- Tab da Programação -->

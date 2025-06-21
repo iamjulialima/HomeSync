@@ -28,6 +28,71 @@
 
 
 
+        // função de cards dinamico
+
+        document.addEventListener("DOMContentLoaded", async () => {
+        const container = document.getElementById("cards-container");
+        const addCard = document.getElementById("add-light");
+
+        try {
+            const res = await fetch("/api/luzes");
+            const luzes = await res.json();
+
+            luzes.forEach((luz) => {
+            const isOn = luz.estado === 'ligado';
+            const intensidadeAtual = luz.intensidade.toLowerCase();
+            const cor = isOn ? 'yellow' : 'gray';
+            const iconeCor = isOn ? 'text-yellow-400' : 'text-gray-400';
+
+            const cardHTML = `
+                <div class="light-card bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-lg text-gray-800">${luz.nome}</h3>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" ${isOn ? 'checked' : ''}>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+                <div class="flex justify-center mb-6">
+                    <div class="w-24 h-24 rounded-full bg-${cor}-100 flex items-center justify-center shadow-inner">
+                    <i class="fas fa-lightbulb ${iconeCor} text-4xl"></i>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
+                </div>
+                <div class="flex justify-between intensity-slider w-full">
+                    ${['leve', 'media', 'forte'].map(nivel => `
+                    <button class="intensity-preset px-3 py-1 ${nivel === intensidadeAtual ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'} rounded text-sm font-medium">
+                        ${nivel.charAt(0).toUpperCase() + nivel.slice(1)}
+                    </button>
+                    `).join('')}
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
+                    <i class="fas fa-edit mr-1"></i> Editar
+                    </button>
+                    <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
+                    <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
+                    </button>
+                </div>
+                </div>
+            `;
+
+            // Inserir o card antes do botão "Adicionar"
+            addCard.insertAdjacentHTML("beforebegin", cardHTML);
+            });
+        } catch (err) {
+            console.error("Erro ao carregar luzes:", err);
+            container.innerHTML = `<p class="text-red-500">Erro ao carregar luzes</p>`;
+        }
+        });
+
+
+
+
+
+
         //aqui se mexe com o ligar e desligar 
 
 

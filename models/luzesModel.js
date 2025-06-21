@@ -7,6 +7,15 @@ const getTodasLuzes = (callback) => {
   });
 };
 
+function atualizarLuz(cod_luz, estado, intensidade, callback) {
+  const sql = `UPDATE luzesStatus SET estado = ?, intensidade = ? WHERE cod_luz = ?`;
+  db.run(sql, [estado, intensidade, cod_luz], function(err) {
+    if (err) return callback(err);
+    callback(null);
+  });
+}
+
 module.exports = {
   getTodasLuzes,
+  atualizarLuz
 };
