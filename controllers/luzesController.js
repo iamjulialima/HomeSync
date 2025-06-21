@@ -1,7 +1,5 @@
 const luzesModel = require('../models/luzesModel');
 const express = require('express');
-const router = express.Router();//nao deveria estar aqui
-const db = require('../database/db'); // conexão SQLite
 
 const listarLuzes = (req, res) => {
   luzesModel.getTodasLuzes((err, luzes) => {
@@ -12,15 +10,22 @@ const listarLuzes = (req, res) => {
   });
 };
 
-// isso esta errado e deve ser consertado
-router.get('/api/luzes', (req, res) => {
-  db.all('SELECT * FROM luzes', [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
+
+//atualizar luz front intensidade e ligar/desligar
+const  atualizarLuz = (req, res) => {
+  const id = req.params.id;
+  const { estado, intensidade } = req.body;
+
+  luzesModel.atualizarLuz(id, estado, intensidade, (err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erro ao atualizar luz' });
+    }
+    res.status(200).json({ message: 'Luz atualizada com sucesso' });
   });
-});
+}
+
 
 module.exports = {
   listarLuzes,
-  router,
+  atualizarLuz,
 };

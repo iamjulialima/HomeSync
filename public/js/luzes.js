@@ -16,7 +16,6 @@
             });
         });
 
-
         //função para destaque de abas
         const tabs = document.querySelectorAll('.tab-btn');
         tabs.forEach(tab => {
@@ -26,7 +25,7 @@
             });
         });
 
-
+// -------------------------------------------------------------------------------------------------------------
 
         // função de cards dinamico
 
@@ -45,7 +44,7 @@
             const iconeCor = isOn ? 'text-yellow-400' : 'text-gray-400';
 
             const cardHTML = `
-                <div class="light-card bg-white rounded-xl shadow-md p-6">
+                <div class="light-card bg-white rounded-xl shadow-md p-6" data-id="${luz.cod_luz}">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-semibold text-lg text-gray-800">${luz.nome}</h3>
                     <label class="relative inline-flex items-center cursor-pointer">
@@ -54,9 +53,10 @@
                     </label>
                 </div>
                 <div class="flex justify-center mb-6">
-                    <div class="w-24 h-24 rounded-full bg-${cor}-100 flex items-center justify-center shadow-inner">
-                    <i class="fas fa-lightbulb ${iconeCor} text-4xl"></i>
+                    <div class="w-24 h-24 rounded-full bg-${cor}-100 flex items-center justify-center shadow-inner" id="light-bulb-${luz.cod_luz}">
+                        <i class="fas fa-lightbulb ${iconeCor} text-4xl"></i>
                     </div>
+
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
@@ -82,6 +82,9 @@
             // Inserir o card antes do botão "Adicionar"
             addCard.insertAdjacentHTML("beforebegin", cardHTML);
             });
+
+            inicializarEventosDosCards();
+
         } catch (err) {
             console.error("Erro ao carregar luzes:", err);
             container.innerHTML = `<p class="text-red-500">Erro ao carregar luzes</p>`;
@@ -89,92 +92,148 @@
         });
 
 
+        //inicializar cards antes de checar eventos
+        function inicializarEventosDosCards() {
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', async () => {
+            const card = toggle.closest('.light-card');
+            const cod_luz = card.dataset.id;
+            const estado = toggle.checked ? 'ligado' : 'desligado';
+            const intensidade = getIntensidadeAtual(card);
 
+            console.log("ID da luz sendo atualizado:", cod_luz); // 👈 agora isso deve aparecer
+
+            atualizarVisualLampada(card, estado, intensidade);
+
+            await fetch(`/api/luzes/${cod_luz}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado, intensidade })
+            });
+            });
+        });
+
+        document.querySelectorAll('.intensity-preset').forEach(button => {
+            button.addEventListener('click', async (e) => {
+            const card = button.closest('.light-card');
+            const cod_luz = card.dataset.id;
+
+            // Visual
+            card.querySelectorAll('.intensity-preset').forEach(btn => {
+                btn.classList.remove('bg-blue-100', 'text-blue-700');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            button.classList.add('bg-blue-100', 'text-blue-700');
+            button.classList.remove('bg-gray-100', 'text-gray-700');
+
+            const intensidade = button.textContent.trim().toLowerCase();
+            const estado = card.querySelector('input[type="checkbox"]').checked ? 'ligado' : 'desligado';
+
+            console.log("ID da luz sendo atualizado:", cod_luz); // 👈 aqui também
+
+            atualizarVisualLampada(card, estado, intensidade);
+
+            await fetch(`/api/luzes/${cod_luz}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado, intensidade })
+            });
+            });
+        });
+        }
 
 
 
         //aqui se mexe com o ligar e desligar 
 
-
         // Luzes toggle alternar entre ligado/ desligado
-        const lightToggles = document.querySelectorAll('input[type="checkbox"]');
-        lightToggles.forEach((toggle, index) => {
-            toggle.addEventListener('change', () => {
-                const lightBulb = document.getElementById(`light-bulb-${index + 1}`);
-                if (toggle.checked) {
-                    lightBulb.classList.remove('bg-gray-200');
-                    lightBulb.classList.add('bg-yellow-200');
-                    lightBulb.querySelector('i').classList.remove('text-gray-400');
-                    lightBulb.querySelector('i').classList.add('text-yellow-400');
-                } else {
-                    lightBulb.classList.remove('bg-yellow-200', 'bg-yellow-100', 'bg-yellow-50');
-                    lightBulb.classList.add('bg-gray-200');
-                    lightBulb.querySelector('i').classList.remove('text-yellow-400', 'text-yellow-300', 'text-yellow-200');
-                    lightBulb.querySelector('i').classList.add('text-gray-400');
-                }
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+        toggle.addEventListener('change', async () => {
+            const card = toggle.closest('.light-card');
+            const cod_luz = card.dataset.id;
+            console.log("ID da luz sendo atualizado:", cod_luz);
+
+            const estado = toggle.checked ? 'ligado' : 'desligado';
+            const intensidade = getIntensidadeAtual(card);
+
+            atualizarVisualLampada(card, estado, intensidade);
+
+
+            await fetch(`/api/luzes/${cod_luz}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ estado, intensidade })
             });
         });
-
+        });
 
 
         // Intensity botões que alteram a cor da lampada
-        const intensityButtons = document.querySelectorAll('.intensity-preset');
-        intensityButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                // Remove classe ativa de todos os botões no mesmo cartão
-                const cardButtons = e.target.closest('.light-card').querySelectorAll('.intensity-preset');
-                cardButtons.forEach(btn => {
-                    btn.classList.remove('bg-blue-100', 'text-blue-700');
-                    btn.classList.add('bg-gray-100', 'text-gray-700');
-                });
+        document.querySelectorAll('.intensity-preset').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const card = button.closest('.light-card');
+            const cod_luz = card.dataset.id;
 
-                // Adiciona classe ativa ao botão clicado
-                e.target.classList.remove('bg-gray-100', 'text-gray-700');
-                e.target.classList.add('bg-blue-100', 'text-blue-700');
-
-                // Descobre qual é o card (lâmpada) clicado
-                const card = e.target.closest('.light-card');
-                const cards = document.querySelectorAll('.light-card');
-                const cardIndex = Array.from(cards).indexOf(card);
-                const lightBulb = document.getElementById(`light-bulb-${cardIndex + 1}`);
-
-                // Define intensidade com base no texto do botão
-                let value = 0;
-                const text = e.target.textContent.trim();
-
-                if (text === 'Leve') {
-                    value = 30;
-                } else if (text === 'Média') {
-                    value = 60;
-                } else if (text === 'Forte') {
-                    value = 100;
-                }
-
-                // Aplica a lógica de visual da lâmpada diretamente
-                if (value > 0) {
-                    lightBulb.querySelector('i').classList.remove('text-gray-400');
-
-                    if (value <= 30) {
-                        lightBulb.classList.remove('bg-yellow-200', 'bg-yellow-100');
-                        lightBulb.classList.add('bg-yellow-50');
-                        lightBulb.querySelector('i').classList.remove('text-yellow-400', 'text-yellow-300');
-                        lightBulb.querySelector('i').classList.add('text-yellow-200');
-                    } else if (value <= 70) {
-                        lightBulb.classList.remove('bg-yellow-200', 'bg-yellow-50');
-                        lightBulb.classList.add('bg-yellow-100');
-                        lightBulb.querySelector('i').classList.remove('text-yellow-400', 'text-yellow-200');
-                        lightBulb.querySelector('i').classList.add('text-yellow-300');
-                    } else {
-                        lightBulb.classList.remove('bg-yellow-100', 'bg-yellow-50');
-                        lightBulb.classList.add('bg-yellow-200');
-                        lightBulb.querySelector('i').classList.remove('text-yellow-300', 'text-yellow-200');
-                        lightBulb.querySelector('i').classList.add('text-yellow-400');
-                    }
-                }
+            // Troca visual do botão
+            card.querySelectorAll('.intensity-preset').forEach(btn => {
+            btn.classList.remove('bg-blue-100', 'text-blue-700');
+            btn.classList.add('bg-gray-100', 'text-gray-700');
             });
+            button.classList.add('bg-blue-100', 'text-blue-700');
+            button.classList.remove('bg-gray-100', 'text-gray-700');
+
+            const intensidade = button.textContent.trim().toLowerCase();
+            const estado = card.querySelector('input[type="checkbox"]').checked ? 'ligado' : 'desligado';
+
+            atualizarVisualLampada(card, estado, intensidade);
+
+            await fetch(`/api/luzes/${cod_luz}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ estado, intensidade })
+            });
+        });
         });
 
 
+        //funçoes auxiliares de intensidade e ligar/ desligar luz 
+        function getIntensidadeAtual(card) {
+        const selecionado = card.querySelector('.intensity-preset.bg-blue-100');
+        return selecionado ? selecionado.textContent.trim().toLowerCase() : 'media';
+        }
+
+        function atualizarVisualLampada(card, estado, intensidade) {
+        const lightBulb = card.querySelector('[id^="light-bulb"]');
+        const icon = lightBulb?.querySelector('i');
+
+        if (!lightBulb || !icon) {
+            console.warn("Não foi possível atualizar a lâmpada: elementos não encontrados.");
+            return;
+        }
+
+        // Limpa estilos anteriores
+        lightBulb.classList.remove('bg-gray-200', 'bg-yellow-50', 'bg-yellow-100', 'bg-yellow-200');
+        icon.classList.remove('text-gray-400', 'text-yellow-200', 'text-yellow-300', 'text-yellow-400');
+
+        // Aplica novos estilos
+        if (estado === 'ligado') {
+            if (intensidade === 'leve') {
+            lightBulb.classList.add('bg-yellow-50');
+            icon.classList.add('text-yellow-200');
+            } else if (intensidade === 'media') {
+            lightBulb.classList.add('bg-yellow-100');
+            icon.classList.add('text-yellow-300');
+            } else {
+            lightBulb.classList.add('bg-yellow-200');
+            icon.classList.add('text-yellow-400');
+            }
+        } else {
+            lightBulb.classList.add('bg-gray-200');
+            icon.classList.add('text-gray-400');
+        }
+        }
+
+//---------------------------------------------------------------------------------------------------------------
 
         // Modal functionality
         const modals = document.querySelectorAll('.modal');
