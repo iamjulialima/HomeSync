@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações da Conta</title>
+    <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/configuracao.css">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="settings-container">
+            <div class="settings-header">
+                <h1>Configurações da Conta</h1>
+            </div>
+            
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h2>Informações Pessoais</h2>
+                    
+                    <div class="form-group">
+                        <label for="name">Nome</label>
+                        <input type="text" id="name" class="form-control" value="João Silva">
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2>Segurança</h2>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" class="form-control" value="joao@exemplo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="current-password">Senha Atual</label>
+                        <input type="password" id="current-password" class="form-control" placeholder="Digite sua senha atual">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new-password">Nova Senha</label>
+                        <input type="password" id="new-password" class="form-control" placeholder="Digite sua nova senha">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Confirmar Nova Senha</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="Confirme sua nova senha">
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="btn btn-primary">Atualizar E-mail/Senha</button>
+                        <button class="btn btn-outline">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/configuracao.js"></script>
+</body>
+</html>
