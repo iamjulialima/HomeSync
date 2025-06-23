@@ -155,3 +155,9 @@
 
   // Atualiza a cada 5 minutos (300000ms)
   setInterval(montarGrafico, 60000);
+
+  //btn logout
+function handleLogout() {
+  localStorage.removeItem('cod_usuario'); 
+  window.location.href = 'login.html';    
+}

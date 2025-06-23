@@ -65,14 +65,14 @@
             </ul>
 
             <div class="user-profile">
-                <div class="profile">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <div class="profile-info">
-                        <h4 id="nome-usuario">Carregando...</h4>
-                        <p>Sair do perfil</p>
-                    </div>
-                </div>
-            </div>
+                <button onclick="handleLogout()" class="profile flex items-center gap-2 text-left w-full hover:bg-red-50 p-2 rounded transition">
+                  <i class="fas fa-sign-out-alt text-red-600 text-lg"></i>
+                  <div class="profile-info">
+                    <h4 id="nome-usuario" class="font-semibold text-gray-800">Carregando...</h4>
+                    <p class="text-sm text-red-500">Sair do perfil</p>
+                  </div>
+                </button>
+              </div>
         </div>
 
    
@@ -257,5 +257,6 @@
     </nav>
     
     <script src="js/javascript.js"></script>
+    <script src="js/detectargas.js"></script>
 </body>
 </html>

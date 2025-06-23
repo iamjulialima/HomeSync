@@ -117,7 +117,11 @@ async function carregarHistorico() {
 // Chama a função ao carregar a página
 document.addEventListener('DOMContentLoaded', carregarHistorico);
 
-
+//btn logout
+function handleLogout() {
+    localStorage.removeItem('cod_usuario'); 
+    window.location.href = 'login.html';    
+  }
 
 
 
