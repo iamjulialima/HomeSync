@@ -1,52 +1,99 @@
+const apiBase = "http://localhost:3000/api";
+const cod_usuario = localStorage.getItem('cod_usuario');
+
 document.addEventListener('DOMContentLoaded', () => {
-    const salvarNomeBtn = document.querySelector('.settings-section:nth-of-type(1) .btn-primary');
-    const atualizarSegurancaBtn = document.querySelector('.settings-section:nth-of-type(2) .btn-primary');
-  
-    // Atualizar nome
-    salvarNomeBtn.addEventListener('click', () => {
-      const nome = document.getElementById('name').value;
-      const cod_usuario = localStorage.getItem('cod_usuario');
-  
-      fetch('http://localhost:3000/usuario/atualizar-nome', {
-        method: 'PUT',
+  console.log("ID do usuário carregado:", cod_usuario);
+
+  if (!cod_usuario) {
+    alert("Usuário não identificado. Faça login novamente.");
+    return;
+  }
+
+  carregarDadosUsuario();
+
+  const salvarDadosBtn = document.querySelector('.settings-section .btn-primary');
+  const atualizarSenhaBtn = document.querySelectorAll('.settings-section .btn-primary')[1];
+
+  salvarDadosBtn.addEventListener('click', async () => {
+    const nome = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+
+    if (!nome || !email) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiBase}/atualizarDados`, {
+        method: "PUT",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cod_usuario, nome })
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert(data.mensagem || 'Nome atualizado com sucesso');
-      })
-      .catch(err => {
-        console.error('Erro:', err);
-        alert('Erro ao atualizar nome');
+        body: JSON.stringify({ id: cod_usuario, nome, email })
       });
-    });
-  
-    // Atualizar email/senha
-    atualizarSegurancaBtn.addEventListener('click', () => {
-      const email = document.getElementById('email').value;
-      const senhaAtual = document.getElementById('current-password').value;
-      const novaSenha = document.getElementById('new-password').value;
-      const confirmarSenha = document.getElementById('confirm-password').value;
-      const cod_usuario = localStorage.getItem('cod_usuario');
-  
-      if (novaSenha !== confirmarSenha) {
-        return alert('As senhas não coincidem');
+
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.mensagem);
+      } else {
+        alert("Erro: " + data.erro);
       }
-  
-      fetch('http://localhost:3000/usuario/atualizar-seguranca', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cod_usuario, email, senhaAtual, novaSenha })
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert(data.mensagem || 'Email e/ou senha atualizados com sucesso');
-      })
-      .catch(err => {
-        console.error('Erro:', err);
-        alert('Erro ao atualizar segurança');
-      });
-    });
+    } catch (error) {
+      console.error("Erro ao atualizar dados:", error);
+    }
   });
-  
+
+  atualizarSenhaBtn.addEventListener('click', async () => {
+    const senhaAtual = document.getElementById('current-password').value;
+    const novaSenha = document.getElementById('new-password').value;
+    const confirmarSenha = document.getElementById('confirm-password').value;
+
+    if (!senhaAtual || !novaSenha || !confirmarSenha) {
+      alert("Preencha todos os campos de senha!");
+      return;
+    }
+
+    if (novaSenha !== confirmarSenha) {
+      alert("A nova senha e a confirmação não coincidem!");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiBase}/atualizarSenha`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: cod_usuario, senhaAtual, novaSenha })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.mensagem);
+        document.getElementById('current-password').value = '';
+        document.getElementById('new-password').value = '';
+        document.getElementById('confirm-password').value = '';
+      } else {
+        alert("Erro: " + data.erro);
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar senha:", error);
+    }
+  });
+});
+
+async function carregarDadosUsuario() {
+  console.log("Buscando dados do usuário com ID:", cod_usuario);
+
+  try {
+    const response = await fetch(`${apiBase}/usuario/${cod_usuario}`);
+    const usuario = await response.json();
+
+    if (response.ok) {
+      console.log("Dados recebidos:", usuario);
+      document.getElementById('name').value = usuario.nome;
+      document.getElementById('email').value = usuario.email;
+    } else {
+      console.error("Erro ao buscar dados:", usuario.erro);
+    }
+  } catch (err) {
+    console.error("Erro ao carregar dados do usuário:", err);
+  }
+}

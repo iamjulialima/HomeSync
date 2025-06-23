@@ -28,8 +28,36 @@ const atualizarSenha = (email, novaSenha, callback) => {
   });
 };
 
+const atualizarUsuario = (id, novoNome, novoEmail, callback) => {
+  const query = 'UPDATE usuario SET nome = ?, email = ? WHERE cod_usuario = ?';
+  db.run(query, [novoNome, novoEmail, id], function (err) {
+    callback(err);
+  });
+};
+
+const atualizarSenhaPorId = (id, novaSenha, callback) => {
+  const query = 'UPDATE usuario SET senha = ? WHERE cod_usuario = ?';
+  db.run(query, [novaSenha, id], function (err) {
+    callback(err);
+  });
+};
+
+const buscarUsuarioPorId = (id, callback) => {
+  const query = 'SELECT * FROM usuario WHERE cod_usuario = ?';
+  db.get(query, [id], (err, row) => {
+    if (err) {
+      console.error('Erro ao buscar usuário:', err);
+    }
+    callback(err, row);
+  });
+};
+
+
 module.exports = {
   criarUsuario,
   buscarUsuarioPorEmail,
   atualizarSenha,
+  atualizarUsuario,
+  atualizarSenhaPorId,
+  buscarUsuarioPorId
 };
