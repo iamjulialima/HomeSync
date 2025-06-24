@@ -102,8 +102,8 @@ body {
     padding: 10px;
     border-radius: 8px;
     transition: all 0.3s ease;
+    gap: 20px;
 }
-
 .profile:hover {
     background-color: rgba(46, 134, 222, 0.1);
 }
@@ -127,6 +127,7 @@ body {
     font-size: 12px;
     color: var(--gray-medium);
 }
+
 
 /* Estilo para perfil no mobile (oculto por padrão) */
 .mobile-profile {

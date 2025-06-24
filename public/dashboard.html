@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomeSync - Dashboard</title>
     <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -49,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="configuracao.html" class="nav-link">
                         <i class="fas fa-cog"></i>
                         <span>Configurações</span>
                     </a>
@@ -57,14 +58,14 @@
             </ul>
 
             <div class="user-profile">
-                <div class="profile">
-                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="profile-img">
-                    <div class="profile-info">
-                        <h4 id="nome-usuario">Carregando...</h4>
-                        <p>Administrador</p>
-                    </div>
-                </div>
-            </div>
+                <button onclick="handleLogout()" class="profile flex items-center gap-2 text-left w-full hover:bg-red-50 p-2 rounded transition">
+                  <i class="fas fa-sign-out-alt text-red-600 text-lg"></i>
+                  <div class="profile-info">
+                    <h4 id="nome-usuario" class="font-semibold text-gray-800">Carregando...</h4>
+                    <p class="text-sm text-red-500">Sair do perfil</p>
+                  </div>
+                </button>
+              </div>
         </div>
 
         <!-- Perfil mobile no topo -->

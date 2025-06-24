@@ -1,5 +1,4 @@
-// JavaScript para funcionalidades adicionais
-        
+
         // Efeito de rolagem suave para links âncora
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
