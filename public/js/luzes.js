@@ -410,3 +410,9 @@
 
         window.addEventListener('resize', handleResize);
         handleResize();
+
+        //btn logout
+function handleLogout() {
+    localStorage.removeItem('cod_usuario'); 
+    window.location.href = 'login.html';    
+  } 
