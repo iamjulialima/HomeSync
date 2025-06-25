@@ -24,8 +24,27 @@ const  atualizarLuz = (req, res) => {
   });
 }
 
+const criarLuz = (req, res) => {
+  const { cod, nome, localizacao } = req.body;
+
+  if (!cod || !nome || !localizacao) {
+    return res.status(400).json({ erro: 'Dados incompletos.' });
+  }
+
+  const intensidade = 'media';
+  const estado = 'desligado';
+
+  luzesModel.criarLuz(cod, nome, localizacao, intensidade, estado, (err, novaLuz) => {
+    if (err) {
+      return res.status(500).json({ erro: 'Erro ao criar luz.' });
+    }
+
+    res.status(201).json(novaLuz);
+  });
+};
 
 module.exports = {
   listarLuzes,
   atualizarLuz,
+  criarLuz,
 };
