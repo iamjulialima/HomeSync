@@ -1,12 +1,34 @@
 let ultimoRegistroId = null;  // Controla o último dado recebido
 
-// Função para buscar os dados da API
+const cod_usuario = localStorage.getItem('cod_usuario');
+
+// Verifica se o usuário tem sensor de temperatura vinculado
+async function verificarSensor() {
+  try {
+    const response = await fetch(`/api/temperatura/sensor?cod_usuario=${cod_usuario}`);
+    const data = await response.json();
+
+    const aviso = document.getElementById('aviso-cadastro');
+    const conteudo = document.getElementById('conteudo-temperatura');
+
+    if (data.possuiSensor) {
+      aviso.classList.add('hidden');
+      conteudo.classList.remove('hidden');
+      montarGrafico(data.sensor.cod_sensor);  // Já passa o código do sensor pro gráfico
+    } else {
+      aviso.classList.remove('hidden');
+      conteudo.classList.add('hidden');
+    }
+  } catch (error) {
+    console.error('Erro ao verificar sensor:', error);
+  }
+}
+
+// Busca os dados da API
 async function buscarDados() {
   try {
-    const response = await fetch('/api/temperatura/ultimas?horas=2');
-    if (!response.ok) {
-      throw new Error('Erro ao buscar dados: ' + response.statusText);
-    }
+    const response = await fetch(`/api/temperatura/ultimas?horas=2&cod_usuario=${cod_usuario}`);
+    if (!response.ok) throw new Error('Erro ao buscar dados.');
     const dados = await response.json();
     return dados;
   } catch (error) {
@@ -22,24 +44,26 @@ function formatarData(dataStr) {
   return data.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-// Função que monta o gráfico e atualiza a tabela de histórico
-async function montarGrafico() {
+// Monta o gráfico e atualiza a tabela
+async function montarGrafico(cod_sensor) {
+  console.log('montarGrafico chamado com cod_sensor:', cod_sensor);
   const dados = await buscarDados();
-  if (dados.length === 0) return;
+ console.log('Dados recebidos:', dados);
+
+  if (dados.length === 0) {
+    console.log('Nenhum dado para mostrar');
+    return;
+  }
+
 
   const ultimo = dados[dados.length - 1];
-
-  // Se o último registro for igual ao anterior, não atualiza
   if (ultimoRegistroId === ultimo.data_hora) return;
-
   ultimoRegistroId = ultimo.data_hora;
 
-  // Atualiza a tabela de histórico
   const tbody = document.getElementById('schedules-list');
   tbody.innerHTML = '';
 
-  const limiteLinhas = 10;
-  const dadosLimitados = dados.slice(-limiteLinhas).reverse();
+  const dadosLimitados = dados.slice(-10).reverse();
 
   dadosLimitados.forEach((item) => {
     const tr = document.createElement('tr');
@@ -64,19 +88,13 @@ async function montarGrafico() {
     tr.appendChild(tdTemp);
     tr.appendChild(tdUmi);
     tr.appendChild(tdData);
-
     tbody.appendChild(tr);
   });
 
-  // Atualiza o valor do display da temperatura grande
-  const tempValue = document.getElementById('temp-value');
-  tempValue.textContent = `${ultimo.temperatura}ºC`;
+  document.getElementById('temp-value').textContent = `${ultimo.temperatura}ºC`;
 
-  // Monta o gráfico - destrói gráfico antigo se existir
   const ctx = document.getElementById('temperature-chart').getContext('2d');
-  if (window.graficoTemperatura) {
-    window.graficoTemperatura.destroy();
-  }
+  if (window.graficoTemperatura) window.graficoTemperatura.destroy();
 
   window.graficoTemperatura = new Chart(ctx, {
     type: 'line',
@@ -89,7 +107,6 @@ async function montarGrafico() {
           borderColor: 'red',
           backgroundColor: 'transparent',
           borderWidth: 2,
-          fill: false,
           tension: 0.1,
           pointRadius: 1,
           yAxisID: 'y1',
@@ -100,7 +117,6 @@ async function montarGrafico() {
           borderColor: 'blue',
           backgroundColor: 'transparent',
           borderWidth: 2,
-          fill: false,
           tension: 0.1,
           pointRadius: 1,
           yAxisID: 'y2',
@@ -111,57 +127,115 @@ async function montarGrafico() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          display: true,
-          position: 'top',
-        },
-        tooltip: {
-          enabled: true,
-        },
+        legend: { display: true, position: 'top' },
       },
       scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Hora',
-          },
-        },
+        x: { title: { display: true, text: 'Hora' } },
         y1: {
           type: 'linear',
           position: 'left',
-          title: {
-            display: true,
-            text: 'Temperatura (°C)',
-          },
+          title: { display: true, text: 'Temperatura (°C)' },
           min: 0,
           max: 50,
         },
         y2: {
           type: 'linear',
           position: 'right',
-          title: {
-            display: true,
-            text: 'Umidade (%)',
-          },
+          title: { display: true, text: 'Umidade (%)' },
           min: 0,
           max: 100,
-          grid: {
-            drawOnChartArea: false,
-          },
+          grid: { drawOnChartArea: false },
         },
       },
     },
   });
 }
 
-// Chama o gráfico quando a página carregar
-window.onload = montarGrafico;
+// Atualização automática
+let cod_sensorGlobal = null;
+setInterval(() => {
+  if (cod_sensorGlobal) montarGrafico(cod_sensorGlobal);
+}, 5000);
 
-// Atualiza automaticamente a cada 5 segundos
-setInterval(montarGrafico, 5000);
-
-// Botão de logout
+// Logout
 function handleLogout() {
   localStorage.removeItem('cod_usuario');
   window.location.href = 'index.html';
 }
+
+// Redireciona para cadastro de sensor
+function irParaCadastro() {
+  window.location.href = 'dashboard.html';
+}
+
+// Inicialização
+window.onload = async () => {
+  try {
+    const response = await fetch(`/api/temperatura/sensor?cod_usuario=${cod_usuario}`);
+    const data = await response.json();
+
+    const aviso = document.getElementById('aviso-cadastro');
+    const conteudo = document.getElementById('conteudo-temperatura');
+
+    if (data.possuiSensor) {
+      aviso.classList.add('hidden');
+      conteudo.classList.remove('hidden');
+      cod_sensorGlobal = data.sensor.cod_sensor;
+      montarGrafico(cod_sensorGlobal);
+    } else {
+      aviso.classList.remove('hidden');
+      conteudo.classList.add('hidden');
+    }
+  } catch (error) {
+    console.error('Erro ao verificar sensor:', error);
+  }
+};
+
+// Abre o modal
+function abrirModalTemperatura() {
+  document.getElementById('temp-modal').classList.add('show');
+  document.body.classList.add('overflow-hidden');
+}
+
+// Fecha o modal
+function fecharModalTemperatura() {
+  document.getElementById('temp-modal').classList.remove('show');
+  document.body.classList.remove('overflow-hidden');
+}
+
+// Abre o modal ao clicar no card de adicionar
+document.getElementById('add-temp').addEventListener('click', abrirModalTemperatura);
+
+// Eventos dos botões de fechar
+document.querySelectorAll('#temp-modal .close-modal').forEach((btn) => {
+  btn.addEventListener('click', fecharModalTemperatura);
+});
+
+// Botão de salvar o sensor
+document.getElementById('save-temp').addEventListener('click', async () => {
+  const cod = document.getElementById('temp-cod').value.trim();
+  const descricao = document.getElementById('temp-descricao').value.trim();
+  const cod_usuario = localStorage.getItem('cod_usuario');
+
+  if (!cod || !descricao) {
+    alert('Preencha todos os campos!');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/temperatura/sensor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo: cod, descricao, cod_usuario })
+    });
+
+    if (!response.ok) throw new Error('Erro ao salvar o sensor.');
+
+    alert('Sensor cadastrado com sucesso!');
+    fecharModalTemperatura();
+    location.reload();
+  } catch (error) {
+    console.error(error);
+    alert('Erro ao cadastrar o sensor.');
+  }
+});
