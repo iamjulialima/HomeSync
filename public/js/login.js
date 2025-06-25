@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   loginBtn.addEventListener('click', () => {
     container.classList.remove('active');
   });
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('cadastro') === 'true') {
+    container.classList.add('active');
+  }
 
   // Cadastro
   document.getElementById('cadastroForm').addEventListener('submit', async (e) => {

@@ -23,5 +23,5 @@ document.addEventListener('DOMContentLoaded', () => {
 //btn logout
 function handleLogout() {
   localStorage.removeItem('cod_usuario'); 
-  window.location.href = 'login.html';    
+  window.location.href = 'index.html';    
 }

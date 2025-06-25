@@ -100,5 +100,5 @@ setInterval(carregarDadosGas, 5000);
 
 function handleLogout() {
   localStorage.removeItem('cod_usuario');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 }
