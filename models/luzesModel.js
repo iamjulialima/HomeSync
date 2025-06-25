@@ -39,8 +39,21 @@ const criarLuz = (cod, nome, localizacao, intensidade, estado, callback) => {
   });
 };
 
+const removerLuz = (id, callback) => {
+  const sql = `DELETE FROM luzesStatus WHERE cod_luz = ?`;
+
+  db.run(sql, [id], function(err) {
+    if (err) {
+      console.error('Erro ao remover luz:', err.message);
+      return callback(err);
+    }
+    callback(null);
+  });
+};
+
 module.exports = {
   getTodasLuzes,
   atualizarLuz,
   criarLuz,
+  removerLuz,
 };

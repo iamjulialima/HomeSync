@@ -43,8 +43,21 @@ const criarLuz = (req, res) => {
   });
 };
 
+const removerLuz = (req, res) => {
+  const id = req.params.id;
+
+  luzesModel.removerLuz(id, (err) => {
+    if (err) {
+      return res.status(500).json({ erro: 'Erro ao remover luz.' });
+    }
+    res.status(200).json({ mensagem: 'Luz removida com sucesso.' });
+  });
+};
+
+
 module.exports = {
   listarLuzes,
   atualizarLuz,
   criarLuz,
+  removerLuz,
 };

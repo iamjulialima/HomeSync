@@ -62,7 +62,7 @@
                         <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
                             <i class="fas fa-edit mr-1"></i> Editar
                         </button>
-                        <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
+                        <button class="delete-light px-3 py-1 text-red-600 text-sm font-medium"> 
                             <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
                         </button>
                     </div>
@@ -102,6 +102,34 @@
             });
             });
         });
+        
+
+        // Botão deletar luz
+        document.querySelectorAll('.delete-light').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const card = e.target.closest('.light-card');
+                const cod_luz = card.dataset.id;
+
+                if (confirm('Tem certeza que deseja remover esta luz?')) {
+                    try {
+                        const resposta = await fetch(`/api/luzes/${cod_luz}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (resposta.ok) {
+                            card.remove(); // remove visualmente o card
+                        } else {
+                            alert('Erro ao remover luz.');
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert('Erro de conexão com o servidor.');
+                    }
+                }
+            });
+        });
+
 
         document.querySelectorAll('.intensity-preset').forEach(button => {
             button.addEventListener('click', async (e) => {
