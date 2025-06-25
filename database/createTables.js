@@ -74,3 +74,17 @@ db.run(`CREATE TABLE IF NOT EXISTS temperatura (
     console.log('Tabela portao verificada/criada com sucesso.');
   }
 });
+
+// Criação da tabela gás
+db.run(`CREATE TABLE IF NOT EXISTS gas (
+  cod_gas INTEGER PRIMARY KEY AUTOINCREMENT,
+  valor INTEGER NOT NULL,
+  status TEXT NOT NULL,
+  dataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`, (err) => {
+  if (err) {
+    console.error('Erro ao criar tabela gas:', err.message);
+  } else {
+    console.log('Tabela gas verificada/criada com sucesso.');
+  }
+});
