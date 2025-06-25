@@ -23,9 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
   atualizarTemperaturaDashboard();
 });
 
-// Atualiza automaticamente a cada 5 segundos
-setInterval(atualizarTemperaturaDashboard, 5000);
-
 // Função para buscar o último valor de temperatura
 // Função para buscar o último valor de temperatura e umidade
 async function atualizarTemperaturaDashboard() {
@@ -69,6 +66,51 @@ async function atualizarTemperaturaDashboard() {
     console.error(error);
   }
 }
+
+// Atualiza o status do Gás no Dashboard
+async function atualizarGasDashboard() {
+  try {
+    const response = await fetch('/api/gas/historico');
+    if (!response.ok) {
+      throw new Error('Erro ao buscar status do gás: ' + response.statusText);
+    }
+
+    const dados = await response.json();
+    if (!Array.isArray(dados) || dados.length === 0) return;
+
+    const statusAtual = dados[0].status; // Considera o mais recente
+    const gasElement = document.getElementById('status-gas-dashboard');
+    const statusIndicador = document.getElementById('status-gas-indicador');
+
+    if (statusAtual === 'vazamento') {
+      gasElement.textContent = 'Sim';
+      statusIndicador.textContent = 'Vazamento';
+      statusIndicador.classList.remove('status-on');
+      statusIndicador.classList.add('status-off');
+    } else {
+      gasElement.textContent = 'Não';
+      statusIndicador.textContent = 'Seguro';
+      statusIndicador.classList.remove('status-off');
+      statusIndicador.classList.add('status-on');
+    }
+
+  } catch (error) {
+    console.error('Erro ao atualizar status do gás:', error);
+  }
+}
+
+// No final do window.onload:
+window.onload = () => {
+  atualizarTemperaturaDashboard();
+  atualizarGasDashboard();
+};
+
+// Atualiza a temperatura e o status do gás a cada 5 segundos
+setInterval(() => {
+  atualizarTemperaturaDashboard();
+  atualizarGasDashboard();
+}, 5000);
+
 
 // btn logout
 function handleLogout() {
