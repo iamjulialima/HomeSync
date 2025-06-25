@@ -39,3 +39,7 @@ app.use('/api/temperatura', temperaturaRoutes);
 app.listen(3000, () => {
   console.log('Servidor rodando em http://localhost:3000');
 });
+
+//Gas
+const gasRoutes = require('./routes/gasRoutes');
+app.use('/api', gasRoutes);
