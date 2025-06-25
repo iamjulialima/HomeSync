@@ -1,4 +1,4 @@
-const API_URL = 'http://192.168.118.78:3000/api/gas/historico';
+const API_URL = 'http://localhost:3000/api/gas/historico';
 
 let ultimoHistoricoJSON = ''; 
 
