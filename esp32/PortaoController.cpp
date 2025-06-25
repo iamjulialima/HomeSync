@@ -24,7 +24,7 @@ void PortaoController::conectaWiFi() {
 }
 
 void PortaoController::abrePortao() {
-  for (int ang = 60; ang <= 130; ang++) {
+  for (int ang = 70; ang <= 160; ang++) {
     _servoPortao.write(ang);
     delay(10); // controla a velocidade: maior = mais lento
   }
@@ -32,7 +32,7 @@ void PortaoController::abrePortao() {
 
 
 void PortaoController::fechaPortao() {
-  for (int ang = 130; ang >= 60; ang--) {
+  for (int ang = 160; ang >= 70; ang--) {
     _servoPortao.write(ang);
     delay(10); // mesma ideia
   }

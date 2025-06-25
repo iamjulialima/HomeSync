@@ -58,24 +58,14 @@
                     </div>
 
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Intensidade</label>
-                </div>
-                <div class="flex justify-between intensity-slider w-full">
-                    ${['leve', 'media', 'forte'].map(nivel => `
-                    <button class="intensity-preset px-3 py-1 ${nivel === intensidadeAtual ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'} rounded text-sm font-medium">
-                        ${nivel.charAt(0).toUpperCase() + nivel.slice(1)}
-                    </button>
-                    `).join('')}
-                </div>
-                <div class="mt-4 flex justify-end">
-                    <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
-                    <i class="fas fa-edit mr-1"></i> Editar
-                    </button>
-                    <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
-                    <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
-                    </button>
-                </div>
+                    <div class="mt-4 flex justify-end">
+                        <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
+                            <i class="fas fa-edit mr-1"></i> Editar
+                        </button>
+                        <button class="edit-light px-3 py-1 text-red-600 text-sm font-medium"> 
+                            <i class="fas fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i> Remover
+                        </button>
+                    </div>
                 </div>
             `;
 
@@ -213,24 +203,24 @@
 
         // Limpa estilos anteriores
         lightBulb.classList.remove('bg-gray-200', 'bg-yellow-50', 'bg-yellow-100', 'bg-yellow-200');
-        icon.classList.remove('text-gray-400', 'text-yellow-200', 'text-yellow-300', 'text-yellow-400');
+            icon.classList.remove('text-gray-400', 'text-yellow-200', 'text-yellow-300', 'text-yellow-400');
 
-        // Aplica novos estilos
-        if (estado === 'ligado') {
-            if (intensidade === 'leve') {
-            lightBulb.classList.add('bg-yellow-50');
-            icon.classList.add('text-yellow-200');
-            } else if (intensidade === 'media') {
-            lightBulb.classList.add('bg-yellow-100');
-            icon.classList.add('text-yellow-300');
+            // Aplica novos estilos
+            if (estado === 'ligado') {
+                if (intensidade === 'leve') {
+                lightBulb.classList.add('bg-yellow-50');
+                icon.classList.add('text-yellow-200');
+                } else if (intensidade === 'media') {
+                lightBulb.classList.add('bg-yellow-100');
+                icon.classList.add('text-yellow-300');
+                } else {
+                lightBulb.classList.add('bg-yellow-200');
+                icon.classList.add('text-yellow-400');
+                }
             } else {
-            lightBulb.classList.add('bg-yellow-200');
-            icon.classList.add('text-yellow-400');
+                lightBulb.classList.add('bg-gray-200');
+                icon.classList.add('text-gray-400');
             }
-        } else {
-            lightBulb.classList.add('bg-gray-200');
-            icon.classList.add('text-gray-400');
-        }
         }
 
 //---------------------------------------------------------------------------------------------------------------
@@ -240,9 +230,15 @@
         const closeModalButtons = document.querySelectorAll('.close-modal');
 
         function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex'; // ok
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error(`Modal com id ${modalId} não encontrado.`);
+            }
         }
+
 
         function closeAllModals() {
             modals.forEach(modal => {
@@ -271,8 +267,9 @@
 
         addLightButton.addEventListener('click', () => {
             lightModalTitle.textContent = 'Adicionar Nova Luz';
-            document.getElementById('light-name').value = '';
-            document.getElementById('light-location').value = 'Sala de Estar';
+            document.getElementById('light-cod').value = '';
+            document.getElementById('light-nome').value = '';
+            document.getElementById('light-location').value = 'Térreo';
             openModal('light-modal');
         });
 
@@ -287,15 +284,54 @@
             });
         });
 
-        
 
-        saveLightButton.addEventListener('click', () => {
-            // Here you would save the light data to your backend
-            alert('Luz salva com sucesso!');
-            closeAllModals();
-        });
+// --------------------------------------------------------------------------------------------------------
 
-    
+
+        //botao salvar luz 
+        saveLightButton.addEventListener('click', async () => {
+        const codigo = document.getElementById('light-cod').value.trim();
+        const nome = document.getElementById('light-nome').value.trim();
+        const localizacao = document.getElementById('light-location').value;
+
+        if (!codigo || !nome || !localizacao) {
+            alert('Preencha todos os campos.');
+            return;
+        }
+
+        const novaLuz = {
+            cod: codigo,
+            estado: 'desligado',
+            nome: nome,
+            localizacao: localizacao,
+            intensidade: 'media'
+        };
+
+        try {
+            const resposta = await fetch('/api/luzesCriar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(novaLuz)
+            });
+
+            if (resposta.ok) {
+                const luzCriada = await resposta.json();
+                // Recarrega toda a lista para evitar inconsistências
+
+                alert('Luz Salva com Sucesso!');
+                window.location.reload();
+                closeAllModals();
+            } else {
+                alert('Erro ao salvar luz.');
+            }
+        } catch (error) {
+            alert('Erro de conexão com o servidor.');
+            console.error(error);
+        }
+    });
+
 
         // Schedule functionality
         const scheduleAction = document.getElementById('schedule-action');

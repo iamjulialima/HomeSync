@@ -19,7 +19,28 @@ const atualizarLuz = (id, estado, intensidade, callback) => {
   });
 }
 
+const criarLuz = (cod, nome, localizacao, intensidade, estado, callback) => {
+  const sql = `INSERT INTO luzesStatus (cod_luz, estado, nome, localizacao, intensidade)
+               VALUES (?, ?, ?, ?, ?)`;
+
+  db.run(sql, [cod, estado, nome, localizacao, intensidade], function(err) {
+    if (err) {
+      console.error('Erro ao criar nova luz:', err.message);
+      return callback(err);
+    }
+    const novaLuz = {
+      cod,
+      estado,
+      nome,
+      localizacao,
+      intensidade
+    };
+    callback(null, novaLuz);
+  });
+};
+
 module.exports = {
   getTodasLuzes,
   atualizarLuz,
+  criarLuz,
 };
