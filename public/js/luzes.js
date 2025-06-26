@@ -30,14 +30,22 @@
         // função de cards dinamico
 
         document.addEventListener("DOMContentLoaded", async () => {
-        const container = document.getElementById("cards-container");
-        const addCard = document.getElementById("add-light");
+    const container = document.getElementById("cards-container");
+    const addCard = document.getElementById("add-light");
 
-        try {
-            const res = await fetch("/api/luzes");
-            const luzes = await res.json();
+    const cod_usuario = localStorage.getItem('cod_usuario'); 
 
-            luzes.forEach((luz) => {
+    if (!cod_usuario) {
+        alert('Usuário não autenticado!');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const res = await fetch(`/api/luzes/${cod_usuario}`);
+        const luzes = await res.json();
+
+        luzes.forEach((luz) => {
             const isOn = luz.estado === 'ligado';
             const intensidadeAtual = luz.intensidade.toLowerCase();
             const cor = isOn ? 'yellow' : 'gray';
@@ -45,19 +53,18 @@
 
             const cardHTML = `
                 <div class="light-card bg-white rounded-xl shadow-md p-6" data-id="${luz.cod_luz}">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-semibold text-lg text-gray-800">${luz.nome}</h3>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" class="sr-only peer" ${isOn ? 'checked' : ''}>
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                    </label>
-                </div>
-                <div class="flex justify-center mb-6">
-                    <div class="w-24 h-24 rounded-full bg-${cor}-100 flex items-center justify-center shadow-inner" id="light-bulb-${luz.cod_luz}">
-                        <i class="fas fa-lightbulb ${iconeCor} text-4xl"></i>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-lg text-gray-800">${luz.nome}</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" ${isOn ? 'checked' : ''}>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
                     </div>
-
-                </div>
+                    <div class="flex justify-center mb-6">
+                        <div class="w-24 h-24 rounded-full bg-${cor}-100 flex items-center justify-center shadow-inner" id="light-bulb-${luz.cod_luz}">
+                            <i class="fas fa-lightbulb ${iconeCor} text-4xl"></i>
+                        </div>
+                    </div>
                     <div class="mt-4 flex justify-end">
                         <button class="edit-light px-3 py-1 text-blue-600 text-sm font-medium">
                             <i class="fas fa-edit mr-1"></i> Editar
@@ -69,17 +76,17 @@
                 </div>
             `;
 
-            // Inserir o card antes do botão "Adicionar"
             addCard.insertAdjacentHTML("beforebegin", cardHTML);
-            });
-
-            inicializarEventosDosCards();
-
-        } catch (err) {
-            console.error("Erro ao carregar luzes:", err);
-            container.innerHTML = `<p class="text-red-500">Erro ao carregar luzes</p>`;
-        }
         });
+
+        inicializarEventosDosCards();
+
+    } catch (err) {
+        console.error("Erro ao carregar luzes:", err);
+        container.innerHTML = `<p class="text-red-500">Erro ao carregar luzes</p>`;
+    }
+});
+
 
 
         //inicializar cards antes de checar eventos
@@ -88,6 +95,7 @@
             toggle.addEventListener('change', async () => {
             const card = toggle.closest('.light-card');
             const cod_luz = card.dataset.id;
+            const cod_usuario = localStorage.getItem('cod_usuario');
             const estado = toggle.checked ? 'ligado' : 'desligado';
             const intensidade = getIntensidadeAtual(card);
 
@@ -98,7 +106,7 @@
             await fetch(`/api/luzes/${cod_luz}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ estado, intensidade })
+                body: JSON.stringify({ estado, intensidade, cod_usuario})
             });
             });
         });
@@ -290,22 +298,20 @@
 
         //botao salvar luz 
         saveLightButton.addEventListener('click', async () => {
-        const codigo = document.getElementById('light-cod').value.trim();
         const nome = document.getElementById('light-nome').value.trim();
         const localizacao = document.getElementById('light-location').value;
+        const cod_usuario = localStorage.getItem('cod_usuario');
 
-        if (!codigo || !nome || !localizacao) {
+        if (!nome || !localizacao) {
             alert('Preencha todos os campos.');
             return;
         }
 
         const novaLuz = {
-            cod: codigo,
-            estado: 'desligado',
-            nome: nome,
-            localizacao: localizacao,
-            intensidade: 'media'
-        };
+            cod_usuario,
+            nome,
+            localizacao
+};
 
         try {
             const resposta = await fetch('/api/luzesCriar', {

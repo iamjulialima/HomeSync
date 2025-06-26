@@ -12,13 +12,15 @@ db.run(`CREATE TABLE IF NOT EXISTS usuario (
 });
 
 
-// Tabela de Luzes (podem ser compartilhadas)
+// Tabela de Luzes 
 db.run(`CREATE TABLE IF NOT EXISTS luzesStatus (
   cod_luz INTEGER PRIMARY KEY AUTOINCREMENT,
   estado TEXT NOT NULL,
   nome TEXT NOT NULL,
   localizacao TEXT NOT NULL,
-  intensidade TEXT NOT NULL
+  intensidade TEXT NOT NULL,
+  cod_usuario INTEGER,
+    FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario)
 )`, (err) => {
   if (err) console.error('Erro ao criar tabela luzesStatus:', err.message);
   else console.log('Tabela luzesStatus verificada/criada com sucesso.');

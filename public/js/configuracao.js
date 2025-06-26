@@ -24,18 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch(`${apiBase}/atualizarDados`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: cod_usuario, nome, email })
+      const response = await fetch(`${apiBase}/atualizarDados/${cod_usuario}`, {
+          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email })
       });
 
       const data = await response.json();
       if (response.ok) {
         alert(data.mensagem);
+        localStorage.setItem('nome_usuario', nome);
       } else {
         alert("Erro: " + data.erro);
-      }
+      } 
     } catch (error) {
       console.error("Erro ao atualizar dados:", error);
     }
@@ -57,11 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch(`${apiBase}/atualizarSenha`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: cod_usuario, senhaAtual, novaSenha })
-      });
+      const response = await fetch(`${apiBase}/atualizarSenha/${cod_usuario}`, {
+    method: "PUT",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ senhaAtual, novaSenha })
+});
+
 
       const data = await response.json();
 
@@ -70,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('current-password').value = '';
         document.getElementById('new-password').value = '';
         document.getElementById('confirm-password').value = '';
+
+        window.location.href = 'login.html';
       } else {
         alert("Erro: " + data.erro);
       }

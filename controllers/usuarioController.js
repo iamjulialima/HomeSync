@@ -87,7 +87,8 @@ const esqueceuSenha = (req, res) => {
 };
 
 const atualizarDados = (req, res) => {
-  const { id, nome, email } = req.body;
+  const id = req.params.id;
+  const { nome, email } = req.body;
 
   usuarioModel.atualizarUsuario(id, nome, email, (err) => {
     if (err) return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
@@ -96,13 +97,15 @@ const atualizarDados = (req, res) => {
 };
 
 const atualizarSenha = (req, res) => {
-  const { id, senhaAtual, novaSenha } = req.body;
+  const id = req.params.id;
+  const { senhaAtual, novaSenha } = req.body;
 
   usuarioModel.buscarUsuarioPorId(id, (err, usuario) => {
     if (err || !usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
 
     bcrypt.compare(senhaAtual, usuario.senha, (err, match) => {
-      if (err || !match) return res.status(401).json({ erro: 'Senha atual incorreta' });
+      if (err) return res.status(500).json({ erro: 'Erro ao comparar senha' });
+      if (!match) return res.status(401).json({ erro: 'Senha atual incorreta' });
 
       bcrypt.hash(novaSenha, 10, (err, hash) => {
         if (err) return res.status(500).json({ erro: 'Erro ao criptografar nova senha' });
@@ -115,6 +118,7 @@ const atualizarSenha = (req, res) => {
     });
   });
 };
+
 
 const buscarUsuarioPorId = (req, res) => {
   const id = req.params.id;
