@@ -1,4 +1,5 @@
 const luzesModel = require('../models/luzesModel');
+const express = require('express');
 
 // Listar todas as luzes de um usuário específico
 const listarLuzes = (req, res) => {
@@ -51,8 +52,46 @@ const criarLuz = (req, res) => {
   });
 };
 
+const removerLuz = (req, res) => {
+  const id = req.params.id;
+
+  luzesModel.removerLuz(id, (err) => {
+    if (err) {
+      return res.status(500).json({ erro: 'Erro ao remover luz.' });
+    }
+    res.status(200).json({ mensagem: 'Luz removida com sucesso.' });
+  });
+};
+
+const getLuzPorId = (req, res) => {
+  const id = req.params.id;
+  luzesModel.getLuzPorId(id, (err, luz) => {
+    if (err || !luz) {
+      return res.status(404).json({ error: 'Luz não encontrada.' });
+    }
+    res.status(200).json(luz);
+  });
+};
+
+const editarIdentidadeLuz = (req, res) => {
+  const idOriginal = req.params.id;
+  const { cod, nome, localizacao } = req.body;
+
+  luzesModel.editarIdentidadeLuz(idOriginal, cod, nome, localizacao, (err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erro ao editar identidade da luz.' });
+    }
+    res.status(200).json({ message: 'Identidade da luz editada com sucesso.' });
+  });
+};
+
+
 module.exports = {
   listarLuzes,
   criarLuz,
   atualizarLuz,
+  criarLuz,
+  removerLuz,
+  getLuzPorId,
+  editarIdentidadeLuz,
 };

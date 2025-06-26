@@ -41,30 +41,50 @@ const criarLuz = (nome, localizacao, intensidade, estado, cod_usuario, callback)
       console.error('Erro ao criar nova luz:', err.message);
       return callback(err);
     }
-    const cod_luz = this.lastID;
-    // Relaciona na tabela usuario_luzes
-    const relSql = `INSERT INTO usuario_luzes (cod_usuario, cod_luz) VALUES (?, ?)`;
-    db.run(relSql, [cod_usuario, cod_luz], function(relErr) {
-      if (relErr) {
-        console.error('Erro ao associar luz ao usuário:', relErr.message);
-        return callback(relErr);
-      }
-      const novaLuz = {
-        cod_luz,
-        estado,
-        nome,
-        localizacao,
-        intensidade,
-        cod_usuario
-      };
-      callback(null, novaLuz);
-    });
+    const novaLuz = {
+      cod,
+      estado,
+      nome,
+      localizacao,
+      intensidade
+    };
+    callback(null, novaLuz);
   });
 };
+
+const removerLuz = (id, callback) => {
+  const sql = `DELETE FROM luzesStatus WHERE cod_luz = ?`;
+
+  db.run(sql, [id], function(err) {
+    if (err) {
+      console.error('Erro ao remover luz:', err.message);
+      return callback(err);
+    }
+    callback(null);
+  });
+};
+
+const getLuzPorId = (id, callback) => {
+  const sql = 'SELECT * FROM luzesStatus WHERE cod_luz = ?';
+  db.get(sql, [id], (err, row) => {
+    callback(err, row);
+  });
+};
+
+const editarIdentidadeLuz = (idOriginal, novoCod, nome, localizacao, callback) => {
+  const sql = `UPDATE luzesStatus SET cod_luz = ?, nome = ?, localizacao = ? WHERE cod_luz = ?`;
+  db.run(sql, [novoCod, nome, localizacao, idOriginal], function (err) {
+    callback(err);
+  });
+};
+
 
 module.exports = {
   getLuzesPorUsuario,
   criarLuz,
   getLuzPorId,
   atualizarLuz,
+  removerLuz,
+  getLuzPorId, 
+  editarIdentidadeLuz,
 };
