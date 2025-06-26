@@ -55,7 +55,7 @@ db.run(`CREATE TABLE IF NOT EXISTS agendamentoLuzes (
 });
 
 
-// Tabela de Portão (pode ser compartilhado)
+// Tabela de Portão 
 db.run(`CREATE TABLE IF NOT EXISTS portao (
   cod_portao INTEGER PRIMARY KEY AUTOINCREMENT,
   codigo TEXT UNIQUE NOT NULL,  -- Ex: PRT001
@@ -93,7 +93,7 @@ db.run(`CREATE TABLE IF NOT EXISTS historico_portao (
 });
 
 
-// Sensor de Temperatura (pode ser compartilhado)
+// Sensor de Temperatura 
 db.run(`CREATE TABLE IF NOT EXISTS sensor_temperatura (
   cod_sensor INTEGER PRIMARY KEY AUTOINCREMENT,
   codigo TEXT UNIQUE NOT NULL,   -- Ex: TMP001
@@ -130,7 +130,7 @@ db.run(`CREATE TABLE IF NOT EXISTS temperatura (
 });
 
 
-// Sensor de Gás (pode ser compartilhado)
+// Sensor de Gás 
 db.run(`CREATE TABLE IF NOT EXISTS sensor_gas (
   cod_sensor INTEGER PRIMARY KEY AUTOINCREMENT,
   codigo TEXT UNIQUE NOT NULL,  -- Ex: GAS001

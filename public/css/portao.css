@@ -30,6 +30,31 @@ body {
     --success: #05C46B;
 }
 
+/* Estilo básico para o modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro transparente */
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Quando o modal tiver a classe show, ele aparece */
+.modal.show {
+  display: flex;
+}
+
+/* Conteúdo central do modal */
+.modal-content {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+
 /* Estilo para perfil no mobile (oculto por padrão) */
 .mobile-profile {
     display: none;
