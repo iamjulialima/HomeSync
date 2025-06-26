@@ -10,4 +10,8 @@ router.delete('/luzes/:id', luzesController.removerLuz);
 
 router.post('/luzesCriar', luzesController.criarLuz);
 
+router.get('/luzes/:id', luzesController.getLuzPorId);
+
+router.put('/luzes/:id/identidade', luzesController.editarIdentidadeLuz); // NOVA
+
 module.exports = router;

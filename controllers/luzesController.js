@@ -54,10 +54,34 @@ const removerLuz = (req, res) => {
   });
 };
 
+const getLuzPorId = (req, res) => {
+  const id = req.params.id;
+  luzesModel.getLuzPorId(id, (err, luz) => {
+    if (err || !luz) {
+      return res.status(404).json({ error: 'Luz não encontrada.' });
+    }
+    res.status(200).json(luz);
+  });
+};
+
+const editarIdentidadeLuz = (req, res) => {
+  const idOriginal = req.params.id;
+  const { cod, nome, localizacao } = req.body;
+
+  luzesModel.editarIdentidadeLuz(idOriginal, cod, nome, localizacao, (err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erro ao editar identidade da luz.' });
+    }
+    res.status(200).json({ message: 'Identidade da luz editada com sucesso.' });
+  });
+};
+
 
 module.exports = {
   listarLuzes,
   atualizarLuz,
   criarLuz,
   removerLuz,
+  getLuzPorId,
+  editarIdentidadeLuz,
 };

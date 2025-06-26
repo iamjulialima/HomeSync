@@ -51,9 +51,26 @@ const removerLuz = (id, callback) => {
   });
 };
 
+const getLuzPorId = (id, callback) => {
+  const sql = 'SELECT * FROM luzesStatus WHERE cod_luz = ?';
+  db.get(sql, [id], (err, row) => {
+    callback(err, row);
+  });
+};
+
+const editarIdentidadeLuz = (idOriginal, novoCod, nome, localizacao, callback) => {
+  const sql = `UPDATE luzesStatus SET cod_luz = ?, nome = ?, localizacao = ? WHERE cod_luz = ?`;
+  db.run(sql, [novoCod, nome, localizacao, idOriginal], function (err) {
+    callback(err);
+  });
+};
+
+
 module.exports = {
   getTodasLuzes,
   atualizarLuz,
   criarLuz,
   removerLuz,
+  getLuzPorId, 
+  editarIdentidadeLuz,
 };
