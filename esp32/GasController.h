@@ -5,7 +5,7 @@
 
 class GasController {
 public:
-    GasController(const char* ssid, const char* password, const char* baseUrl, const char* endpoint, int sensorPin, int gasLimit = 2000, int numReadings = 10);
+    GasController(const char* ssid, const char* password, const char* baseUrl, const char* endpoint, int sensorPin, int codSensor, int gasLimit = 2000, int numReadings = 10);
 
     void begin();
     void atualizar();
@@ -18,10 +18,13 @@ private:
     int _sensorPin;
     int _gasLimit;
     int _numReadings;
+    int _codSensor; 
 
     void conectarWiFi();
     int lerMediaSensor();
     String montarUrlCompleta();
+
+    bool wifiConectado = false;
 };
 
 #endif

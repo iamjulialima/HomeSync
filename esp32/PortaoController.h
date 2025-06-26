@@ -7,7 +7,7 @@
 
 class PortaoController {
   public:
-    PortaoController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, int pinoServo);
+    PortaoController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, int pinoServo, int codPortao);
     void begin();
     void atualizar();
 
@@ -17,6 +17,7 @@ class PortaoController {
     String _servidorApi;
     Servo _servoPortao;
     int _pinoServo;
+    int _codPortao;
     String _ultimoComando;
 
     void conectaWiFi();

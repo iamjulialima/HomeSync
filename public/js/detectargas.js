@@ -1,4 +1,4 @@
-const BASE_API_URL = 'http://192.168.5.10:3000/api/gas';
+const BASE_API_URL = 'http://localhost:3000/api/gas';
 const cod_usuario = localStorage.getItem('cod_usuario');
 
 let ultimoHistoricoJSON = '';

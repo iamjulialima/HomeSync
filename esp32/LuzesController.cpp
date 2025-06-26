@@ -1,13 +1,10 @@
 #include "LuzesController.h"
 
-LuzesController::LuzesController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, const int* ledPins, int numLeds)
-  : _ssid(ssid), _password(password), _ledPins(ledPins), _numLeds(numLeds) {
-    static String fullUrl = String(servidorBase) + String(endpoint);
-    _url = fullUrl.c_str();
-}
+LuzesController::LuzesController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, const int* ledPins, int numLeds, int codUsuario)
+  : _ssid(ssid), _password(password), _servidorBase(servidorBase), _endpoint(endpoint), _ledPins(ledPins), _numLeds(numLeds), _codUsuario(codUsuario) {}
 
 void LuzesController::begin() {
-  // Conecta Wi-Fi (caso outras classes não façam isso)
+  // Conecta ao Wi-Fi
   WiFi.begin(_ssid, _password);
   Serial.print("Conectando ao Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -26,7 +23,9 @@ void LuzesController::begin() {
 void LuzesController::atualizar() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    http.begin(_url);
+    String urlCompleta = String(_servidorBase) + String(_endpoint) + "/" + String(_codUsuario);
+
+    http.begin(urlCompleta);
     int httpCode = http.GET();
 
     if (httpCode == 200) {

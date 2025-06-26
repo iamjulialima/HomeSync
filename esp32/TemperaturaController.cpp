@@ -26,7 +26,10 @@ void TemperaturaController::enviaDados(float temperatura, float umidade) {
     http.begin(_servidorApi);
     http.addHeader("Content-Type", "application/json");
 
-    String json = "{\"temperatura\":" + String(temperatura) + ",\"umidade\":" + String(umidade) + "}";
+    String json = "{\"temperatura\":" + String(temperatura) + 
+              ",\"umidade\":" + String(umidade) + 
+              ",\"cod_sensor\":1}";  // Coloque aqui o cod_sensor correto
+
     int httpCode = http.POST(json);
 
     if (httpCode > 0) {
@@ -48,6 +51,12 @@ void TemperaturaController::atualizar() {
     Serial.println("Falha na leitura do sensor DHT!");
     return;
   }
+
+  Serial.print("Temperatura: ");
+  Serial.print(temperatura);
+  Serial.print(" °C | Umidade: ");
+  Serial.print(umidade);
+  Serial.println(" %");
 
   enviaDados(temperatura, umidade);
 }

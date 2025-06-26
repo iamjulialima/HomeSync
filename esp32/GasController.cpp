@@ -2,34 +2,39 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-GasController::GasController(const char* ssid, const char* password, const char* baseUrl, const char* endpoint, int sensorPin, int gasLimit, int numReadings)
-: _ssid(ssid), _password(password), _baseUrl(baseUrl), _endpoint(endpoint), _sensorPin(sensorPin), _gasLimit(gasLimit), _numReadings(numReadings)
+GasController::GasController(const char* ssid, const char* password, const char* baseUrl, const char* endpoint, int sensorPin, int codSensor, int gasLimit, int numReadings)
+: _ssid(ssid), _password(password), _baseUrl(baseUrl), _endpoint(endpoint),
+  _sensorPin(sensorPin), _codSensor(codSensor), _gasLimit(gasLimit), _numReadings(numReadings), wifiConectado(false)
 {}
 
 void GasController::begin() {
-    Serial.begin(115200);
-    delay(1000);
+    // Serial.begin(115200); // REMOVER daqui, já chama no setup principal!
     conectarWiFi();
     Serial.println("Monitorando sensor de gás MQ-135...");
     delay(3000); // Tempo para estabilizar o sensor
 }
 
 void GasController::conectarWiFi() {
-    if (WiFi.status() != WL_CONNECTED) {
-        Serial.print("Conectando ao WiFi");
-        WiFi.begin(_ssid, _password);
-        int tentativas = 0;
-        while (WiFi.status() != WL_CONNECTED && tentativas < 20) {
-            delay(500);
-            Serial.print(".");
-            tentativas++;
-        }
-        if (WiFi.status() == WL_CONNECTED) {
-            Serial.println("\nWiFi conectado!");
-            Serial.println(WiFi.localIP());
-        } else {
-            Serial.println("\nFalha ao conectar WiFi");
-        }
+    if (WiFi.status() == WL_CONNECTED) {
+        wifiConectado = true;
+        return;
+    }
+
+    Serial.print("Conectando ao WiFi");
+    WiFi.begin(_ssid, _password);
+    int tentativas = 0;
+    while (WiFi.status() != WL_CONNECTED && tentativas < 20) {
+        delay(500);
+        Serial.print(".");
+        tentativas++;
+    }
+    if (WiFi.status() == WL_CONNECTED) {
+        wifiConectado = true;
+        Serial.println("\nWiFi conectado!");
+        Serial.println(WiFi.localIP());
+    } else {
+        wifiConectado = false;
+        Serial.println("\nFalha ao conectar WiFi");
     }
 }
 
@@ -44,12 +49,18 @@ int GasController::lerMediaSensor() {
 }
 
 String GasController::montarUrlCompleta() {
-    String url = String(_baseUrl) + String(_endpoint);
-    return url;
+    return String(_baseUrl) + String(_endpoint);
 }
 
 void GasController::atualizar() {
-    conectarWiFi();
+    // Tentar reconectar só se desconectado
+    if (!wifiConectado) {
+        conectarWiFi();
+        if (!wifiConectado) {
+            Serial.println("WiFi ainda desconectado, pulando envio.");
+            return; // Não faz nada se não tiver conexão
+        }
+    }
 
     int valorSensor = lerMediaSensor();
     Serial.print("Valor do sensor (média): ");
@@ -57,33 +68,29 @@ void GasController::atualizar() {
 
     String status = (valorSensor > _gasLimit) ? "vazamento" : "seguro";
 
-    if (WiFi.status() == WL_CONNECTED) {
-        HTTPClient http;
-        String urlCompleta = montarUrlCompleta();
-        http.begin(urlCompleta);
-        http.addHeader("Content-Type", "application/json");
+    HTTPClient http;
+    String urlCompleta = montarUrlCompleta();
+    http.begin(urlCompleta);
+    http.addHeader("Content-Type", "application/json");
 
-        String json = "{\"valor\":";
-        json += valorSensor;
-        json += ",\"status\":\"";
-        json += status;
-        json += "\"}";
+    String json = "{\"valor\":";
+    json += valorSensor;
+    json += ",\"cod_sensor\":";
+    json += _codSensor;
+    json += "}";
 
-        int codigoResposta = http.POST(json);
+    int codigoResposta = http.POST(json);
 
-        if (codigoResposta > 0) {
-            String resposta = http.getString();
-            Serial.print("Resposta da API: ");
-            Serial.println(resposta);
-        } else {
-            Serial.print("Erro no POST: ");
-            Serial.println(codigoResposta);
-        }
-
-        http.end();
+    if (codigoResposta > 0) {
+        String resposta = http.getString();
+        Serial.print("Resposta da API: ");
+        Serial.println(resposta);
     } else {
-        Serial.println("Erro: WiFi desconectado.");
+        Serial.print("Erro no POST: ");
+        Serial.println(codigoResposta);
     }
 
-    delay(2000);
+    http.end();
+
+    // REMOVER delay daqui! Use no loop principal, se precisar.
 }

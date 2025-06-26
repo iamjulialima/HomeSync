@@ -1,7 +1,7 @@
 #include "PortaoController.h"
 
-PortaoController::PortaoController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, int pinoServo)
-  : _ssid(ssid), _password(password), _pinoServo(pinoServo), _ultimoComando("nenhum") {
+PortaoController::PortaoController(const char* ssid, const char* password, const char* servidorBase, const char* endpoint, int pinoServo, int codPortao)
+  : _ssid(ssid), _password(password), _pinoServo(pinoServo), _codPortao(codPortao), _ultimoComando("nenhum") {
   _servidorApi = String(servidorBase) + endpoint;
 }
 
@@ -26,22 +26,24 @@ void PortaoController::conectaWiFi() {
 void PortaoController::abrePortao() {
   for (int ang = 70; ang <= 160; ang++) {
     _servoPortao.write(ang);
-    delay(10); // controla a velocidade: maior = mais lento
+    delay(10);
   }
 }
-
 
 void PortaoController::fechaPortao() {
   for (int ang = 160; ang >= 70; ang--) {
     _servoPortao.write(ang);
-    delay(10); // mesma ideia
+    delay(10);
   }
 }
 
 void PortaoController::verificaComando() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    http.begin(_servidorApi);
+    String url = _servidorApi + "?cod_portao=" + String(_codPortao);
+    Serial.println("Fazendo requisição para: " + url);  // Veja a URL final no monitor serial
+
+    http.begin(url);
     int httpCode = http.GET();
 
     if (httpCode == 200) {
@@ -51,18 +53,22 @@ void PortaoController::verificaComando() {
       if (payload.indexOf("\"comando\":\"abrir\"") != -1 && _ultimoComando != "abrir") {
         abrePortao();
         _ultimoComando = "abrir";
-      } else if (payload.indexOf("\"comando\":\"fechar\"") != -1 && _ultimoComando != "fechar") {
+      } 
+      else if (payload.indexOf("\"comando\":\"fechar\"") != -1 && _ultimoComando != "fechar") {
         fechaPortao();
         _ultimoComando = "fechar";
       }
     } else {
-      Serial.println("Erro na requisição HTTP");
+      Serial.println("Erro na requisição HTTP. Código: " + String(httpCode));
+      String payload = http.getString();
+      Serial.println("Resposta de erro: " + payload);
     }
     http.end();
   } else {
     Serial.println("WiFi desconectado");
   }
 }
+
 
 void PortaoController::atualizar() {
   verificaComando();
