@@ -3,9 +3,9 @@
 #include "LuzesController.h"
 #include "GasController.h"
 
-const char* ssid = "S23 FE de Júlia Ingrid";
-const char* password = "julialima";
-const char* servidorBase = "http://192.168.118.78:3000";
+const char* ssid = "sua_rede_wifi";
+const char* password = "sua_senha_wifi";
+const char* servidorBase = "http://localhost:3000";
 
 // Endpoints
 const char* endpointPortao = "/api/portao/comando";

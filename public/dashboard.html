@@ -68,12 +68,6 @@
               </div>
         </div>
 
-        <!-- Perfil mobile no topo -->
-        <div class="mobile-profile">
-            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="User" class="mobile-profile-img">
-        </div>
-
-
         <!-- Main Content -->
         <div class="main-content">
 
@@ -95,11 +89,10 @@
                             <i class="fas fa-thermometer-half"></i>
                         </div>
                     </div>
-                    <h2 class="card-value">23.5°C</h2>
-                    <p class="card-description">Sala de estar</p>
-                    <span class="card-status status-on">Normal</span>
+                    <h2 id="temperatura-dashboard" class="card-value">23.5°C</h2>
+                    <p class="card-description">Status umidade:</p>
+                    <span id="status-umidade" class="card-status status-on">Normal</span>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Luzes</h3>
@@ -128,13 +121,14 @@
                     <div class="card-header">
                         <h3 class="card-title">Detecção de Gás</h3>
                         <div class="card-icon gas">
-                            <i class="fas fa-radiation"></i>
+                        <i class="fas fa-radiation"></i>
                         </div>
                     </div>
-                    <h2 class="card-value">Não</h2>
+                    <h2 id="status-gas-dashboard" class="card-value">Não</h2>
                     <p class="card-description">Detectado</p>
-                    <span class="card-status status-on">Seguro</span>
+                    <span id="status-gas-indicador" class="card-status status-on">Seguro</span>
                 </div>
+
             </div>
 
            
@@ -173,10 +167,16 @@
                 </a>
             </li>
             <li class="mobile-nav-item">
-                <a href="#" class="mobile-nav-link">
+                <a href="configuracao.html" class="mobile-nav-link">
                     <i class="fas fa-cog"></i>
                     <span>Config</span>
                 </a>
+            </li>
+             <li class="mobile-nav-item">
+                    <a href="index.html" class="mobile-nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sair</span>
+                    </a>
             </li>
         </ul>
     </nav>

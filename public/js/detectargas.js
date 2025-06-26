@@ -1,4 +1,4 @@
-const API_URL = 'http://192.168.118.78:3000/api/gas/historico';
+const API_URL = 'http://localhost:3000/api/gas/historico';
 
 let ultimoHistoricoJSON = ''; 
 
@@ -100,5 +100,5 @@ setInterval(carregarDadosGas, 5000);
 
 function handleLogout() {
   localStorage.removeItem('cod_usuario');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 }
