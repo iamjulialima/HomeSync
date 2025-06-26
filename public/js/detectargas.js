@@ -1,20 +1,21 @@
-const API_URL = 'http://localhost:3000/api/gas/historico';
+const BASE_API_URL = 'http://192.168.5.10:3000/api/gas';
+const cod_usuario = localStorage.getItem('cod_usuario');
 
-let ultimoHistoricoJSON = ''; 
+let ultimoHistoricoJSON = '';
 
 function formatarData(dataISO) {
   const data = new Date(dataISO);
   return data.toLocaleDateString('pt-BR') + ' - ' + data.toLocaleTimeString('pt-BR');
 }
 
+// Carrega e atualiza histórico do gás
 async function carregarDadosGas() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${BASE_API_URL}/historico?cod_usuario=${cod_usuario}`);
     const dados = await response.json();
 
     if (!Array.isArray(dados)) return;
 
-    
     const statusAtual = dados.length > 0 ? dados[0].status : 'seguro';
     const statusCard = document.querySelector('.grid .bg-white h3');
     const statusIconDiv = document.querySelector('.grid .bg-white div.h-12');
@@ -27,9 +28,6 @@ async function carregarDadosGas() {
       statusIconDiv.classList.add('bg-red-100');
       statusIconDiv.querySelector('i').classList.remove('fa-check-circle');
       statusIconDiv.querySelector('i').classList.add('fa-exclamation-triangle', 'text-red-600');
-      if (!statusIconDiv.classList.contains('animate-pulse-slow')) {
-        statusIconDiv.classList.add('animate-pulse-slow');
-      }
     } else {
       statusCard.textContent = 'Seguro';
       statusCard.classList.remove('text-red-600');
@@ -38,29 +36,21 @@ async function carregarDadosGas() {
       statusIconDiv.classList.add('bg-green-100');
       statusIconDiv.querySelector('i').classList.remove('fa-exclamation-triangle', 'text-red-600');
       statusIconDiv.querySelector('i').classList.add('fa-check-circle');
-      if (!statusIconDiv.classList.contains('animate-pulse-slow')) {
-        statusIconDiv.classList.add('animate-pulse-slow');
-      }
     }
 
-    
     const historicoFiltrado = dados.filter(l => l.status === 'vazamento');
     const historicoAtualJSON = JSON.stringify(historicoFiltrado);
 
-    if (historicoAtualJSON === ultimoHistoricoJSON) {
-      return; 
-    }
+    if (historicoAtualJSON === ultimoHistoricoJSON) return;
 
     ultimoHistoricoJSON = historicoAtualJSON;
 
-    
     const containerHistorico = document.querySelector('.divide-y');
-    containerHistorico.innerHTML = ''; 
+    containerHistorico.innerHTML = '';
 
     historicoFiltrado.forEach(leitura => {
       const card = document.createElement('div');
       card.className = 'p-5 hover:bg-gray-50 transition-colors';
-
       card.innerHTML = `
         <div class="flex items-start">
           <div class="flex-shrink-0 mt-1">
@@ -83,7 +73,6 @@ async function carregarDadosGas() {
           </div>
         </div>
       `;
-
       containerHistorico.appendChild(card);
     });
 
@@ -92,13 +81,89 @@ async function carregarDadosGas() {
   }
 }
 
+// Verifica se existe sensor cadastrado
+async function verificarSensorGas() {
+  try {
+    const response = await fetch(`${BASE_API_URL}/existe-sensor?cod_usuario=${cod_usuario}`);
+    const data = await response.json();
 
-carregarDadosGas();
+    const avisoCadastro = document.getElementById('aviso-cadastro');
+    const mainContent = document.querySelector('main');
 
-setInterval(carregarDadosGas, 5000);
+    if (!data.existe) {
+      avisoCadastro.classList.remove('hidden');
+      mainContent.style.display = 'none';
+    } else {
+      avisoCadastro.classList.add('hidden');
+      mainContent.style.display = 'block';
+      carregarDadosGas();
+    }
+  } catch (error) {
+    console.error('Erro ao verificar sensor de gás:', error);
+  }
+}
 
+// Abrir e fechar modal
+const addGasBtn = document.getElementById('add-gas');
+const gasModal = document.getElementById('gas-modal');
+const closeModalBtns = document.querySelectorAll('.close-modal');
+
+function abrirModal() {
+  gasModal.classList.remove('hidden');
+}
+
+function fecharModal() {
+  gasModal.classList.add('hidden');
+}
+
+if (addGasBtn) {
+  addGasBtn.addEventListener('click', abrirModal);
+}
+
+closeModalBtns.forEach(btn => {
+  btn.addEventListener('click', fecharModal);
+});
+
+gasModal.addEventListener('click', (e) => {
+  if (e.target === gasModal) fecharModal();
+});
+
+// Evento para salvar novo sensor via modal
+document.getElementById('gas-temp').addEventListener('click', async () => {
+  const codigo = document.getElementById('gas-cod').value.trim();
+  const descricao = document.getElementById('gas-descricao').value.trim();
+
+  if (!codigo) {
+    alert('Informe o código do sensor');
+    return;
+  }
+
+  try {
+    const response = await fetch(`${BASE_API_URL}/sensor`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo, descricao, cod_usuario })
+    });
+
+    if (!response.ok) throw new Error('Erro ao cadastrar sensor');
+
+    alert('Sensor cadastrado com sucesso!');
+
+    fecharModal();
+    document.getElementById('gas-cod').value = '';
+    document.getElementById('gas-descricao').value = '';
+    verificarSensorGas();
+
+  } catch (error) {
+    alert('Erro ao cadastrar sensor: ' + error.message);
+  }
+});
 
 function handleLogout() {
   localStorage.removeItem('cod_usuario');
   window.location.href = 'index.html';
 }
+
+// Início
+verificarSensorGas();
+setInterval(verificarSensorGas, 5000);

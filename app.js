@@ -26,7 +26,6 @@ app.use(express.static('public')); // serve HTML e JS
 app.use('/api', luzesRoutes);
 
 
-
 // Rotas portão
 const portaoRoutes = require('./routes/portaoRoutes');
 app.use('/api/portao', portaoRoutes);
@@ -42,4 +41,4 @@ app.listen(3000, () => {
 
 //Gas
 const gasRoutes = require('./routes/gasRoutes');
-app.use('/api', gasRoutes);
+app.use('/api/gas', gasRoutes);
