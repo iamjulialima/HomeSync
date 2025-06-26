@@ -90,7 +90,6 @@ module.exports = {
   listarLuzes,
   criarLuz,
   atualizarLuz,
-  criarLuz,
   removerLuz,
   getLuzPorId,
   editarIdentidadeLuz,
