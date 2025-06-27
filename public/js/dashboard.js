@@ -1,4 +1,3 @@
-apiBase = "http://localhost:3000/api";
 const cod_usuario = localStorage.getItem('cod_usuario');
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -9,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const cardGas = document.getElementById('card-gas');
 
   try {
-    const response = await fetch(`${apiBase}/dispositivos?cod_usuario=${cod_usuario}`);
+    const response = await fetch(`/api/dashboard/dispositivos?cod_usuario=${cod_usuario}`);
     const data = await response.json();
 
     let algumVisivel = false;

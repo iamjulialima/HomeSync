@@ -36,7 +36,7 @@ app.use('/api/temperatura', temperaturaRoutes);
 
 // Rota para o dashboard
 const dashboardRoutes = require('./routes/dashboardRoutes');
-app.use('/api/dispositivos', dashboardRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 
 // Inicia o servidor

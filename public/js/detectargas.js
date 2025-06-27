@@ -1,4 +1,3 @@
-const BASE_API_URL = 'http://localhost:3000/api/gas';
 const cod_usuario = localStorage.getItem('cod_usuario');
 
 let ultimoHistoricoJSON = '';
@@ -11,7 +10,7 @@ function formatarData(dataISO) {
 // Carrega e atualiza histórico do gás
 async function carregarDadosGas() {
   try {
-    const response = await fetch(`${BASE_API_URL}/historico?cod_usuario=${cod_usuario}`);
+    const response = await fetch(`/api/gas/historico?cod_usuario=${cod_usuario}`);
     const dados = await response.json();
 
     if (!Array.isArray(dados)) return;
@@ -84,7 +83,7 @@ async function carregarDadosGas() {
 // Verifica se existe sensor cadastrado
 async function verificarSensorGas() {
   try {
-    const response = await fetch(`${BASE_API_URL}/existe-sensor?cod_usuario=${cod_usuario}`);
+    const response = await fetch(`/api/gas/existe-sensor?cod_usuario=${cod_usuario}`);
     const data = await response.json();
 
     const avisoCadastro = document.getElementById('aviso-cadastro');
@@ -139,7 +138,7 @@ document.getElementById('gas-temp').addEventListener('click', async () => {
   }
 
   try {
-    const response = await fetch(`${BASE_API_URL}/sensor`, {
+    const response = await fetch(`/api/gas/sensor`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ codigo, descricao, cod_usuario })

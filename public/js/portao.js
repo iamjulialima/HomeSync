@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const conteudo = document.querySelector('main');
 
   try {
-    const response = await fetch(`${apiBase}/sensor?cod_usuario=${cod_usuario}`);
+    const response = await fetch(`/api/portao/sensor?cod_usuario=${cod_usuario}`);
     const data = await response.json();
 
     if (data.possuiPortao) {
@@ -41,7 +41,7 @@ document.getElementById('save-portao').addEventListener('click', async () => {
   }
 
   try {
-    const response = await fetch(`${apiBase}/sensor`, {
+    const response = await fetch(`/api/portao/sensor`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ codigo: cod, descricao, cod_usuario })
@@ -71,8 +71,6 @@ function ajustarFusoHorario(dataHoraUTC) {
 }
 
 
-const apiBase = "http://localhost:3000/api/portao";
-
 // Gate control functionality
 const openBtn = document.getElementById('open-btn');
 const closeBtn = document.getElementById('close-btn');
@@ -94,7 +92,7 @@ openBtn.addEventListener('click', async () => {
     gateVisual.classList.add('animate-pulse');
 
     // Envia o cod_usuario junto
-    await fetch(`${apiBase}/abrir`, {
+    await fetch(`/api/portao/abrir`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -122,7 +120,7 @@ closeBtn.addEventListener('click', async () => {
     gateVisual.classList.add('animate-pulse');
 
     // Envia o cod_usuario junto
-    await fetch(`${apiBase}/fechar`, {
+    await fetch(`/api/portao/fechar`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -142,7 +140,7 @@ closeBtn.addEventListener('click', async () => {
 
 async function carregarHistorico() {
   try {
-    const response = await fetch(`${apiBase}/historico?cod_usuario=${cod_usuario}`);
+    const response = await fetch(`/api/portao/historico?cod_usuario=${cod_usuario}`);
     if (!response.ok) {
       const errorData = await response.json();
       alert(errorData.error || 'Erro ao carregar histórico');

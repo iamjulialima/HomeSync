@@ -1,4 +1,3 @@
-const apiBase = "http://localhost:3000/api";
 const cod_usuario = localStorage.getItem('cod_usuario');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch(`${apiBase}/atualizarDados/${cod_usuario}`, {
+      const response = await fetch(`/api/atualizarDados/${cod_usuario}`, {
           method: "PUT",
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nome, email })
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch(`${apiBase}/atualizarSenha/${cod_usuario}`, {
+      const response = await fetch(`/api/atualizarSenha/${cod_usuario}`, {
     method: "PUT",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ senhaAtual, novaSenha })
@@ -87,7 +86,7 @@ async function carregarDadosUsuario() {
   console.log("Buscando dados do usuário com ID:", cod_usuario);
 
   try {
-    const response = await fetch(`${apiBase}/usuario/${cod_usuario}`);
+    const response = await fetch(`/api/usuario/${cod_usuario}`);
     const usuario = await response.json();
 
     if (response.ok) {
