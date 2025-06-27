@@ -77,12 +77,15 @@
                     <h1>Dashboard</h1>
                     <p>Bem-vindo ao painel de controle da sua casa inteligente</p>
                 </div>
+            </div>
 
+            <div>
+                <h2 id="aviso-dashboard">Você ainda não possui nenhum dispositivo cadastrado</h2>
             </div>
 
             <!-- Cards temperatura, portao, luzes, detecção de gazes -->
             <div class="cards-grid">
-                <div class="card">
+                <div id="card-temp" class="card">
                     <div class="card-header">
                         <h3 class="card-title">Temperatura</h3>
                         <div class="card-icon temperature">
@@ -93,19 +96,19 @@
                     <p class="card-description">Status umidade:</p>
                     <span id="status-umidade" class="card-status status-on">Normal</span>
                 </div>
-                <div class="card">
+                <div id="card-luzes" class="card">
                     <div class="card-header">
                         <h3 class="card-title">Luzes</h3>
                         <div class="card-icon light">
                             <i class="fas fa-lightbulb"></i>
                         </div>
                     </div>
-                    <h2 class="card-value">3/6</h2>
+                    <h2 id="luzes-dashboard"class="card-value">0/0</h2>
                     <p class="card-description">Luzes acesas</p>
                     <span class="card-status status-on">Ativo</span>
                 </div>
 
-                <div class="card">
+                <div id="card-portao" class="card">
                     <div class="card-header">
                         <h3 class="card-title">Portão</h3>
                         <div class="card-icon gate">
@@ -117,7 +120,7 @@
                     <span class="card-status status-off">Fechado</span>
                 </div>
 
-                <div class="card">
+                <div id="card-gas" class="card">
                     <div class="card-header">
                         <h3 class="card-title">Detecção de Gás</h3>
                         <div class="card-icon gas">

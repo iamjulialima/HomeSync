@@ -34,6 +34,11 @@ app.use('/api/portao', portaoRoutes);
 const temperaturaRoutes = require('./routes/temperaturaRoutes');
 app.use('/api/temperatura', temperaturaRoutes);
 
+// Rota para o dashboard
+const dashboardRoutes = require('./routes/dashboardRoutes');
+app.use('/api/dispositivos', dashboardRoutes);
+
+
 // Inicia o servidor
 app.listen(3000, () => {
   console.log('Servidor rodando em http://localhost:3000');
