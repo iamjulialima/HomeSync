@@ -221,6 +221,13 @@ body {
     margin-bottom: 5px;
 }
 
+table {
+    width: 100%;
+    max-width: 100%;
+    font-size: 1rem;
+    table-layout: auto;
+}
+
 /* Responsive */
 @media (max-width: 1300px) {
     .dashboard {
@@ -326,4 +333,48 @@ body {
     .mobile-nav-link i {
         font-size: 20px;
     }
+}
+
+@media (max-width: 480px) {
+    .dashboard-card { 
+        max-width: 280px; margin-left: -1rem; 
+    }
+
+    #gate-visual .w-24.h-24 { 
+        width: 70px; height: 70px; 
+    }
+
+    #gate-visual i { 
+        font-size: 1.5rem; 
+    }
+
+    #gate-status { 
+        font-size: 0.9rem; 
+    }
+    
+    #open-btn, #close-btn { 
+        padding: 0.4rem 0.8rem; font-size: 0.8rem; 
+    }
+
+    .bg-white.rounded-xl.shadow-md.overflow-hidden { 
+        max-width: 100%; padding: 0rem; margin-left: -1rem; 
+    }
+
+      table {
+        width: 150%;
+        max-width: 150%;
+        font-size: 0.8rem;
+        table-layout: fixed;
+    }
+    table th, table td {
+        padding: 0.5rem 0.5rem;
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+.dashboard, .main-content { overflow-x: hidden; }
+
+.bg-white.rounded-xl.shadow-md.overflow-hidden > .overflow-x-auto {
+    overflow-x: auto;
 }

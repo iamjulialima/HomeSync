@@ -39,24 +39,6 @@ db.run(`CREATE TABLE IF NOT EXISTS usuario_luzes (
 });
 
 
-// Agendamento de Luz (quem agenda + luz)
-db.run(`CREATE TABLE IF NOT EXISTS agendamentoLuzes (
-  cod_agendamento INTEGER PRIMARY KEY AUTOINCREMENT,
-  acao TEXT NOT NULL,
-  luzes INTEGER NOT NULL,
-  data TEXT NOT NULL,
-  hora TEXT NOT NULL,
-  repetir TEXT NOT NULL,
-  intensidade TEXT NOT NULL,
-  cod_usuario INTEGER NOT NULL,
-  FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario),
-  FOREIGN KEY (luzes) REFERENCES luzesStatus(cod_luz)
-)`, (err) => {
-  if (err) console.error('Erro ao criar tabela agendamentoLuzes:', err.message);
-  else console.log('Tabela agendamentoLuzes verificada/criada com sucesso.');
-});
-
-
 // Tabela de Portão 
 db.run(`CREATE TABLE IF NOT EXISTS portao (
   cod_portao INTEGER PRIMARY KEY AUTOINCREMENT,

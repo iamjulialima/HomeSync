@@ -86,10 +86,6 @@
                 data-tab="lights">
                 <i class="fas fa-lightbulb mr-2"></i> Luzes
             </button>
-            <button class="tab-btn px-6 py-3 text-sm font-medium border-b-2 border-transparent hover:border-blue-300"
-                data-tab="schedule">
-                <i class="fas fa-clock mr-2"></i> Programação
-            </button>
         </div>
 
         <!-- Tab das Luzes (dashboard de Ligar/Desligar) -->
@@ -106,127 +102,6 @@
                 </div>
             </div>
         </div>
-
-
-
-        <!-- Tab da Programação -->
-        <div id="schedule" class="tab-content">
-            
-
-            <!-- Programação: Novo agendamento -->
-            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Novo Agendamento</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Ação</label>
-                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-action">
-                            <option>Ligar luzes</option>
-                            <option>Desligar luzes</option>
-                            <option>Ligar e desligar</option>
-                            <option>Ajustar intensidade</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Luzes</label>
-                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-lights">
-                            <option>Todas as luzes</option>
-                            <option>Sala de Estar</option>
-                            <option>Quarto</option>
-                            <option>Cozinha</option>
-                            <option>Banheiro</option>
-                            <option>Varanda</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
-                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-date">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Hora</label>
-                        <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" id="schedule-time">
-                    </div>
-                    <div id="intensity-container" class="hidden md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Intensidade</label>
-                        <div class="flex items-center space-x-4">
-                            <input type="range" min="0" max="100" value="50" class="intensity-slider w-full" id="schedule-intensity">
-                            <span class="text-sm font-medium text-gray-600 w-10" id="schedule-intensity-value">50%</span>
-                        </div>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Repetir</label>
-                        <div class="flex flex-wrap gap-2">
-                            <button class="repeat-option px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">Nunca</button>
-                            <button class="repeat-option px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Diariamente</button>
-                            <button class="repeat-option px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Semanalmente</button>
-                            <button class="repeat-option px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium">Mensalmente</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-6 flex justify-end">
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition" id="save-schedule">Agendar</button>
-                </div>
-            </div>
-
-
-            <!-- Programação: agendamentos ativos -->
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Agendamentos Ativos</h2>
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Luzes</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data/Hora</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Repetição</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200" id="schedules-list">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ligar</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sala de Estar</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">156:00 (Diariamente)</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Diariamente</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ativo</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="#" class="edit-schedule text-blue-600 hover:text-blue-900 mr-3">Editar</a>
-                                    <a href="#" class="delete-schedule text-red-600 hover:text-red-900">Remover</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Desligar</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Todas</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">23:30 (Diariamente)</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Diariamente</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ativo</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="#" class="edit-schedule text-blue-600 hover:text-blue-900 mr-3">Editar</a>
-                                    <a href="#" class="delete-schedule text-red-600 hover:text-red-900">Remover</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ligar</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Quarto</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">06:30 (Seg-Sex)</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Semanalmente</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ativo</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="#" class="edit-schedule text-blue-600 hover:text-blue-900 mr-3">Editar</a>
-                                    <a href="#" class="delete-schedule text-red-600 hover:text-red-900">Remover</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
 
 
@@ -271,7 +146,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Modal editar agendamentos de luzes -->
     <div class="modal" id="schedule-modal">
@@ -329,8 +203,7 @@
             </div>
         </div>
     </div>
-
-
+'
     <!-- Mobile Navigation -->
     <nav class="mobile-nav">
         <ul class="mobile-nav-menu">
