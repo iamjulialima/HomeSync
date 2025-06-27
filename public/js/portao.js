@@ -1,3 +1,14 @@
+// Pega o cod_usuario do localStorage
+const cod_usuario = localStorage.getItem('cod_usuario');
+
+const openBtn = document.getElementById('open-btn');
+const closeBtn = document.getElementById('close-btn');
+const gateIcon = document.getElementById('gate-icon');
+const gateStatus = document.getElementById('gate-status');
+const gateVisual = document.getElementById('gate-visual');
+
+let isGateOpen = false;
+
 document.addEventListener('DOMContentLoaded', async () => {
   const aviso = document.getElementById('aviso-cadastro');
   const conteudo = document.querySelector('main');
@@ -16,6 +27,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } catch (err) {
     console.error('Erro ao verificar portão:', err);
+  }
+
+  // Recupera o status salvo no localStorage e atualiza visual
+  const statusSalvo = localStorage.getItem('status_portao');
+  if (statusSalvo === 'Aberto') {
+    abrirPortaoVisual();
+    isGateOpen = true;
+  } else {
+    fecharPortaoVisual();
+    isGateOpen = false;
   }
 });
 
@@ -57,85 +78,72 @@ document.getElementById('save-portao').addEventListener('click', async () => {
   }
 });
 
-
 // Toggle sidebar on mobile
 function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    sidebar.classList.toggle('-translate-x-full');
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.toggle('-translate-x-full');
 }
 
 function ajustarFusoHorario(dataHoraUTC) {
-    const data = new Date(dataHoraUTC);
-    data.setHours(data.getHours() - 3); // Ajusta -3h
-    return data.toLocaleString('pt-BR'); // Exibe no formato brasileiro
+  const data = new Date(dataHoraUTC);
+  data.setHours(data.getHours() - 3); // Ajusta -3h
+  return data.toLocaleString('pt-BR'); // Exibe no formato brasileiro
 }
 
+// Atualiza visual para portão aberto
+function abrirPortaoVisual() {
+  gateIcon.classList.remove('fa-lock', 'text-red-500');
+  gateIcon.classList.add('fa-lock-open', 'text-green-500');
+  gateStatus.textContent = 'Aberto';
+  gateVisual.classList.add('animate-pulse');
 
-// Gate control functionality
-const openBtn = document.getElementById('open-btn');
-const closeBtn = document.getElementById('close-btn');
-const gateIcon = document.getElementById('gate-icon');
-const gateStatus = document.getElementById('gate-status');
-const gateVisual = document.getElementById('gate-visual');
+  setTimeout(() => {
+    gateVisual.classList.remove('animate-pulse');
+  }, 2000);
+}
 
-let isGateOpen = false;
+// Atualiza visual para portão fechado
+function fecharPortaoVisual() {
+  gateIcon.classList.remove('fa-lock-open', 'text-green-500');
+  gateIcon.classList.add('fa-lock', 'text-red-500');
+  gateStatus.textContent = 'Fechado';
+  gateVisual.classList.add('animate-pulse');
 
-// Pegando o cod_usuario do localStorage (ou sessionStorage se você usou ele)
-const cod_usuario = localStorage.getItem('cod_usuario');
-
+  setTimeout(() => {
+    gateVisual.classList.remove('animate-pulse');
+  }, 2000);
+}
 
 openBtn.addEventListener('click', async () => {
-    isGateOpen = true;
-    gateIcon.classList.remove('fa-lock', 'text-red-500');
-    gateIcon.classList.add('fa-lock-open', 'text-green-500');
-    gateStatus.textContent = 'Aberto';
-    gateVisual.classList.add('animate-pulse');
+  isGateOpen = true;
+  abrirPortaoVisual();
 
-    // Envia o cod_usuario junto
-    await fetch(`/api/portao/abrir`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ cod_usuario })
+  await fetch(`/api/portao/abrir`, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cod_usuario })
+  });
 
+  alert("Comando para abrir enviado!");
+  carregarHistorico();
 
-    });
-
-    alert("Comando para abrir enviado!");
-    carregarHistorico();
-
-    setTimeout(() => {
-        gateVisual.classList.remove('animate-pulse');
-    }, 2000);
-
-    localStorage.setItem('status_portao', 'Aberto');
+  localStorage.setItem('status_portao', 'Aberto');
 });
 
 closeBtn.addEventListener('click', async () => {
-    isGateOpen = false;
-    gateIcon.classList.remove('fa-lock-open', 'text-green-500');
-    gateIcon.classList.add('fa-lock', 'text-red-500');
-    gateStatus.textContent = 'Fechado';
-    gateVisual.classList.add('animate-pulse');
+  isGateOpen = false;
+  fecharPortaoVisual();
 
-    // Envia o cod_usuario junto
-    await fetch(`/api/portao/fechar`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ cod_usuario })
-    });
+  await fetch(`/api/portao/fechar`, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cod_usuario })
+  });
 
-    alert("Comando para fechar enviado!");
-    carregarHistorico();
-    
-    setTimeout(() => {
-        gateVisual.classList.remove('animate-pulse');
-    }, 2000);
+  alert("Comando para fechar enviado!");
+  carregarHistorico();
 
-    localStorage.setItem('status_portao', 'Fechado');
+  localStorage.setItem('status_portao', 'Fechado');
 });
 
 async function carregarHistorico() {
@@ -160,7 +168,7 @@ async function carregarHistorico() {
 
       const tdDataHora = document.createElement('td');
       tdDataHora.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
-      tdDataHora.textContent = ajustarFusoHorario(item.dataHora); 
+      tdDataHora.textContent = ajustarFusoHorario(item.dataHora);
 
       const tdAcao = document.createElement('td');
       tdAcao.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
@@ -179,6 +187,6 @@ async function carregarHistorico() {
 
 //btn logout
 function handleLogout() {
-    localStorage.removeItem('cod_usuario'); 
-    window.location.href = 'login.html';    
-  }
+  localStorage.removeItem('cod_usuario');
+  window.location.href = 'login.html';
+}
