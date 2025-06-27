@@ -1,8 +1,7 @@
-let ultimoRegistroId = null;  // Controla o último dado recebido
-
+let ultimoRegistroId = null;
 const cod_usuario = localStorage.getItem('cod_usuario');
+let cod_sensorGlobal = null;
 
-// Verifica se o usuário tem sensor de temperatura vinculado
 async function verificarSensor() {
   try {
     const response = await fetch(`/api/temperatura/sensor?cod_usuario=${cod_usuario}`);
@@ -10,11 +9,17 @@ async function verificarSensor() {
 
     const aviso = document.getElementById('aviso-cadastro');
     const conteudo = document.getElementById('conteudo-temperatura');
+    const localizacaoSpan = document.getElementById('localizacao');
 
     if (data.possuiSensor) {
       aviso.classList.add('hidden');
       conteudo.classList.remove('hidden');
-      montarGrafico(data.sensor.cod_sensor);  // Já passa o código do sensor pro gráfico
+      cod_sensorGlobal = data.sensor.cod_sensor;
+      montarGrafico(cod_sensorGlobal);
+
+      if (data.sensor.descricao) {
+        localizacaoSpan.textContent = data.sensor.descricao;
+      }
     } else {
       aviso.classList.remove('hidden');
       conteudo.classList.add('hidden');
@@ -24,37 +29,26 @@ async function verificarSensor() {
   }
 }
 
-// Busca os dados da API
 async function buscarDados() {
   try {
     const response = await fetch(`/api/temperatura/ultimas?horas=2&cod_usuario=${cod_usuario}`);
     if (!response.ok) throw new Error('Erro ao buscar dados.');
-    const dados = await response.json();
-    return dados;
+    return await response.json();
   } catch (error) {
     console.error(error);
     return [];
   }
 }
 
-// Formata a hora para exibir no gráfico
 function formatarData(dataStr) {
   const data = new Date(dataStr);
-  data.setHours(data.getHours() - 3); // Ajuste UTC-3
+  data.setHours(data.getHours() - 3);
   return data.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-// Monta o gráfico e atualiza a tabela
 async function montarGrafico(cod_sensor) {
-  console.log('montarGrafico chamado com cod_sensor:', cod_sensor);
   const dados = await buscarDados();
- console.log('Dados recebidos:', dados);
-
-  if (dados.length === 0) {
-    console.log('Nenhum dado para mostrar');
-    return;
-  }
-
+  if (dados.length === 0) return;
 
   const ultimo = dados[dados.length - 1];
   if (ultimoRegistroId === ultimo.data_hora) return;
@@ -64,7 +58,6 @@ async function montarGrafico(cod_sensor) {
   tbody.innerHTML = '';
 
   const dadosLimitados = dados.slice(-10).reverse();
-
   dadosLimitados.forEach((item) => {
     const tr = document.createElement('tr');
 
@@ -79,15 +72,10 @@ async function montarGrafico(cod_sensor) {
     const tdData = document.createElement('td');
     const data = new Date(item.data_hora);
     data.setHours(data.getHours() - 3);
-    tdData.textContent = data.toLocaleString('pt-BR', {
-      dateStyle: 'short',
-      timeStyle: 'short',
-    });
+    tdData.textContent = data.toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
     tdData.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-gray-500');
 
-    tr.appendChild(tdTemp);
-    tr.appendChild(tdUmi);
-    tr.appendChild(tdData);
+    tr.append(tdTemp, tdUmi, tdData);
     tbody.appendChild(tr);
   });
 
@@ -126,9 +114,7 @@ async function montarGrafico(cod_sensor) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { display: true, position: 'top' },
-      },
+      plugins: { legend: { display: true, position: 'top' } },
       scales: {
         x: { title: { display: true, text: 'Hora' } },
         y1: {
@@ -151,71 +137,40 @@ async function montarGrafico(cod_sensor) {
   });
 }
 
-// Atualização automática
-let cod_sensorGlobal = null;
 setInterval(() => {
   if (cod_sensorGlobal) montarGrafico(cod_sensorGlobal);
 }, 5000);
 
-// Logout
 function handleLogout() {
   localStorage.removeItem('cod_usuario');
   window.location.href = 'index.html';
 }
 
-// Redireciona para cadastro de sensor
 function irParaCadastro() {
   window.location.href = 'dashboard.html';
 }
 
-// Inicialização
-window.onload = async () => {
-  try {
-    const response = await fetch(`/api/temperatura/sensor?cod_usuario=${cod_usuario}`);
-    const data = await response.json();
+window.onload = () => verificarSensor();
 
-    const aviso = document.getElementById('aviso-cadastro');
-    const conteudo = document.getElementById('conteudo-temperatura');
-
-    if (data.possuiSensor) {
-      aviso.classList.add('hidden');
-      conteudo.classList.remove('hidden');
-      cod_sensorGlobal = data.sensor.cod_sensor;
-      montarGrafico(cod_sensorGlobal);
-    } else {
-      aviso.classList.remove('hidden');
-      conteudo.classList.add('hidden');
-    }
-  } catch (error) {
-    console.error('Erro ao verificar sensor:', error);
-  }
-};
-
-// Abre o modal
 function abrirModalTemperatura() {
   document.getElementById('temp-modal').classList.add('show');
   document.body.classList.add('overflow-hidden');
 }
 
-// Fecha o modal
 function fecharModalTemperatura() {
   document.getElementById('temp-modal').classList.remove('show');
   document.body.classList.remove('overflow-hidden');
 }
 
-// Abre o modal ao clicar no card de adicionar
 document.getElementById('add-temp').addEventListener('click', abrirModalTemperatura);
 
-// Eventos dos botões de fechar
-document.querySelectorAll('#temp-modal .close-modal').forEach((btn) => {
-  btn.addEventListener('click', fecharModalTemperatura);
-});
+document.querySelectorAll('#temp-modal .close-modal').forEach((btn) =>
+  btn.addEventListener('click', fecharModalTemperatura)
+);
 
-// Botão de salvar o sensor
 document.getElementById('save-temp').addEventListener('click', async () => {
   const cod = document.getElementById('temp-cod').value.trim();
   const descricao = document.getElementById('temp-descricao').value.trim();
-  const cod_usuario = localStorage.getItem('cod_usuario');
 
   if (!cod || !descricao) {
     alert('Preencha todos os campos!');
@@ -226,14 +181,24 @@ document.getElementById('save-temp').addEventListener('click', async () => {
     const response = await fetch('/api/temperatura/sensor', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigo: cod, descricao, cod_usuario })
+      body: JSON.stringify({ codigo: cod, descricao, cod_usuario }),
     });
 
     if (!response.ok) throw new Error('Erro ao salvar o sensor.');
 
     alert('Sensor cadastrado com sucesso!');
     fecharModalTemperatura();
-    location.reload();
+
+    const aviso = document.getElementById('aviso-cadastro');
+    const conteudo = document.getElementById('conteudo-temperatura');
+    const localizacaoSpan = document.getElementById('localizacao');
+
+    aviso.classList.add('hidden');
+    conteudo.classList.remove('hidden');
+    localizacaoSpan.textContent = descricao;
+
+    cod_sensorGlobal = cod;
+    montarGrafico(cod_sensorGlobal);
   } catch (error) {
     console.error(error);
     alert('Erro ao cadastrar o sensor.');

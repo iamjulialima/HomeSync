@@ -1,4 +1,3 @@
-// Pega o cod_usuario do localStorage
 const cod_usuario = localStorage.getItem('cod_usuario');
 
 const openBtn = document.getElementById('open-btn');
@@ -12,6 +11,13 @@ let isGateOpen = false;
 document.addEventListener('DOMContentLoaded', async () => {
   const aviso = document.getElementById('aviso-cadastro');
   const conteudo = document.querySelector('main');
+  const localizacaoSpan = document.getElementById('localizacao');
+
+  // Recupera do localStorage primeiro
+  const descricaoSalva = localStorage.getItem('descricao_portao');
+  if (descricaoSalva) {
+    localizacaoSpan.textContent = descricaoSalva;
+  }
 
   try {
     const response = await fetch(`/api/portao/sensor?cod_usuario=${cod_usuario}`);
@@ -21,6 +27,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       aviso.classList.add('hidden');
       conteudo.classList.remove('hidden');
       carregarHistorico();
+
+      if (data.descricao) {
+        localizacaoSpan.textContent = data.descricao;
+        localStorage.setItem('descricao_portao', data.descricao);
+      }
     } else {
       aviso.classList.remove('hidden');
       conteudo.classList.add('hidden');
@@ -29,7 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Erro ao verificar portão:', err);
   }
 
-  // Recupera o status salvo no localStorage e atualiza visual
   const statusSalvo = localStorage.getItem('status_portao');
   if (statusSalvo === 'Aberto') {
     abrirPortaoVisual();
@@ -71,14 +81,26 @@ document.getElementById('save-portao').addEventListener('click', async () => {
     if (!response.ok) throw new Error('Erro ao cadastrar portão');
 
     alert('Portão cadastrado com sucesso!');
-    location.reload();
+    document.getElementById('portao-modal').classList.remove('show');
+    document.body.classList.remove('overflow-hidden');
+
+    document.getElementById('portao-cod').value = '';
+    document.getElementById('portao-descricao').value = '';
+
+    const localizacaoSpan = document.getElementById('localizacao');
+    localizacaoSpan.textContent = descricao;
+    localStorage.setItem('descricao_portao', descricao);
+
+    document.getElementById('aviso-cadastro').classList.add('hidden');
+    document.querySelector('main').classList.remove('hidden');
+
+    carregarHistorico();
   } catch (err) {
     console.error(err);
     alert('Erro ao cadastrar portão.');
   }
 });
 
-// Toggle sidebar on mobile
 function toggleSidebar() {
   const sidebar = document.querySelector('.sidebar');
   sidebar.classList.toggle('-translate-x-full');
@@ -86,11 +108,10 @@ function toggleSidebar() {
 
 function ajustarFusoHorario(dataHoraUTC) {
   const data = new Date(dataHoraUTC);
-  data.setHours(data.getHours() - 3); // Ajusta -3h
-  return data.toLocaleString('pt-BR'); // Exibe no formato brasileiro
+  data.setHours(data.getHours() - 3);
+  return data.toLocaleString('pt-BR');
 }
 
-// Atualiza visual para portão aberto
 function abrirPortaoVisual() {
   gateIcon.classList.remove('fa-lock', 'text-red-500');
   gateIcon.classList.add('fa-lock-open', 'text-green-500');
@@ -102,7 +123,6 @@ function abrirPortaoVisual() {
   }, 2000);
 }
 
-// Atualiza visual para portão fechado
 function fecharPortaoVisual() {
   gateIcon.classList.remove('fa-lock-open', 'text-green-500');
   gateIcon.classList.add('fa-lock', 'text-red-500');
@@ -157,7 +177,7 @@ async function carregarHistorico() {
     const dados = await response.json();
 
     const tabela = document.getElementById('schedules-list');
-    tabela.innerHTML = ''; // Limpa a tabela antes
+    tabela.innerHTML = '';
 
     dados.forEach(item => {
       const tr = document.createElement('tr');
@@ -185,8 +205,8 @@ async function carregarHistorico() {
   }
 }
 
-//btn logout
 function handleLogout() {
   localStorage.removeItem('cod_usuario');
+  localStorage.removeItem('descricao_portao');
   window.location.href = 'login.html';
 }

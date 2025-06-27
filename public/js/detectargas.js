@@ -1,5 +1,6 @@
-const cod_usuario = localStorage.getItem('cod_usuario');
+// Corrigido: Localização do gás persiste na aba usando localStorage
 
+const cod_usuario = localStorage.getItem('cod_usuario');
 let ultimoHistoricoJSON = '';
 
 function formatarData(dataISO) {
@@ -7,7 +8,6 @@ function formatarData(dataISO) {
   return data.toLocaleDateString('pt-BR') + ' - ' + data.toLocaleTimeString('pt-BR');
 }
 
-// Carrega e atualiza histórico do gás
 async function carregarDadosGas() {
   try {
     const response = await fetch(`/api/gas/historico?cod_usuario=${cod_usuario}`);
@@ -74,13 +74,11 @@ async function carregarDadosGas() {
       `;
       containerHistorico.appendChild(card);
     });
-
   } catch (error) {
     console.error('Erro ao carregar dados do gás:', error);
   }
 }
 
-// Verifica se existe sensor cadastrado
 async function verificarSensorGas() {
   try {
     const response = await fetch(`/api/gas/existe-sensor?cod_usuario=${cod_usuario}`);
@@ -88,6 +86,12 @@ async function verificarSensorGas() {
 
     const avisoCadastro = document.getElementById('aviso-cadastro');
     const mainContent = document.querySelector('main');
+    const localizacaoSpan = document.getElementById('localizacao');
+
+    const descricaoSalva = localStorage.getItem('descricao_gas');
+    if (descricaoSalva) {
+      localizacaoSpan.textContent = descricaoSalva;
+    }
 
     if (!data.existe) {
       avisoCadastro.classList.remove('hidden');
@@ -97,12 +101,16 @@ async function verificarSensorGas() {
       mainContent.style.display = 'block';
       carregarDadosGas();
     }
+
+    if (data.descricao) {
+      localizacaoSpan.textContent = data.descricao;
+      localStorage.setItem('descricao_gas', data.descricao);
+    }
   } catch (error) {
     console.error('Erro ao verificar sensor de gás:', error);
   }
 }
 
-// Abrir e fechar modal
 const addGasBtn = document.getElementById('add-gas');
 const gasModal = document.getElementById('gas-modal');
 const closeModalBtns = document.querySelectorAll('.close-modal');
@@ -115,19 +123,10 @@ function fecharModal() {
   gasModal.classList.add('hidden');
 }
 
-if (addGasBtn) {
-  addGasBtn.addEventListener('click', abrirModal);
-}
+if (addGasBtn) addGasBtn.addEventListener('click', abrirModal);
+closeModalBtns.forEach(btn => btn.addEventListener('click', fecharModal));
+gasModal.addEventListener('click', e => { if (e.target === gasModal) fecharModal(); });
 
-closeModalBtns.forEach(btn => {
-  btn.addEventListener('click', fecharModal);
-});
-
-gasModal.addEventListener('click', (e) => {
-  if (e.target === gasModal) fecharModal();
-});
-
-// Evento para salvar novo sensor via modal
 document.getElementById('gas-temp').addEventListener('click', async () => {
   const codigo = document.getElementById('gas-cod').value.trim();
   const descricao = document.getElementById('gas-descricao').value.trim();
@@ -147,12 +146,14 @@ document.getElementById('gas-temp').addEventListener('click', async () => {
     if (!response.ok) throw new Error('Erro ao cadastrar sensor');
 
     alert('Sensor cadastrado com sucesso!');
-
     fecharModal();
     document.getElementById('gas-cod').value = '';
     document.getElementById('gas-descricao').value = '';
-    verificarSensorGas();
 
+    localStorage.setItem('descricao_gas', descricao);
+    document.getElementById('localizacao').textContent = descricao;
+
+    verificarSensorGas();
   } catch (error) {
     alert('Erro ao cadastrar sensor: ' + error.message);
   }
@@ -160,9 +161,9 @@ document.getElementById('gas-temp').addEventListener('click', async () => {
 
 function handleLogout() {
   localStorage.removeItem('cod_usuario');
+  localStorage.removeItem('descricao_gas');
   window.location.href = 'index.html';
 }
 
-// Início
 verificarSensorGas();
 setInterval(verificarSensorGas, 5000);
