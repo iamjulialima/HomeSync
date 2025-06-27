@@ -220,11 +220,15 @@ body {
     margin-bottom: 5px;
 }
 
-.dashboard-card,
-.temp-card {
+.dashboard-card {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
+}
+
+.temp-card {
+     margin-left: 0;
+    margin-right: auto;
 }
 
 .dashboard-card:hover {

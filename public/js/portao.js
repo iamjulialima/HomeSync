@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-document.getElementById('add-temp').addEventListener('click', () => {
+document.getElementById('add-portao').addEventListener('click', () => {
   document.getElementById('portao-modal').classList.add('show');
   document.body.classList.add('overflow-hidden');
 });
