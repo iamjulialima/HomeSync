@@ -1,4 +1,5 @@
 const gasModel = require('../models/gasModel');
+const { enviarAlertaVazamento } = require('../utils/email');
 
 const registrarLeitura = async (req, res) => {
   try {
@@ -7,7 +8,6 @@ const registrarLeitura = async (req, res) => {
     if (typeof valor !== 'number') {
       return res.status(400).json({ erro: 'Valor do sensor inválido.' });
     }
-
     if (!cod_sensor) {
       return res.status(400).json({ erro: 'Código do sensor obrigatório.' });
     }
@@ -17,6 +17,14 @@ const registrarLeitura = async (req, res) => {
     const data_hora = new Date().toISOString();
 
     await gasModel.salvarLeitura(valor, status, data_hora, cod_sensor);
+
+    if (status === 'vazamento') {
+      const dados = await gasModel.buscarEmailEdescricao(cod_sensor);
+
+      if (dados && dados.email) {
+        enviarAlertaVazamento(dados.email, dados.descricao);
+      }
+    }
 
     res.status(200).json({ mensagem: 'Leitura registrada com sucesso!', valor, status, data_hora, cod_sensor });
   } catch (err) {

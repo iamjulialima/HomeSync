@@ -1,6 +1,6 @@
-const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const usuarioModel = require('../models/usuarioModel');
+const { enviarEmailRecuperacao } = require('../utils/email');
 
 const cadastrar = (req, res) => {
   const { nome, email, senha } = req.body;
@@ -50,35 +50,18 @@ const esqueceuSenha = (req, res) => {
     if (err) return res.status(500).json({ erro: 'Erro interno no servidor' });
     if (!usuario) return res.status(404).json({ erro: 'Usuário não encontrado' });
 
-    const novaSenha = Math.random().toString(36).slice(-8); // Ex: 'a1b2c3d4'
+    const novaSenha = Math.random().toString(36).slice(-8); // senha temporária
 
-    bcrypt.hash(novaSenha, 10, (err, hash) => {
+    bcrypt.hash(novaSenha, 10, async (err, hash) => {
       if (err) return res.status(500).json({ erro: 'Erro ao criptografar senha' });
 
       usuarioModel.atualizarSenha(email, hash, async (err) => {
         if (err) return res.status(500).json({ erro: 'Erro ao atualizar senha' });
 
-        // Configurar envio de e-mail
-        const transporter = nodemailer.createTransport({
-          service: 'gmail', // ou outro serviço
-          auth: {
-            user: 'flashlearn34@gmail.com',
-            pass: 'senha_app'
-          }
-        });
-
-        const mailOptions = {
-          from: 'flashlearn34@gmail.com',
-          to: email,
-          subject: 'Recuperação de senha - HomeSync',
-          text: `Olá ${usuario.nome},\n\nSua nova senha é: ${novaSenha}\n\nRecomendamos que você altere essa senha após o login.\n\nAtenciosamente,\nEquipe HomeSync`
-        };
-
         try {
-          await transporter.sendMail(mailOptions);
+          await enviarEmailRecuperacao(email, usuario.nome, novaSenha);
           res.json({ mensagem: 'E-mail enviado com sucesso' });
         } catch (erroEmail) {
-          console.error('Erro ao enviar e-mail:', erroEmail);
           res.status(500).json({ erro: 'Erro ao enviar e-mail' });
         }
       });

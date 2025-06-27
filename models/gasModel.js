@@ -95,6 +95,25 @@ const usuarioPossuiSensor = (cod_usuario) => {
   });
 };
 
+const buscarEmailEdescricao = (cod_sensor) => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT u.email, sg.descricao 
+      FROM usuario_sensor_gas usg
+      JOIN usuario u ON u.cod_usuario = usg.cod_usuario
+      JOIN sensor_gas sg ON sg.cod_sensor = usg.cod_sensor
+      WHERE usg.cod_sensor = ?
+    `;
+    db.get(sql, [cod_sensor], (err, row) => {
+      if (err) {
+        console.error('Erro ao buscar e-mail do usuário:', err.message);
+        reject(err);
+      } else {
+        resolve(row);
+      }
+    });
+  });
+};
 
 
 module.exports = {
@@ -103,5 +122,6 @@ module.exports = {
   cadastrarSensor,
   existeSensorGas,
   vincularSensorUsuario,
-  usuarioPossuiSensor
+  usuarioPossuiSensor,
+  buscarEmailEdescricao
 };
