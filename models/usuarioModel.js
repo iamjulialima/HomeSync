@@ -52,6 +52,27 @@ const buscarUsuarioPorId = (id, callback) => {
   });
 };
 
+const atualizarNomeEmail = (id, nome, email, callback) => {
+  const query = 'UPDATE usuario SET nome = ?, email = ? WHERE cod_usuario = ?';
+  db.run(query, [nome, email, id], function (err) {
+    callback(err);
+  });
+};
+
+const atualizarNome = (id, nome, callback) => {
+  const query = 'UPDATE usuario SET nome = ? WHERE cod_usuario = ?';
+  db.run(query, [nome, id], function (err) {
+    callback(err);
+  });
+};
+
+const atualizarEmail = (id, email, callback) => {
+  const query = 'UPDATE usuario SET email = ? WHERE cod_usuario = ?';
+  db.run(query, [email, id], function (err) {
+    callback(err);
+  });
+};
+
 
 module.exports = {
   criarUsuario,
@@ -59,5 +80,9 @@ module.exports = {
   atualizarSenha,
   atualizarUsuario,
   atualizarSenhaPorId,
-  buscarUsuarioPorId
+  buscarUsuarioPorId,
+  atualizarNomeEmail,
+  atualizarNome,
+  atualizarEmail
+
 };

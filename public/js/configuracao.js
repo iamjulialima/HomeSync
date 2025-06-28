@@ -16,10 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   salvarDadosBtn.addEventListener('click', async () => {
     const nome = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
 
-    if (!nome || !email) {
-      alert("Preencha todos os campos!");
+    if (!nome) {
+      alert("Preencha o nome!");
       return;
     }
 
@@ -27,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch(`${apiBase}/atualizarDados`, {
         method: "PUT",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: cod_usuario, nome, email })
+        body: JSON.stringify({ id: cod_usuario, nome })
       });
 
       const data = await response.json();
@@ -37,44 +36,74 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Erro: " + data.erro);
       }
     } catch (error) {
-      console.error("Erro ao atualizar dados:", error);
+      console.error("Erro ao atualizar nome:", error);
     }
   });
 
   atualizarSenhaBtn.addEventListener('click', async () => {
+    const email = document.getElementById('email').value;
     const senhaAtual = document.getElementById('current-password').value;
     const novaSenha = document.getElementById('new-password').value;
     const confirmarSenha = document.getElementById('confirm-password').value;
 
-    if (!senhaAtual || !novaSenha || !confirmarSenha) {
-      alert("Preencha todos os campos de senha!");
-      return;
-    }
+    let mudouAlgo = false;
 
-    if (novaSenha !== confirmarSenha) {
-      alert("A nova senha e a confirmação não coincidem!");
-      return;
-    }
+    if (email) {
+      try {
+        const response = await fetch(`${apiBase}/atualizarDados`, {
+          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: cod_usuario, email })
+        });
 
-    try {
-      const response = await fetch(`${apiBase}/atualizarSenha`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: cod_usuario, senhaAtual, novaSenha })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(data.mensagem);
-        document.getElementById('current-password').value = '';
-        document.getElementById('new-password').value = '';
-        document.getElementById('confirm-password').value = '';
-      } else {
-        alert("Erro: " + data.erro);
+        const data = await response.json();
+        if (response.ok) {
+          alert(data.mensagem);
+        } else {
+          alert("Erro: " + data.erro);
+        }
+        mudouAlgo = true;
+      } catch (error) {
+        console.error("Erro ao atualizar email:", error);
       }
-    } catch (error) {
-      console.error("Erro ao atualizar senha:", error);
+    }
+
+    if (senhaAtual || novaSenha || confirmarSenha) {
+      if (!senhaAtual || !novaSenha || !confirmarSenha) {
+        alert("Preencha todos os campos para alterar a senha!");
+        return;
+      }
+
+      if (novaSenha !== confirmarSenha) {
+        alert("A nova senha e a confirmação não coincidem!");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiBase}/atualizarSenha`, {
+          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: cod_usuario, senhaAtual, novaSenha })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert(data.mensagem);
+          document.getElementById('current-password').value = '';
+          document.getElementById('new-password').value = '';
+          document.getElementById('confirm-password').value = '';
+        } else {
+          alert("Erro: " + data.erro);
+        }
+        mudouAlgo = true;
+      } catch (error) {
+        console.error("Erro ao atualizar senha:", error);
+      }
+    }
+
+    if (!mudouAlgo) {
+      alert("Nenhuma alteração detectada!");
     }
   });
 });
