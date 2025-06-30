@@ -1,4 +1,5 @@
 const cod_usuario = localStorage.getItem('cod_usuario');
+let emailOriginal = ''; 
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log("ID do usuário carregado:", cod_usuario);
@@ -24,15 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const response = await fetch(`/api/atualizarDados/${cod_usuario}`, {
-          method: "PUT",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, email })
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email })
       });
 
       const data = await response.json();
       if (response.ok) {
         alert(data.mensagem);
         localStorage.setItem('nome_usuario', nome);
+        emailOriginal = email; 
       } else {
         alert("Erro: " + data.erro);
       } 
@@ -42,42 +44,73 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   atualizarSenhaBtn.addEventListener('click', async () => {
+    const email = document.getElementById('email').value;
     const senhaAtual = document.getElementById('current-password').value;
     const novaSenha = document.getElementById('new-password').value;
     const confirmarSenha = document.getElementById('confirm-password').value;
 
-    if (!senhaAtual || !novaSenha || !confirmarSenha) {
-      alert("Preencha todos os campos de senha!");
-      return;
-    }
+    let mudouAlgo = false;
 
-    if (novaSenha !== confirmarSenha) {
-      alert("A nova senha e a confirmação não coincidem!");
-      return;
-    }
+    
+    if (email && email !== emailOriginal) {
+      try {
+        const response = await fetch(`/api/atualizarDados/${cod_usuario}`, {
+          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
 
-    try {
-      const response = await fetch(`/api/atualizarSenha/${cod_usuario}`, {
-    method: "PUT",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ senhaAtual, novaSenha })
-});
-
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(data.mensagem);
-        document.getElementById('current-password').value = '';
-        document.getElementById('new-password').value = '';
-        document.getElementById('confirm-password').value = '';
-
-        window.location.href = 'login.html';
-      } else {
-        alert("Erro: " + data.erro);
+        const data = await response.json();
+        if (response.ok) {
+          alert(data.mensagem);
+          emailOriginal = email; 
+        } else {
+          alert("Erro: " + data.erro);
+        }
+        mudouAlgo = true;
+      } catch (error) {
+        console.error("Erro ao atualizar email:", error);
       }
-    } catch (error) {
-      console.error("Erro ao atualizar senha:", error);
+    }
+
+    
+    if (senhaAtual || novaSenha || confirmarSenha) {
+      if (!senhaAtual || !novaSenha || !confirmarSenha) {
+        alert("Preencha todos os campos para alterar a senha!");
+        return;
+      }
+
+      if (novaSenha !== confirmarSenha) {
+        alert("A nova senha e a confirmação não coincidem!");
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/atualizarSenha/${cod_usuario}`, {
+          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senhaAtual, novaSenha })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert(data.mensagem);
+          document.getElementById('current-password').value = '';
+          document.getElementById('new-password').value = '';
+          document.getElementById('confirm-password').value = '';
+          window.location.href = 'login.html';
+        } else {
+          alert("Erro: " + data.erro);
+        }
+        mudouAlgo = true;
+      } catch (error) {
+        console.error("Erro ao atualizar senha:", error);
+      }
+    }
+
+    if (!mudouAlgo) {
+      alert("Nenhuma alteração detectada!");
     }
   });
 });
@@ -93,6 +126,7 @@ async function carregarDadosUsuario() {
       console.log("Dados recebidos:", usuario);
       document.getElementById('name').value = usuario.nome;
       document.getElementById('email').value = usuario.email;
+      emailOriginal = usuario.email; 
     } else {
       console.error("Erro ao buscar dados:", usuario.erro);
     }

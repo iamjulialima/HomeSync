@@ -70,14 +70,32 @@ const esqueceuSenha = (req, res) => {
 };
 
 const atualizarDados = (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id; 
   const { nome, email } = req.body;
 
-  usuarioModel.atualizarUsuario(id, nome, email, (err) => {
-    if (err) return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
-    res.json({ mensagem: 'Dados atualizados com sucesso' });
-  });
+  if (!nome && !email) {
+    return res.status(400).json({ erro: 'Nenhum dado para atualizar' });
+  }
+
+  if (nome && email) {
+    usuarioModel.atualizarNomeEmail(id, nome, email, (err) => {
+      if (err) return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
+      res.json({ mensagem: 'Nome e e-mail atualizados com sucesso' });
+    });
+  } else if (nome) {
+    usuarioModel.atualizarNome(id, nome, (err) => {
+      if (err) return res.status(500).json({ erro: 'Erro ao atualizar nome' });
+      res.json({ mensagem: 'Nome atualizado com sucesso' });
+    });
+  } else if (email) {
+    usuarioModel.atualizarEmail(id, email, (err) => {
+      if (err) return res.status(500).json({ erro: 'Erro ao atualizar e-mail' });
+      res.json({ mensagem: 'E-mail atualizado com sucesso' });
+    });
+  }
 };
+
+
 
 const atualizarSenha = (req, res) => {
   const id = req.params.id;
