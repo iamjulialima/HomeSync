@@ -99,7 +99,7 @@
             const estado = toggle.checked ? 'ligado' : 'desligado';
             const intensidade = getIntensidadeAtual(card);
 
-            console.log("ID da luz sendo atualizado:", cod_luz); // 👈 agora isso deve aparecer
+            console.log("ID da luz sendo atualizado:", cod_luz); 
 
             atualizarVisualLampada(card, estado, intensidade);
 
@@ -155,7 +155,7 @@
             const intensidade = button.textContent.trim().toLowerCase();
             const estado = card.querySelector('input[type="checkbox"]').checked ? 'ligado' : 'desligado';
 
-            console.log("ID da luz sendo atualizado:", cod_luz); // 👈 aqui também
+            console.log("ID da luz sendo atualizado:", cod_luz); 
 
             atualizarVisualLampada(card, estado, intensidade);
 
