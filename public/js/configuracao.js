@@ -1,5 +1,5 @@
 const cod_usuario = localStorage.getItem('cod_usuario');
-let emailOriginal = ''; 
+let emailOriginal = '';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log("ID do usuário carregado:", cod_usuario);
@@ -16,10 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   salvarDadosBtn.addEventListener('click', async () => {
     const nome = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
 
-    if (!nome || !email) {
-      alert("Preencha todos os campos!");
+    if (!nome) {
+      alert("Preencha o nome!");
       return;
     }
 
@@ -27,17 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch(`/api/atualizarDados/${cod_usuario}`, {
         method: "PUT",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, email })
+        body: JSON.stringify({ nome }) 
       });
 
       const data = await response.json();
       if (response.ok) {
         alert(data.mensagem);
         localStorage.setItem('nome_usuario', nome);
-        emailOriginal = email; 
       } else {
         alert("Erro: " + data.erro);
-      } 
+      }
     } catch (error) {
       console.error("Erro ao atualizar dados:", error);
     }
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let mudouAlgo = false;
 
-    
     if (email && email !== emailOriginal) {
       try {
         const response = await fetch(`/api/atualizarDados/${cod_usuario}`, {
@@ -63,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         if (response.ok) {
           alert(data.mensagem);
-          emailOriginal = email; 
+          emailOriginal = email;
         } else {
           alert("Erro: " + data.erro);
         }
@@ -73,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    
     if (senhaAtual || novaSenha || confirmarSenha) {
       if (!senhaAtual || !novaSenha || !confirmarSenha) {
         alert("Preencha todos os campos para alterar a senha!");
@@ -126,7 +122,7 @@ async function carregarDadosUsuario() {
       console.log("Dados recebidos:", usuario);
       document.getElementById('name').value = usuario.nome;
       document.getElementById('email').value = usuario.email;
-      emailOriginal = usuario.email; 
+      emailOriginal = usuario.email;
     } else {
       console.error("Erro ao buscar dados:", usuario.erro);
     }
