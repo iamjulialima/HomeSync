@@ -140,7 +140,7 @@ nav {
 /* Seção Hero */
 .hero-section {
     padding-top: 6rem;
-    padding-bottom: 3rem;
+    padding-bottom: 10rem;
     padding-left: 1rem;
     padding-right: 1rem;
     max-width: 1280px;
@@ -151,6 +151,7 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 150px;
 }
 
 .hero-text {
@@ -277,7 +278,7 @@ nav {
 
 /* Seção de Recursos */
 .features-section {
-    padding: 4rem 1rem;
+    padding: 5rem 1rem;
     background-color: #f9fafb;
 }
 
