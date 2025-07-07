@@ -43,7 +43,7 @@ const criarLuz = (nome, localizacao, intensidade, estado, cod_usuario, callback)
       return callback(err);
     }
 
-    const cod_luz = this.lastID;  // pega o ID da luz recém-criada
+    const cod_luz = this.lastID;  
 
     const sqlRelacionamento = `INSERT INTO usuario_luzes (cod_usuario, cod_luz) VALUES (?, ?)`;
     db.run(sqlRelacionamento, [cod_usuario, cod_luz], function(err) {

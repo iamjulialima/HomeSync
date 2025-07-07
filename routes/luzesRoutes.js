@@ -10,6 +10,6 @@ router.post('/luzesCriar', luzesController.criarLuz);
 
 router.get('/luzes/:id', luzesController.getLuzPorId);
 
-router.put('/luzes/:id/identidade', luzesController.editarIdentidadeLuz); // NOVA
+router.put('/luzes/:id/identidade', luzesController.editarIdentidadeLuz); 
 
 module.exports = router;

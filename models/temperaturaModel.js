@@ -13,7 +13,7 @@ const TemperaturaModel = {
       `;
       db.get(sql, [cod_usuario], (err, row) => {
         if (err) reject(err);
-        else resolve(row); // Retorna null se não tiver sensor
+        else resolve(row); 
       });
     });
   },

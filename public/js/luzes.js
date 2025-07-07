@@ -125,7 +125,7 @@
                         });
 
                         if (resposta.ok) {
-                            card.remove(); // remove visualmente o card
+                            card.remove(); 
                         } else {
                             alert('Erro ao remover luz.');
                         }
@@ -143,7 +143,6 @@
             const card = button.closest('.light-card');
             const cod_luz = card.dataset.id;
 
-            // Visual
             card.querySelectorAll('.intensity-preset').forEach(btn => {
                 btn.classList.remove('bg-blue-100', 'text-blue-700');
                 btn.classList.add('bg-gray-100', 'text-gray-700');
@@ -167,9 +166,6 @@
         });
         }
 
-
-
-        //aqui se mexe com o ligar e desligar 
 
         // Luzes toggle alternar entre ligado/ desligado
         document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
@@ -260,14 +256,14 @@
 
 //---------------------------------------------------------------------------------------------------------------
 
-        // Modal functionality
+        // Modal 
         const modals = document.querySelectorAll('.modal');
         const closeModalButtons = document.querySelectorAll('.close-modal');
 
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
-                modal.style.display = 'flex'; // ok
+                modal.style.display = 'flex'; 
                 document.body.style.overflow = 'hidden';
             } else {
                 console.error(`Modal com id ${modalId} não encontrado.`);
@@ -294,7 +290,7 @@
             });
         });
 
-        // Add/Edit Light functionality
+        // Add/Edit 
         const addLightButton = document.getElementById('add-light');
         const editLightButtons = document.querySelectorAll('.edit-light');
         const saveLightButton = document.getElementById('save-light');
@@ -366,7 +362,7 @@
     });
 
 
-        // Schedule functionality
+       
         const scheduleAction = document.getElementById('schedule-action');
         const intensityContainer = document.getElementById('intensity-container');
         const scheduleIntensitySlider = document.getElementById('schedule-intensity');

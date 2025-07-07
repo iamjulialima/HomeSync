@@ -3,7 +3,7 @@ const express = require('express');
 
 // Listar todas as luzes de um usuário específico
 const listarLuzes = (req, res) => {
-  const cod_usuario = req.params.cod_usuario; // ou req.user.cod_usuario se usar autenticação
+  const cod_usuario = req.params.cod_usuario; 
 
   luzesModel.getLuzesPorUsuario(cod_usuario, (err, luzes) => {
     if (err) {
@@ -17,7 +17,7 @@ const listarLuzes = (req, res) => {
 const atualizarLuz = (req, res) => {
   const cod_luz = req.params.cod_luz;
   const { estado, intensidade } = req.body;
-  const cod_usuario = req.body.cod_usuario; // ou req.user.cod_usuario se usar autenticação
+  const cod_usuario = req.body.cod_usuario; 
 
   // Verifica se a luz pertence ao usuário
   luzesModel.getLuzPorId(cod_luz, (err, luz) => {
