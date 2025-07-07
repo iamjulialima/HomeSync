@@ -1,5 +1,3 @@
-// Corrigido: Localização do gás persiste na aba usando localStorage
-
 const cod_usuario = localStorage.getItem('cod_usuario');
 let ultimoHistoricoJSON = '';
 

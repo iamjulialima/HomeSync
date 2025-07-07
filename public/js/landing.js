@@ -25,12 +25,10 @@
             });
         }, observerOptions);
         
-        // Observar todos os elementos com a classe 'feature-card'
         document.querySelectorAll('.feature-card').forEach(card => {
             observer.observe(card);
         });
         
-        // Adicionar classe de animação quando a página carrega
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
         });

@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resposta.ok) {
       alert('Cadastro realizado com sucesso!');
       document.getElementById('cadastroForm').reset();
-      container.classList.remove('active'); // Volta pro login
+      container.classList.remove('active'); 
     } else {
       alert('Erro ao cadastrar: ' + resultado.erro);
     }
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultado = await resposta.json();
 
     if (resposta.ok) {
-      // Aqui salva o cod_usuario no localStorage
+      // Aqui ta salvando o cod_usuario no localStorage
       localStorage.setItem('cod_usuario', resultado.usuario.cod_usuario);
       localStorage.setItem('nome_usuario', resultado.usuario.nome);
       localStorage.setItem('email_usuario', resultado.usuario.email);

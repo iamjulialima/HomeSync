@@ -41,7 +41,7 @@ void PortaoController::verificaComando() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     String url = _servidorApi + "?cod_portao=" + String(_codPortao);
-    Serial.println("Fazendo requisição para: " + url);  // Veja a URL final no monitor serial
+    Serial.println("Fazendo requisição para: " + url); 
 
     http.begin(url);
     int httpCode = http.GET();

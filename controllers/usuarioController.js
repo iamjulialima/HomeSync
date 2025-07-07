@@ -95,8 +95,6 @@ const atualizarDados = (req, res) => {
   }
 };
 
-
-
 const atualizarSenha = (req, res) => {
   const id = req.params.id;
   const { senhaAtual, novaSenha } = req.body;
@@ -119,7 +117,6 @@ const atualizarSenha = (req, res) => {
     });
   });
 };
-
 
 const buscarUsuarioPorId = (req, res) => {
   const id = req.params.id;

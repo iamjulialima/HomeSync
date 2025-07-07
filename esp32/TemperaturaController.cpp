@@ -28,7 +28,7 @@ void TemperaturaController::enviaDados(float temperatura, float umidade) {
 
     String json = "{\"temperatura\":" + String(temperatura) + 
               ",\"umidade\":" + String(umidade) + 
-              ",\"cod_sensor\":1}";  // Coloque aqui o cod_sensor correto
+              ",\"cod_sensor\":1}";  
 
     int httpCode = http.POST(json);
 

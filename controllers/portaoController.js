@@ -12,7 +12,6 @@ class PortaoController {
       return res.status(403).json({ error: 'Usuário não possui portão cadastrado.' });
     }
 
-    // Aqui você pode passar cod_portao para a função criar, se quiser
     Comando.criar("abrir", cod_usuario); 
     res.json({ sucesso: true, mensagem: "Comando abrir enviado para o portão: " + portao.codigo });
   } catch (error) {

@@ -3,9 +3,9 @@
 #include "LuzesController.h"
 #include "GasController.h"
 
-const char* ssid = "Pontes";
-const char* password = "E1d2A0n6M2a2N0a8";
-const char* servidorBase = "http://192.168.5.10:3000";
+const char* ssid = "nome_wifi";
+const char* password = "senha_wifi";
+const char* servidorBase = "http://<ip_maquina>:3000";
 
 // Endpoints
 const char* endpointPortao = "/api/portao/comando";
@@ -33,7 +33,7 @@ GasController gas(ssid, password, servidorBase, endpointGas, sensorPinGas, codSe
 
 // Controle de tempo
 unsigned long ultimaLeituraTemp = 0;
-const unsigned long intervaloLeitura = 60000; // 1 minuto
+const unsigned long intervaloLeitura = 60000; // tá 1 minuto
 
 void setup() {
   Serial.begin(115200);

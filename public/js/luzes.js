@@ -1,4 +1,3 @@
-        // Funcionalidade de trocar de tabs 
         const tabButtons = document.querySelectorAll('.tab-btn'); // seleciona os botoes da tab
         const tabContents = document.querySelectorAll('.tab-content'); // seleciona todo conteudo da aba
 
@@ -402,10 +401,8 @@
         });
 
         saveScheduleButton.addEventListener('click', () => {
-            // Here you would save the schedule to your backend
             alert('Agendamento salvo com sucesso!');
             
-            // For demo purposes, add to the table
             const action = scheduleAction.value;
             const lights = document.getElementById('schedule-lights').value;
             const date = document.getElementById('schedule-date').value || 'Hoje';
@@ -429,14 +426,12 @@
             
             document.getElementById('schedules-list').insertAdjacentHTML('beforeend', scheduleRow);
             
-            // Reset form
             scheduleAction.value = 'Ligar luzes';
             document.getElementById('schedule-lights').value = 'Todas as luzes';
             document.getElementById('schedule-date').value = '';
             document.getElementById('schedule-time').value = '';
             intensityContainer.classList.add('hidden');
             
-            // Reattach event listeners to new buttons
             document.querySelectorAll('.edit-schedule').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -473,9 +468,7 @@
         });
 
 
-        // Responsive adjustments
         function handleResize() {
-            // You can add any responsive adjustments here if needed
         }
 
         window.addEventListener('resize', handleResize);

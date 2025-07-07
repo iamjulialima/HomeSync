@@ -22,7 +22,7 @@ app.use('/api', usuarioRoutes);
 
 // Rotas luzes
 const luzesRoutes = require('./routes/luzesRoutes');
-app.use(express.static('public')); // serve HTML e JS
+app.use(express.static('public')); 
 app.use('/api', luzesRoutes);
 
 

@@ -8,10 +8,9 @@ GasController::GasController(const char* ssid, const char* password, const char*
 {}
 
 void GasController::begin() {
-    // Serial.begin(115200); // REMOVER daqui, já chama no setup principal!
     conectarWiFi();
     Serial.println("Monitorando sensor de gás MQ-135...");
-    delay(3000); // Tempo para estabilizar o sensor
+    delay(3000); 
 }
 
 void GasController::conectarWiFi() {
@@ -53,12 +52,11 @@ String GasController::montarUrlCompleta() {
 }
 
 void GasController::atualizar() {
-    // Tentar reconectar só se desconectado
     if (!wifiConectado) {
         conectarWiFi();
         if (!wifiConectado) {
             Serial.println("WiFi ainda desconectado, pulando envio.");
-            return; // Não faz nada se não tiver conexão
+            return; 
         }
     }
 
@@ -91,6 +89,4 @@ void GasController::atualizar() {
     }
 
     http.end();
-
-    // REMOVER delay daqui! Use no loop principal, se precisar.
 }

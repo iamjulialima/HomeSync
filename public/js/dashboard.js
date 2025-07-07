@@ -167,7 +167,6 @@ async function atualizarGasDashboard() {
   }
 }
 
-// Atualizações periódicas
 setInterval(() => {
   atualizarTemperaturaDashboard();
   atualizarGasDashboard();

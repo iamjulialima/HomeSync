@@ -55,7 +55,7 @@ buscarPortaoPorUsuario: (cod_usuario) => {
     `;
     db.get(sql, [cod_usuario], (err, row) => {
       if (err) reject(err);
-      else resolve(row); // null se não tiver
+      else resolve(row); 
     });
   });
 },

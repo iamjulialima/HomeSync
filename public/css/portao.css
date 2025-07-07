@@ -41,7 +41,7 @@ body {
   justify-content: center;
 }
 
-/* Quando o modal tiver a classe show, ele aparece */
+
 .modal.show {
   display: flex;
 }

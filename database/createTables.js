@@ -26,7 +26,7 @@ db.run(`CREATE TABLE IF NOT EXISTS luzesStatus (
   else console.log('Tabela luzesStatus verificada/criada com sucesso.');
 });
 
-// Relacionamento usuário ↔ luz
+// Relacionamento usuário e luz
 db.run(`CREATE TABLE IF NOT EXISTS usuario_luzes (
   cod_usuario INTEGER NOT NULL,
   cod_luz INTEGER NOT NULL,
@@ -49,7 +49,7 @@ db.run(`CREATE TABLE IF NOT EXISTS portao (
   else console.log('Tabela portao verificada/criada com sucesso.');
 });
 
-// Relacionamento usuário ↔ portão
+// Relacionamento usuário e portão
 db.run(`CREATE TABLE IF NOT EXISTS usuario_portao (
   cod_usuario INTEGER NOT NULL,
   cod_portao INTEGER NOT NULL,
@@ -87,7 +87,7 @@ db.run(`CREATE TABLE IF NOT EXISTS sensor_temperatura (
   else console.log('Tabela sensor_temperatura verificada/criada com sucesso.');
 });
 
-// Relacionamento usuário ↔ sensor de temperatura
+// Relacionamento usuário e sensor de temperatura
 db.run(`CREATE TABLE IF NOT EXISTS usuario_sensor_temperatura (
   cod_usuario INTEGER NOT NULL,
   cod_sensor INTEGER NOT NULL,
@@ -124,7 +124,7 @@ db.run(`CREATE TABLE IF NOT EXISTS sensor_gas (
   else console.log('Tabela sensor_gas verificada/criada com sucesso.');
 });
 
-// Relacionamento usuário ↔ sensor de gás
+// Relacionamento usuário e sensor de gás
 db.run(`CREATE TABLE IF NOT EXISTS usuario_sensor_gas (
   cod_usuario INTEGER NOT NULL,
   cod_sensor INTEGER NOT NULL,
